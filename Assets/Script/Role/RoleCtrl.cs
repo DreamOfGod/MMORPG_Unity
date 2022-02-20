@@ -62,6 +62,7 @@ public class RoleCtrl : MonoBehaviour
     {
         if (m_CharacterController == null) return;
 
+        #region 点击屏幕移动
         //点击屏幕
         if (Input.GetMouseButtonUp(0))
         {
@@ -82,6 +83,8 @@ public class RoleCtrl : MonoBehaviour
                     m_BeginQuaternion = transform.rotation;
 
                     //计算目标四元数
+                    //欧拉角旋转产生的万向锁现象：https://www.cnblogs.com/trio/p/13696560.html
+                    //比如按xyz顺序旋转，如果绕y轴旋转90度，导致z轴转到x轴位置，那么接下来绕z轴旋转实际上和第一次绕x轴旋转，都是同一个轴向
                     m_TargetQuaternion = Quaternion.LookRotation(m_MoveDirection);
 
                     m_RotationRatio = 0;
@@ -114,5 +117,12 @@ public class RoleCtrl : MonoBehaviour
                 m_CharacterController.Move(offset);
             }
         }
+        #endregion
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 3);
     }
 }
