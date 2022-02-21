@@ -159,6 +159,7 @@
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UIItemStorage.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\AnimationOrTween.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIInput.cs" />
+    <Compile Include="Assets\Script\Utils\StringUtils.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UISlider.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\Spin.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIInputOnGUI.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="Assets\NGUI\Scripts\Internal\NGUIDebug.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIOrthoCamera.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenRotation.cs" />
+    <Compile Include="Assets\Script\Camera\CameraCtrl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\T4M\Shaders\ShaderModel2\Diffuse\T4M 4 Textures.shader" />

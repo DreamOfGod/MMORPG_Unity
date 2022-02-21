@@ -60,12 +60,13 @@ public class RoleCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_CharacterController == null) return;
+        if (!m_CharacterController) return;
 
         #region 点击屏幕移动
         //点击屏幕
         if (Input.GetMouseButtonUp(0))
         {
+            Debug.Log(Camera.main);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
             if (Physics.Raycast(ray, out hitInfo))
@@ -118,11 +119,46 @@ public class RoleCtrl : MonoBehaviour
             }
         }
         #endregion
+
+        CameraAutoFollow();
     }
 
-    void OnDrawGizmos()
+    /// <summary>
+    /// 摄像机自动跟随
+    /// </summary>
+    private void CameraAutoFollow()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 3);
+        if(CameraCtrl.Instance)
+        {
+            CameraCtrl.Instance.transform.position = transform.position;
+            CameraCtrl.Instance.AutoLookAt(transform.position);
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                CameraCtrl.Instance.SetCameraRotate(0);
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                CameraCtrl.Instance.SetCameraRotate(1);
+            }
+
+            if (Input.GetKey(KeyCode.W))
+            {
+                CameraCtrl.Instance.setCameraUpAndDown(0);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                CameraCtrl.Instance.setCameraUpAndDown(1);
+            }
+
+            if (Input.GetKey(KeyCode.Z))
+            {
+                CameraCtrl.Instance.setCameraZoom(0);
+            }
+            else if (Input.GetKey(KeyCode.X))
+            {
+                CameraCtrl.Instance.setCameraZoom(1);
+            }
+        }
     }
 }
