@@ -34,16 +34,15 @@ public class CameraCtrl : MonoBehaviour
         Instance = this;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         Init();
     }
 
-    private void Init()
+    public void Init()
     {
         m_CameraUpAndDown.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(m_CameraUpAndDown.transform.localEulerAngles.z, 30, 60));
-        m_CameraContainer.localPosition = new Vector3(0, 0, Mathf.Clamp(m_CameraContainer.localPosition.z, 0, 5));
+        m_CameraContainer.localPosition = new Vector3(0, 0, Mathf.Clamp(m_CameraContainer.localPosition.z, -5, 5));
     }
 
     /// <summary>
@@ -52,7 +51,7 @@ public class CameraCtrl : MonoBehaviour
     /// <param name="type">0=左 1=右</param>
     public void SetCameraRotate(int type)
     {
-        transform.Rotate(new Vector3(0, 30 * Time.deltaTime * (type == 0 ? -1 : 1), 0));
+        transform.Rotate(new Vector3(0, 40 * Time.deltaTime * (type == 0 ? -1 : 1), 0));
     }
 
     /// <summary>
@@ -61,7 +60,7 @@ public class CameraCtrl : MonoBehaviour
     /// <param name="type">0=上 1=下</param>
     public void setCameraUpAndDown(int type)
     {
-        m_CameraUpAndDown.Rotate(new Vector3(0, 0, 15 * Time.deltaTime * (type == 0 ? 1 : -1)));
+        m_CameraUpAndDown.Rotate(new Vector3(0, 0, 30 * Time.deltaTime * (type == 0 ? 1 : -1)));
         m_CameraUpAndDown.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(m_CameraUpAndDown.transform.localEulerAngles.z, 30, 60));
     }
 
@@ -71,7 +70,7 @@ public class CameraCtrl : MonoBehaviour
     /// <param name="type">0=拉近 1=拉远</param>
     public void setCameraZoom(int type)
     {
-        m_CameraContainer.Translate(Vector3.forward * 10 * Time.deltaTime * (type == 0 ? 1 : -1));
+        m_CameraContainer.Translate(Vector3.forward * 20 * Time.deltaTime * (type == 0 ? 1 : -1));
         m_CameraContainer.localPosition = new Vector3(0, 0, Mathf.Clamp(m_CameraContainer.localPosition.z, -5, 5));
     }
 

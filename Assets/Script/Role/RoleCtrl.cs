@@ -51,48 +51,90 @@ public class RoleCtrl : MonoBehaviour
     /// </summary>
     private Quaternion m_TargetQuaternion;
 
-    // Start is called before the first frame update
     void Start()
     {
         m_CharacterController = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
+    void OnEnable()
+    {
+        FingerEvent.Instance.OnFingerUpWithoutDrag += OnFingerUpWithoutDrag;
+        FingerEvent.Instance.OnFingerDrag += OnFingerDrag;
+        FingerEvent.Instance.OnZoom += OnZoom;
+    }
+
+    void OnDisable()
+    {
+        FingerEvent.Instance.OnFingerUpWithoutDrag -= OnFingerUpWithoutDrag;
+        FingerEvent.Instance.OnFingerDrag -= OnFingerDrag;
+        FingerEvent.Instance.OnZoom -= OnZoom;
+    }
+
+    void OnFingerUpWithoutDrag(Vector2 screenPos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo))
+        {
+            //点击地面
+            if (hitInfo.collider.gameObject.name.Equals("Ground", System.StringComparison.CurrentCultureIgnoreCase))
+            {
+                m_TargetPos = hitInfo.point;
+
+                //计算移动方向
+                m_MoveDirection = m_TargetPos - transform.position;
+                m_MoveDirection = m_MoveDirection.normalized;//归一化
+                m_MoveDirection.y = 0;
+
+                m_BeginQuaternion = transform.rotation;
+
+                //计算目标四元数
+                //欧拉角旋转产生的万向锁现象：https://www.cnblogs.com/trio/p/13696560.html
+                //比如按xyz顺序旋转，如果绕y轴旋转90度，导致z轴转到x轴位置，那么接下来绕z轴旋转实际上和第一次绕x轴旋转，都是同一个轴向
+                m_TargetQuaternion = Quaternion.LookRotation(m_MoveDirection);
+
+                m_RotationRatio = 0;
+            }
+        }
+    }
+
+    void OnFingerDrag(FingerEvent.FingerDir dir)
+    {
+        switch(dir)
+        {
+            case FingerEvent.FingerDir.Up:
+                CameraCtrl.Instance.setCameraUpAndDown(1);
+                break;
+            case FingerEvent.FingerDir.Down:
+                CameraCtrl.Instance.setCameraUpAndDown(0);
+                break;
+            case FingerEvent.FingerDir.Left:
+                CameraCtrl.Instance.SetCameraRotate(0);
+                break;
+            case FingerEvent.FingerDir.Right:
+                CameraCtrl.Instance.SetCameraRotate(1);
+                break;
+        }
+    }
+
+    void OnZoom(FingerEvent.ZoomType type)
+    {
+        switch(type)
+        {
+            case FingerEvent.ZoomType.In:
+                CameraCtrl.Instance.setCameraZoom(0);
+                break;
+            case FingerEvent.ZoomType.Out:
+                CameraCtrl.Instance.setCameraZoom(1);
+                break;
+        }
+    }
+
     void Update()
     {
         if (!m_CharacterController) return;
 
-        #region 点击屏幕移动
-        //点击屏幕
-        if (Input.GetMouseButtonUp(0))
-        {
-            Debug.Log(Camera.main);
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo))
-            {
-                //点击地面
-                if (hitInfo.collider.gameObject.name.Equals("Ground", System.StringComparison.CurrentCultureIgnoreCase))
-                {
-                    m_TargetPos = hitInfo.point;
-
-                    //计算移动方向
-                    m_MoveDirection = m_TargetPos - transform.position;
-                    m_MoveDirection = m_MoveDirection.normalized;//归一化
-                    m_MoveDirection.y = 0;
-
-                    m_BeginQuaternion = transform.rotation;
-
-                    //计算目标四元数
-                    //欧拉角旋转产生的万向锁现象：https://www.cnblogs.com/trio/p/13696560.html
-                    //比如按xyz顺序旋转，如果绕y轴旋转90度，导致z轴转到x轴位置，那么接下来绕z轴旋转实际上和第一次绕x轴旋转，都是同一个轴向
-                    m_TargetQuaternion = Quaternion.LookRotation(m_MoveDirection);
-
-                    m_RotationRatio = 0;
-                }
-            }
-        }
-
+        #region 移动
         //让角色贴着地面
         if(!m_CharacterController.isGrounded)
         {
@@ -132,33 +174,6 @@ public class RoleCtrl : MonoBehaviour
         {
             CameraCtrl.Instance.transform.position = transform.position;
             CameraCtrl.Instance.AutoLookAt(transform.position);
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                CameraCtrl.Instance.SetCameraRotate(0);
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                CameraCtrl.Instance.SetCameraRotate(1);
-            }
-
-            if (Input.GetKey(KeyCode.W))
-            {
-                CameraCtrl.Instance.setCameraUpAndDown(0);
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                CameraCtrl.Instance.setCameraUpAndDown(1);
-            }
-
-            if (Input.GetKey(KeyCode.Z))
-            {
-                CameraCtrl.Instance.setCameraZoom(0);
-            }
-            else if (Input.GetKey(KeyCode.X))
-            {
-                CameraCtrl.Instance.setCameraZoom(1);
-            }
         }
     }
 }
