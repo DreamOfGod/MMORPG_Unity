@@ -62,6 +62,7 @@
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\LagRotation.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIScrollView.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIToggle.cs" />
+    <Compile Include="Assets\FingerGestures\Toolbox\Misc\TBDragOrbit.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UIStorageSlot.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UI2DSpriteAnimation.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UISavedOption.cs" />
@@ -70,10 +71,12 @@
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIDragResize.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\PropertyBinding.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UITextList.cs" />
+    <Compile Include="Assets\FingerGestures\Utils\GestureStateTracker.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIEventTrigger.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UISoundVolume.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButton.cs" />
+    <Compile Include="Assets\FingerGestures\Toolbox\TBTap.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UISpriteData.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIPlayTween.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\ExampleDragDropSurface.cs" />
@@ -102,6 +105,7 @@
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIDragDropContainer.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenHeight.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonMessage.cs" />
+    <Compile Include="Assets\FingerGestures\Toolbox\Misc\TBPinchZoom.cs" />
     <Compile Include="Assets\Script\Camera\CameraCtrl.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\NGUIText.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIKeyNavigation.cs" />
@@ -113,11 +117,13 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UILocalize.cs" />
     <Compile Include="Assets\Script\Test\BoxCtrl.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\OpenURLOnClick.cs" />
+    <Compile Include="Assets\FingerGestures\Toolbox\TBFingerDown.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIPopupList.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\WindowDragTilt.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\LoadLevelOnClick.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\BMGlyph.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
+    <Compile Include="Assets\Script\Common\FingerEvent.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\AnimatedWidget.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenFill.cs" />
@@ -138,12 +144,14 @@
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIDragDropItem.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonColor.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\PropertyReference.cs" />
+    <Compile Include="Assets\FingerGestures\Toolbox\TBSwipe.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIRoot.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIColorPicker.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenOrthoSize.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIDragDropRoot.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIToggledComponents.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\ActiveAnimation.cs" />
+    <Compile Include="Assets\FingerGestures\Toolbox\TBLongPress.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenColor.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIWidgetContainer.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UIEquipmentSlot.cs" />
@@ -160,6 +168,7 @@
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UIItemStorage.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\AnimationOrTween.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIInput.cs" />
+    <Compile Include="Assets\FingerGestures\Toolbox\TBDrag.cs" />
     <Compile Include="Assets\Script\Utils\StringUtils.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UISlider.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\Spin.cs" />
@@ -168,7 +177,9 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\PanWithMouse.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonKeys.cs" />
+    <Compile Include="Assets\FingerGestures\Toolbox\TBFingerUp.cs" />
     <Compile Include="Assets\Script\Role\RoleCtrl.cs" />
+    <Compile Include="Assets\FingerGestures\Toolbox\TBComponent.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\MinMaxRangeAttribute.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\EnvelopContent.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\SpinWithMouse.cs" />
@@ -181,13 +192,16 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UIAtlas.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIForwardEvents.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\EventDelegate.cs" />
+    <Compile Include="Assets\FingerGestures\SkeletonCode\CSharpSkeleton.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\UIDrawCall.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UI2DSprite.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIPlaySound.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIDraggableCamera.cs" />
+    <Compile Include="Assets\FingerGestures\Utils\MoveToFinger.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIGrid.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\AnimatedColor.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenTransform.cs" />
+    <Compile Include="Assets\FingerGestures\Toolbox\TBInputManager.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\BMFont.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UICenterOnChild.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\UITweener.cs" />
@@ -200,25 +214,14 @@
     <Compile Include="Assets\NGUI\Scripts\Internal\NGUIDebug.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIOrthoCamera.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenRotation.cs" />
-    <Compile Include="Assets\FingerGestures\Toolbox\TBDrag.cs" />
-    <Compile Include="Assets\FingerGestures\Toolbox\TBTap.cs" />
-    <Compile Include="Assets\FingerGestures\Toolbox\Misc\TBPinchZoom.cs" />
-    <Compile Include="Assets\FingerGestures\Toolbox\TBSwipe.cs" />
-    <Compile Include="Assets\FingerGestures\Utils\MoveToFinger.cs" />
-    <Compile Include="Assets\FingerGestures\Toolbox\TBFingerDown.cs" />
-    <Compile Include="Assets\FingerGestures\Toolbox\TBFingerUp.cs" />
-    <Compile Include="Assets\FingerGestures\Toolbox\TBLongPress.cs" />
-    <Compile Include="Assets\FingerGestures\Utils\GestureStateTracker.cs" />
-    <Compile Include="Assets\FingerGestures\Toolbox\TBComponent.cs" />
-    <Compile Include="Assets\FingerEvent.cs" />
-    <Compile Include="Assets\FingerGestures\Toolbox\Misc\TBDragOrbit.cs" />
-    <Compile Include="Assets\FingerGestures\SkeletonCode\CSharpSkeleton.cs" />
-    <Compile Include="Assets\FingerGestures\Toolbox\TBInputManager.cs" />
+    <Compile Include="Assets\Script\Common\SceneMgr.cs" />
+    <Compile Include="Assets\Script\Common\LogOnSceneCtrl.cs" />
+    <Compile Include="Assets\Script\Common\ResourcesMgr.cs" />
+    <Compile Include="Assets\Script\Core\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\T4M\Shaders\ShaderModel2\Diffuse\T4M 4 Textures.shader" />
     <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
-    <None Include="Assets\Readme.txt" />
     <None Include="Assets\NGUI\Examples\Models\Orc\Orc Skin.shader" />
     <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
@@ -485,6 +488,12 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>E:\UnityEditors\2020.3.28f1c1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>E:\UnityEditors\2020.3.28f1c1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>E:\UnityEditors\2020.3.28f1c1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
