@@ -10,7 +10,7 @@ using UnityEngine;
 /// <summary>
 /// 窗口UI基类
 /// </summary>
-public class UIWindowBase : MonoBehaviour
+public class UIWindowBase : UIBase
 {
     /// <summary>
     /// 容器类型
@@ -29,15 +29,4 @@ public class UIWindowBase : MonoBehaviour
     /// </summary>
     [SerializeField]
     public float duration = 1f;
-
-    protected virtual void Start()
-    {
-        UIButton[] btnArr = GetComponentsInChildren<UIButton>();
-        for (int i = 0; i < btnArr.Length; i++)
-        {
-            UIEventListener.Get(btnArr[i].gameObject).onClick = OnBtnClick;
-        }
-    }
-
-    protected virtual void OnBtnClick(GameObject go) {}
 }

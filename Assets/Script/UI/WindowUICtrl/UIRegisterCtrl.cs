@@ -29,7 +29,30 @@ public class UIRegisterCtrl : UIWindowBase
 
     private void btnToLogOn()
     {
-        WindowUIMgr.Instance.CloseWindow(WindowName.Register);
-        WindowUIMgr.Instance.OpenWindow(WindowName.LogOn);
+        TweenScale ts = gameObject.GetComponent<TweenScale>();
+        ts.from = Vector2.one;
+        ts.to = Vector2.zero;
+        ts.duration = 0.2f;
+        ts.AddOnFinished(() => {
+            Destroy(gameObject);
+            openLogon();
+        });
+        ts.PlayForward();
+    }
+
+    private void openLogon()
+    {
+        GameObject prefab = Resources.Load("UIPrefab/UIWindows/PanLogOn") as GameObject;
+        GameObject obj = Instantiate(prefab);
+
+        Transform trans = obj.GetComponent<Transform>();
+        trans.parent = gameObject.GetComponent<Transform>().parent;
+        trans.localPosition = Vector2.zero;
+
+        TweenScale ts = obj.AddComponent<TweenScale>();
+        ts.from = Vector2.zero;
+        ts.to = Vector2.one;
+        ts.duration = 0.2f;
+        ts.PlayForward();
     }
 }

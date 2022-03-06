@@ -11,7 +11,8 @@ public class LogOnSceneCtrl : MonoBehaviour
 {
     void Awake()
     {
-        ResourcesMgr.Instance.LoadUIScene(SceneUIName.LogOn);
+        GameObject obj = Resources.Load<GameObject>("UIPrefab/UIScene/UI Root_LogOnScene");
+        Instantiate(obj);
     }
 
     void Start()

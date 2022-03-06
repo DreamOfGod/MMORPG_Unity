@@ -8,7 +8,7 @@ using UnityEngine;
 /// <summary>
 /// 场景UI基类
 /// </summary>
-public class UISceneBase: MonoBehaviour
+public class UISceneBase: UIBase
 {
     /// <summary>
     /// 场景UI根节点组件，用于加载窗口时获取容器
