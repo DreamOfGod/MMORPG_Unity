@@ -6,31 +6,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-/// <summary>
-/// 登陆窗口UI控制器
-/// </summary>
 public class UILogOnCtrl : UIWindowBase
 {
+    [SerializeField]
+    private UIInput m_InputNickname;
+
+    [SerializeField]
+    private UIInput m_InputPwd;
+
+    [SerializeField]
+    private UILabel m_LblTip;
+
     protected override void OnBtnClick(GameObject go)
     {
         switch(go.name)
         {
             case "btnLogOn":
-                btnLogOn();
+                BtnLogOn();
                 break;
             case "btnToReg":
-                btnToReg();
+                BtnToReg();
                 break;
         }
     }
 
-    private void btnLogOn()
+    private void BtnLogOn()
     {
+        string nickname = m_InputNickname.value.Trim();
+        if(nickname.Length == 0)
+        {
+            m_LblTip.text = "请输入账号";
+            return;
+        }
 
+        string pwd = m_InputPwd.value.Trim();
+        if (pwd.Length == 0)
+        {
+            m_LblTip.text = "请输入密码";
+            return;
+        }
+
+        string oldNickname = PlayerPrefs.GetString(RegisterLogonKey.MMO_NICKNAME);
+        string oldPwd = PlayerPrefs.GetString(RegisterLogonKey.MMO_PWD);
+        if (nickname != oldNickname || pwd != oldPwd)
+        {
+            m_LblTip.text = "账号或密码错误";
+            return;
+        }
+
+        LoadingSceneCtrl.NextScene = SceneName.City;
+        SceneManager.LoadScene(SceneName.Loading);
     }
 
-    private void btnToReg()
+    private void BtnToReg()
     {
         TweenScale ts = gameObject.GetComponent<TweenScale>();
         ts.from = Vector2.one;
@@ -38,12 +68,12 @@ public class UILogOnCtrl : UIWindowBase
         ts.duration = 0.2f;
         ts.AddOnFinished(() => {
             Destroy(gameObject);
-            openRegister();
+            OpenRegister();
         });
         ts.PlayForward();
     }
 
-    private void openRegister()
+    private void OpenRegister()
     {
         GameObject prefab = Resources.Load("UIPrefab/UIWindows/PanReg") as GameObject;
         GameObject obj = Instantiate(prefab);

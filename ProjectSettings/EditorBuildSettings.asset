@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scene/SceneMap/Init.unity
+    guid: 90339411ebd4851449eb924b41d2060a
+  - enabled: 1
     path: Assets/Scene/SceneMap/LogOn.unity
     guid: a8544a60bdc726c419f9285d243618b1
+  - enabled: 1
+    path: Assets/Scene/SceneMap/Loading.unity
+    guid: 46ed33015e549c942af5bcb598140046
   - enabled: 1
     path: Assets/Download/Scene/GameScene_HuPaoCun.unity
     guid: af7116eb2eacebf49aae4b89fbaa834e

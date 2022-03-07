@@ -3,6 +3,7 @@
 //创建时间：2022-02-24 10:37:01
 //备    注：
 //===============================================
+using System.Collections;
 using UnityEngine;
 
 public class UISceneLogOnCtrl : UISceneBase
@@ -10,6 +11,13 @@ public class UISceneLogOnCtrl : UISceneBase
     protected override void Awake()
     {
         base.Awake();
+
+        StartCoroutine(OpenLogonWindow());
+    }
+
+    private IEnumerator OpenLogonWindow()
+    {
+        yield return new WaitForSeconds(0.4f);
 
         GameObject prefab = Resources.Load("UIPrefab/UIWindows/PanLogOn") as GameObject;
         GameObject obj = Instantiate(prefab);

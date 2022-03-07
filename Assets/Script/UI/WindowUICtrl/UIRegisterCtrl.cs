@@ -6,28 +6,72 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIRegisterCtrl : UIWindowBase
 {
+    [SerializeField]
+    private UIInput m_InputNickname;
+
+    [SerializeField]
+    private UIInput m_InputPwd1;
+
+    [SerializeField]
+    private UIInput m_InputPwd2;
+
+    [SerializeField]
+    private UILabel m_LblTip;
+
     protected override void OnBtnClick(GameObject go)
     {
         switch (go.name)
         {
             case "btnReg":
-                btnReg();
+                BtnRegister();
                 break;
             case "btnToLogOn":
-                btnToLogOn();
+                BtnToLogOn();
                 break;
         }
     }
 
-    private void btnReg()
+    private void BtnRegister()
     {
-    
+        string nickname = m_InputNickname.value.Trim();
+        if(nickname.Length == 0)
+        {
+            m_LblTip.text = "请输入昵称";
+            return;
+        }
+
+        string pwd1 = m_InputPwd1.value.Trim();
+        if (pwd1.Length == 0)
+        {
+            m_LblTip.text = "请输入密码";
+            return;
+        }
+
+        string pwd2 = m_InputPwd2.value.Trim();
+        if (pwd2.Length == 0)
+        {
+            m_LblTip.text = "请输入确认密码";
+            return;
+        }
+
+        if(pwd1 != pwd2)
+        {
+            m_LblTip.text = "两次输入密码不一致";
+            return;
+        }
+
+        PlayerPrefs.SetString(RegisterLogonKey.MMO_NICKNAME, nickname);
+        PlayerPrefs.SetString(RegisterLogonKey.MMO_PWD, pwd1);
+
+        LoadingSceneCtrl.NextScene = SceneName.City;
+        SceneManager.LoadScene(SceneName.Loading);
     }
 
-    private void btnToLogOn()
+    private void BtnToLogOn()
     {
         TweenScale ts = gameObject.GetComponent<TweenScale>();
         ts.from = Vector2.one;
@@ -35,12 +79,12 @@ public class UIRegisterCtrl : UIWindowBase
         ts.duration = 0.2f;
         ts.AddOnFinished(() => {
             Destroy(gameObject);
-            openLogon();
+            OpenLogon();
         });
         ts.PlayForward();
     }
 
-    private void openLogon()
+    private void OpenLogon()
     {
         GameObject prefab = Resources.Load("UIPrefab/UIWindows/PanLogOn") as GameObject;
         GameObject obj = Instantiate(prefab);

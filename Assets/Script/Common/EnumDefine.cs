@@ -40,3 +40,18 @@ public enum WindowShowStyle
     //默认、缩放、从上往下、从下往上、从左往右、从右往左
     Normal, Scale, FromTop, FromDown, FromLeft, FromRight
 }
+
+public class SceneName
+{
+    public const string Loading = "Loading";
+    public const string Logon = "LogOn";
+    public const string City = "GameScene_HuPaoCun";
+}
+
+public class RegisterLogonKey
+{
+    public const string MMO_NICKNAME = "MMO_NICKNAME";
+    public const string MMO_PWD = "MMO_PWD";
+}
+
+
