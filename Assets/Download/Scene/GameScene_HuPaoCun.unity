@@ -38787,6 +38787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Speed: 10
   m_RotationSpeed: 5
+  m_Animation: {fileID: 0}
 --- !u!1001 &1771651023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40863,6 +40864,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: cd2b59077fae280429aef1fd04bf5e7f, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e45bf27c02e13d8428265b6b71a88324, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd2b59077fae280429aef1fd04bf5e7f, type: 3}
 --- !u!4 &1854676636 stripped

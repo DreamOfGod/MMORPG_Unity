@@ -51,6 +51,9 @@ public class RoleCtrl : MonoBehaviour
     /// </summary>
     private Quaternion m_TargetQuaternion;
 
+    [SerializeField]
+    private Animation m_Animation;
+
     void Start()
     {
         m_CharacterController = GetComponent<CharacterController>();
