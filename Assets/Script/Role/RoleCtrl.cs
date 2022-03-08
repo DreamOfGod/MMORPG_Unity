@@ -7,8 +7,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 角色控制器
+/// </summary>
 public class RoleCtrl : MonoBehaviour
 {
+    #region 属性
     /// <summary>
     /// 移动的目标点
     /// </summary>
@@ -51,30 +55,76 @@ public class RoleCtrl : MonoBehaviour
     /// </summary>
     private Quaternion m_TargetQuaternion;
 
+    /// <summary>
+    /// 动画
+    /// </summary>
     [SerializeField]
-    private Animation m_Animation;
+    public Animator Animator;
+
+    /// <summary>
+    /// 角色信息
+    /// </summary>
+    private RoleInfoBase RoleInfo;
+
+    /// <summary>
+    /// 角色AI
+    /// </summary>
+    public IRoleAI RoleAI;
+
+    /// <summary>
+    /// 角色有限状态机
+    /// </summary>
+    public RoleFSM RoleFSM;
+    #endregion
+
+    /// <summary>
+    /// 初始化
+    /// </summary>
+    /// <param name="roleInfo">角色信息</param>
+    /// <param name="roleAI">角色AI</param>
+    /// <param name="roleFSM">角色有限状态机</param>
+    public void Init(RoleInfoBase roleInfo, IRoleAI roleAI)
+    {
+        RoleInfo = roleInfo;
+        RoleAI = roleAI;
+    }
 
     void Start()
     {
         m_CharacterController = GetComponent<CharacterController>();
+
+        RoleFSM = new RoleFSM(this);
     }
 
+    #region OnEnable
     void OnEnable()
     {
-        FingerEvent.Instance.OnFingerUpWithoutDrag += OnFingerUpWithoutDrag;
+        FingerEvent.Instance.OnFingerUpWithoutDrag += OnPlayerClickGround;
         FingerEvent.Instance.OnFingerDrag += OnFingerDrag;
         FingerEvent.Instance.OnZoom += OnZoom;
     }
+    #endregion
 
+    #region OnDisable
     void OnDisable()
     {
-        FingerEvent.Instance.OnFingerUpWithoutDrag -= OnFingerUpWithoutDrag;
+        FingerEvent.Instance.OnFingerUpWithoutDrag -= OnPlayerClickGround;
         FingerEvent.Instance.OnFingerDrag -= OnFingerDrag;
         FingerEvent.Instance.OnZoom -= OnZoom;
     }
+    #endregion
 
-    void OnFingerUpWithoutDrag(Vector2 screenPos)
+    #region OnPlayerClickGround 玩家点击地面
+    /// <summary>
+    /// 玩家点击地面
+    /// </summary>
+    /// <param name="screenPos"></param>
+    void OnPlayerClickGround(Vector2 screenPos)
     {
+        if(RoleFSM.isAttackState() || RoleFSM.isDieState())
+        {
+            return;
+        }
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo))
@@ -97,9 +147,12 @@ public class RoleCtrl : MonoBehaviour
                 m_TargetQuaternion = Quaternion.LookRotation(m_MoveDirection);
 
                 m_RotationRatio = 0;
+
+                RoleFSM.ChangeToRunState();
             }
         }
     }
+    #endregion
 
     void OnFingerDrag(FingerEvent.FingerDir dir)
     {
@@ -120,6 +173,11 @@ public class RoleCtrl : MonoBehaviour
         }
     }
 
+    #region OnZoom 摄像机缩放
+    /// <summary>
+    /// 摄像机缩放
+    /// </summary>
+    /// <param name="type"></param>
     void OnZoom(FingerEvent.ZoomType type)
     {
         switch(type)
@@ -132,14 +190,63 @@ public class RoleCtrl : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
     void Update()
     {
-        if (!m_CharacterController) return;
+        //if (RoleAI == null)
+        //{
+        //    return;
+        //}
+
+        //RoleAI.DoAI();
+
+        if(RoleFSM != null)
+        {
+            RoleFSM.OnUpdate();
+        }
+
+        if (m_CharacterController == null) 
+        { 
+            return;
+        }
+
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            RoleFSM.ChangeToRunState();
+        } 
+        else if (Input.GetKeyUp(KeyCode.N)) 
+        {
+            RoleFSM.ChangeToIdleState();
+        }
+        else if (Input.GetKeyUp(KeyCode.F))
+        {
+            RoleFSM.ChangeToIdleState();
+        }
+        else if (Input.GetKeyUp(KeyCode.D))
+        {
+            RoleFSM.ChangeToDieState();
+        }
+        else if (Input.GetKeyUp(KeyCode.H))
+        {
+            RoleFSM.ChangeToHurtState();
+        }
+        else if (Input.GetKeyUp(KeyCode.A))
+        {
+            RoleFSM.ChangeToAttackState();
+        }
+        else if (Input.GetKeyUp(KeyCode.B))
+        {
+            RoleFSM.ChangeToAttackState();
+        }
+        else if (Input.GetKeyUp(KeyCode.C))
+        {
+            RoleFSM.ChangeToAttackState();
+        }
 
         #region 移动
         //让角色贴着地面
-        if(!m_CharacterController.isGrounded)
+        if (!m_CharacterController.isGrounded)
         {
             m_CharacterController.Move(new Vector3(0, -1000, 0));
         }
@@ -161,6 +268,10 @@ public class RoleCtrl : MonoBehaviour
 
                 Vector3 offset = m_MoveDirection * Time.deltaTime * m_Speed;
                 m_CharacterController.Move(offset);
+                if(Vector3.Distance(m_TargetPos, transform.position) <= 0.1f)
+                {
+                    RoleFSM.ChangeToIdleState();
+                }
             }
         }
         #endregion
@@ -168,6 +279,7 @@ public class RoleCtrl : MonoBehaviour
         CameraAutoFollow();
     }
 
+    #region CameraAutoFollow 摄像机自动跟随
     /// <summary>
     /// 摄像机自动跟随
     /// </summary>
@@ -179,4 +291,5 @@ public class RoleCtrl : MonoBehaviour
             CameraCtrl.Instance.AutoLookAt(transform.position);
         }
     }
+    #endregion
 }

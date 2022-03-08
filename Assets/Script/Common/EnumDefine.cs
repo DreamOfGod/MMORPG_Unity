@@ -54,4 +54,12 @@ public class RegisterLogonKey
     public const string MMO_PWD = "MMO_PWD";
 }
 
-
+public class AnimStateConditionName
+{
+    public const string ToIdleNormal = "ToIdleNormal";
+    public const string ToIdleFight = "ToIdleFight"; 
+    public const string ToRun = "ToRun"; 
+    public const string ToHurt = "ToHurt";
+    public const string ToDie = "ToDie";
+    public const string ToPhyAttack = "ToPhyAttack";
+}

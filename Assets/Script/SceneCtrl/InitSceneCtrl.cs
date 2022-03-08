@@ -18,7 +18,6 @@ public class InitSceneCtrl : MonoBehaviour
     private IEnumerator LoadLogon()
     {
         yield return new WaitForSeconds(3.5f);
-        Debug.Log("LoadLogon");
         LoadingSceneCtrl.NextScene = SceneName.Logon;
         SceneManager.LoadScene(SceneName.Loading);
     }
