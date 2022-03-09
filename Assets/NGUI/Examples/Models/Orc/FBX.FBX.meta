@@ -4,182 +4,182 @@ ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      43: 4300000
+      1: 100000
+    second: Bip01 L Toe0 - Ignore Me
+  - first:
+      1: 100002
+    second: Bip01 R Toe0 - Ignore Me
+  - first:
+      1: 100004
+    second: Bip01 L Clavicle
+  - first:
+      1: 100006
+    second: Bip01 L UpperArm
+  - first:
+      1: 100008
+    second: Bip01 R Clavicle
+  - first:
+      1: 100010
+    second: Bip01 R UpperArm
+  - first:
+      1: 100012
+    second: Bip01 HeadNub
+  - first:
+      1: 100014
+    second: Bip01 Head
+  - first:
+      1: 100016
+    second: Bip01 Neck
+  - first:
+      1: 100018
+    second: Bip01 Spine1
+  - first:
+      1: 100020
+    second: Bip01 R Toe0Nub
+  - first:
+      1: 100022
+    second: Bip01 R Foot
+  - first:
+      1: 100024
+    second: Bip01 R Calf
+  - first:
+      1: 100026
+    second: Bip01 R Thigh
+  - first:
+      1: 100028
+    second: Bip01 L Toe0Nub
+  - first:
+      1: 100030
+    second: Bip01 L Foot
+  - first:
+      1: 100032
+    second: Bip01 L Calf
+  - first:
+      1: 100034
+    second: Bip01 L Thigh
+  - first:
+      1: 100036
+    second: Bip01 Spine
+  - first:
+      1: 100038
+    second: Bip01 Pelvis
+  - first:
+      1: 100040
+    second: Bip01 Footsteps
+  - first:
+      1: 100042
+    second: Orc Biped
+  - first:
+      1: 100044
+    second: Orc
+  - first:
+      1: 100046
+    second: //RootNode
+  - first:
+      1: 100048
+    second: Bip01 R Hand
+  - first:
+      1: 100050
+    second: Bip01 R Forearm
+  - first:
+      1: 100052
+    second: Bip01 L Hand
+  - first:
+      1: 100054
+    second: Bip01 L Forearm
+  - first:
+      4: 400000
+    second: Bip01 L Toe0 - Ignore Me
+  - first:
+      4: 400002
+    second: Bip01 R Toe0 - Ignore Me
+  - first:
+      4: 400004
+    second: Bip01 L Clavicle
+  - first:
+      4: 400006
+    second: Bip01 L UpperArm
+  - first:
+      4: 400008
+    second: Bip01 R Clavicle
+  - first:
+      4: 400010
+    second: Bip01 R UpperArm
+  - first:
+      4: 400012
+    second: Bip01 HeadNub
+  - first:
+      4: 400014
+    second: Bip01 Head
+  - first:
+      4: 400016
+    second: Bip01 Neck
+  - first:
+      4: 400018
+    second: Bip01 Spine1
+  - first:
+      4: 400020
+    second: Bip01 R Toe0Nub
+  - first:
+      4: 400022
+    second: Bip01 R Foot
+  - first:
+      4: 400024
+    second: Bip01 R Calf
+  - first:
+      4: 400026
+    second: Bip01 R Thigh
+  - first:
+      4: 400028
+    second: Bip01 L Toe0Nub
+  - first:
+      4: 400030
+    second: Bip01 L Foot
+  - first:
+      4: 400032
+    second: Bip01 L Calf
+  - first:
+      4: 400034
+    second: Bip01 L Thigh
+  - first:
+      4: 400036
+    second: Bip01 Spine
+  - first:
+      4: 400038
+    second: Bip01 Pelvis
+  - first:
+      4: 400040
+    second: Bip01 Footsteps
+  - first:
+      4: 400042
+    second: Orc Biped
+  - first:
+      4: 400044
     second: Orc
   - first:
       4: 400046
     second: //RootNode
   - first:
-      111: 11100000
-    second: //RootNode
-  - first:
-      1: 100046
-    second: //RootNode
-  - first:
-      4: 400040
-    second: Bip01 Footsteps
-  - first:
-      1: 100040
-    second: Bip01 Footsteps
-  - first:
-      4: 400014
-    second: Bip01 Head
-  - first:
-      1: 100014
-    second: Bip01 Head
-  - first:
-      4: 400012
-    second: Bip01 HeadNub
-  - first:
-      1: 100012
-    second: Bip01 HeadNub
-  - first:
-      4: 400032
-    second: Bip01 L Calf
-  - first:
-      1: 100032
-    second: Bip01 L Calf
-  - first:
-      4: 400004
-    second: Bip01 L Clavicle
-  - first:
-      1: 100004
-    second: Bip01 L Clavicle
-  - first:
-      4: 400030
-    second: Bip01 L Foot
-  - first:
-      1: 100030
-    second: Bip01 L Foot
-  - first:
-      4: 400054
-    second: Bip01 L Forearm
-  - first:
-      1: 100054
-    second: Bip01 L Forearm
-  - first:
-      4: 400052
-    second: Bip01 L Hand
-  - first:
-      1: 100052
-    second: Bip01 L Hand
-  - first:
-      4: 400034
-    second: Bip01 L Thigh
-  - first:
-      1: 100034
-    second: Bip01 L Thigh
-  - first:
-      4: 400000
-    second: Bip01 L Toe0 - Ignore Me
-  - first:
-      1: 100000
-    second: Bip01 L Toe0 - Ignore Me
-  - first:
-      4: 400028
-    second: Bip01 L Toe0Nub
-  - first:
-      1: 100028
-    second: Bip01 L Toe0Nub
-  - first:
-      4: 400006
-    second: Bip01 L UpperArm
-  - first:
-      1: 100006
-    second: Bip01 L UpperArm
-  - first:
-      4: 400016
-    second: Bip01 Neck
-  - first:
-      1: 100016
-    second: Bip01 Neck
-  - first:
-      4: 400038
-    second: Bip01 Pelvis
-  - first:
-      137: 13700000
-    second: Bip01 Pelvis
-  - first:
-      1: 100038
-    second: Bip01 Pelvis
-  - first:
-      4: 400024
-    second: Bip01 R Calf
-  - first:
-      1: 100024
-    second: Bip01 R Calf
-  - first:
-      4: 400008
-    second: Bip01 R Clavicle
-  - first:
-      1: 100008
-    second: Bip01 R Clavicle
-  - first:
-      4: 400022
-    second: Bip01 R Foot
-  - first:
-      1: 100022
-    second: Bip01 R Foot
+      4: 400048
+    second: Bip01 R Hand
   - first:
       4: 400050
     second: Bip01 R Forearm
   - first:
-      1: 100050
-    second: Bip01 R Forearm
+      4: 400052
+    second: Bip01 L Hand
   - first:
-      4: 400048
-    second: Bip01 R Hand
+      4: 400054
+    second: Bip01 L Forearm
   - first:
-      1: 100048
-    second: Bip01 R Hand
-  - first:
-      4: 400026
-    second: Bip01 R Thigh
-  - first:
-      1: 100026
-    second: Bip01 R Thigh
-  - first:
-      4: 400002
-    second: Bip01 R Toe0 - Ignore Me
-  - first:
-      1: 100002
-    second: Bip01 R Toe0 - Ignore Me
-  - first:
-      4: 400020
-    second: Bip01 R Toe0Nub
-  - first:
-      1: 100020
-    second: Bip01 R Toe0Nub
-  - first:
-      4: 400010
-    second: Bip01 R UpperArm
-  - first:
-      1: 100010
-    second: Bip01 R UpperArm
-  - first:
-      4: 400036
-    second: Bip01 Spine
-  - first:
-      1: 100036
-    second: Bip01 Spine
-  - first:
-      4: 400018
-    second: Bip01 Spine1
-  - first:
-      1: 100018
-    second: Bip01 Spine1
-  - first:
-      4: 400044
+      43: 4300000
     second: Orc
   - first:
-      1: 100044
-    second: Orc
+      111: 11100000
+    second: //RootNode
   - first:
-      4: 400042
-    second: Orc Biped
-  - first:
-      1: 100042
-    second: Orc Biped
+      137: 13700000
+    second: Bip01 Pelvis
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -268,7 +268,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
-    skeletonHasParents: 1
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 1

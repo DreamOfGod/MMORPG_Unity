@@ -56,6 +56,8 @@ public class UILogOnCtrl : UIWindowBase
             return;
         }
 
+        UserInfo.nickname = nickname;
+
         LoadingSceneCtrl.NextScene = SceneName.City;
         SceneManager.LoadScene(SceneName.Loading);
     }

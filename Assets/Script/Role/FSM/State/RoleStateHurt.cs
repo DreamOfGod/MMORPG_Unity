@@ -14,14 +14,11 @@ public class RoleStateHurt : RoleStateAbstract
 
     public override void OnEnter()
     {
-        base.OnEnter();
         m_RoleFSM.RoleCtrl.Animator.SetBool(AnimStateConditionName.ToHurt, true);
     }
 
     public override void OnUpdate()
     {
-        base.OnUpdate();
-
         AnimatorStateInfo info = m_RoleFSM.RoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
         if (info.normalizedTime > 1)
         {
@@ -31,7 +28,6 @@ public class RoleStateHurt : RoleStateAbstract
 
     public override void OnLeave()
     {
-        base.OnLeave();
         m_RoleFSM.RoleCtrl.Animator.SetBool(AnimStateConditionName.ToHurt, false);
     }
 }

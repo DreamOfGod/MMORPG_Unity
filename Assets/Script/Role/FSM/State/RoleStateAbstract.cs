@@ -22,15 +22,15 @@ public abstract class RoleStateAbstract
     /// <summary>
     /// 进入状态
     /// </summary>
-    public virtual void OnEnter() { }
+    public abstract void OnEnter();
 
     /// <summary>
     /// 执行状态
     /// </summary>
-    public virtual void OnUpdate() { }
+    public abstract void OnUpdate();
 
     /// <summary>
     /// 离开状态
     /// </summary>
-    public virtual void OnLeave() { }
+    public abstract void OnLeave();
 }

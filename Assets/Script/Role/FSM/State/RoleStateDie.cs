@@ -13,18 +13,15 @@ public class RoleStateDie : RoleStateAbstract
 
     public override void OnEnter()
     {
-        base.OnEnter();
         m_RoleFSM.RoleCtrl.Animator.SetBool(AnimStateConditionName.ToDie, true);
     }
 
     public override void OnUpdate()
     {
-        base.OnUpdate();
     }
 
     public override void OnLeave()
     {
-        base.OnLeave();
         m_RoleFSM.RoleCtrl.Animator.SetBool(AnimStateConditionName.ToDie, false);
     }
 }

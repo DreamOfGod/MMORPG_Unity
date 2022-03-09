@@ -67,6 +67,8 @@ public class UIRegisterCtrl : UIWindowBase
         PlayerPrefs.SetString(RegisterLogonKey.MMO_NICKNAME, nickname);
         PlayerPrefs.SetString(RegisterLogonKey.MMO_PWD, pwd1);
 
+        UserInfo.nickname = nickname;
+
         LoadingSceneCtrl.NextScene = SceneName.City;
         SceneManager.LoadScene(SceneName.Loading);
     }
