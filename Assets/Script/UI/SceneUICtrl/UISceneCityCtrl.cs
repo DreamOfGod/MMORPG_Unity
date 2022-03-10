@@ -17,14 +17,16 @@ public class UISceneCityCtrl : UISceneBase
         base.Awake();
     }
 
-    public void InitHeadBar(Transform nicknameTarget, string nickname)
+    public void InitHeadBar(Transform nicknameTarget, string nickname, bool showHPBar)
     {
         GameObject headBarPrefab = Resources.Load<GameObject>("UIPrefab/UIOther/RoleHeadBar");
         GameObject headBar = Instantiate(headBarPrefab);
         headBar.transform.parent = m_HeadBarParent;
         headBar.transform.localScale = Vector3.one;
         m_HeadBarCtrl = headBar.GetComponent<RoleHeadBarCtrl>();
-        m_HeadBarCtrl.Init(nicknameTarget, nickname);
+        m_HeadBarCtrl.SetFollowTarget(nicknameTarget);
+        m_HeadBarCtrl.SetNickname(nickname);
+        m_HeadBarCtrl.SetHPBarVisible(showHPBar);
     }
 
     void Update()

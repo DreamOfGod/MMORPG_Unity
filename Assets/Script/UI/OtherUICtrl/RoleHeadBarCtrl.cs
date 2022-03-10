@@ -13,12 +13,24 @@ public class RoleHeadBarCtrl : MonoBehaviour
     [SerializeField]
     private HUDText m_HUDText;
 
+    [SerializeField]
+    private UIProgressBar m_HPProgress;
+
     private Transform m_NicknameTarget;
 
-    public void Init(Transform nicknameTarget, string nickname)
+    public void SetFollowTarget(Transform nicknameTarget)
     {
         m_NicknameTarget = nicknameTarget;
+    }
+
+    public void SetNickname(string nickname)
+    {
         m_LblNickname.text = nickname;
+    }
+
+    public void SetHPBarVisible(bool visible)
+    {
+        m_HPProgress.gameObject.SetActive(visible);
     }
 
     void Update()

@@ -89,60 +89,6 @@ public class RoleCtrl : MonoBehaviour
         RoleFSM = new RoleFSM(this);
     }
 
-    #region OnEnable
-    void OnEnable()
-    {
-        FingerEvent.Instance.OnFingerDrag += OnFingerDrag;
-        FingerEvent.Instance.OnZoom += OnZoom;
-    }
-    #endregion
-
-    #region OnDisable
-    void OnDisable()
-    {
-        FingerEvent.Instance.OnFingerDrag -= OnFingerDrag;
-        FingerEvent.Instance.OnZoom -= OnZoom;
-    }
-    #endregion
-
-    void OnFingerDrag(FingerEvent.FingerDir dir)
-    {
-        switch(dir)
-        {
-            case FingerEvent.FingerDir.Up:
-                CameraCtrl.Instance.setCameraUpAndDown(1);
-                break;
-            case FingerEvent.FingerDir.Down:
-                CameraCtrl.Instance.setCameraUpAndDown(0);
-                break;
-            case FingerEvent.FingerDir.Left:
-                CameraCtrl.Instance.SetCameraRotate(0);
-                break;
-            case FingerEvent.FingerDir.Right:
-                CameraCtrl.Instance.SetCameraRotate(1);
-                break;
-        }
-    }
-
-    #region OnZoom 摄像机缩放
-    /// <summary>
-    /// 摄像机缩放
-    /// </summary>
-    /// <param name="type"></param>
-    void OnZoom(FingerEvent.ZoomType type)
-    {
-        switch(type)
-        {
-            case FingerEvent.ZoomType.In:
-                CameraCtrl.Instance.setCameraZoom(0);
-                break;
-            case FingerEvent.ZoomType.Out:
-                CameraCtrl.Instance.setCameraZoom(1);
-                break;
-        }
-    }
-    #endregion
-
     void Update()
     {
         if (RoleAI == null)
@@ -158,8 +104,6 @@ public class RoleCtrl : MonoBehaviour
         }
 
         RoleFSM.OnUpdate();
-
-        CameraAutoFollow();
 
         if (Input.GetKeyUp(KeyCode.R))
         {
@@ -194,18 +138,4 @@ public class RoleCtrl : MonoBehaviour
             RoleFSM.ChangeToAttackState();
         }
     }
-
-    #region CameraAutoFollow 摄像机自动跟随
-    /// <summary>
-    /// 摄像机自动跟随
-    /// </summary>
-    private void CameraAutoFollow()
-    {
-        if(CameraCtrl.Instance)
-        {
-            CameraCtrl.Instance.transform.position = transform.position;
-            CameraCtrl.Instance.AutoLookAt(transform.position);
-        }
-    }
-    #endregion
 }

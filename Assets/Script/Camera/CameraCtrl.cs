@@ -9,8 +9,6 @@ using UnityEngine;
 
 public class CameraCtrl : MonoBehaviour
 {
-    public static CameraCtrl Instance;
-
     /// <summary>
     /// 控制摄像机上下
     /// </summary>
@@ -29,17 +27,61 @@ public class CameraCtrl : MonoBehaviour
     [SerializeField]
     private Transform m_CameraContainer;
 
-    private void Awake()
+    private Transform m_Target;
+
+    public void Init(Transform target)
     {
-        Instance = this;
+        m_Target = target; 
     }
+
+    #region OnEnable OnDisable
+    void OnEnable()
+    {
+        FingerEvent.Instance.OnFingerDrag += OnFingerDrag;
+        FingerEvent.Instance.OnZoom += OnZoom;
+    }
+
+    void OnDisable()
+    {
+        FingerEvent.Instance.OnFingerDrag -= OnFingerDrag;
+        FingerEvent.Instance.OnZoom -= OnZoom;
+    }
+    #endregion
+
+    #region OnFingerDrag OnZoom
+    void OnFingerDrag(FingerEvent.FingerDir dir)
+    {
+        switch (dir)
+        {
+            case FingerEvent.FingerDir.Up:
+                setCameraUpAndDown(1);
+                break;
+            case FingerEvent.FingerDir.Down:
+                setCameraUpAndDown(0);
+                break;
+            case FingerEvent.FingerDir.Left:
+                SetCameraRotate(0);
+                break;
+            case FingerEvent.FingerDir.Right:
+                SetCameraRotate(1);
+                break;
+        }
+    }
+    void OnZoom(FingerEvent.ZoomType type)
+    {
+        switch (type)
+        {
+            case FingerEvent.ZoomType.In:
+                setCameraZoom(0);
+                break;
+            case FingerEvent.ZoomType.Out:
+                setCameraZoom(1);
+                break;
+        }
+    }
+    #endregion
 
     void Start()
-    {
-        Init();
-    }
-
-    public void Init()
     {
         m_CameraUpAndDown.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(m_CameraUpAndDown.transform.localEulerAngles.z, 30, 60));
         m_CameraContainer.localPosition = new Vector3(0, 0, Mathf.Clamp(m_CameraContainer.localPosition.z, -5, 5));
@@ -74,12 +116,9 @@ public class CameraCtrl : MonoBehaviour
         m_CameraContainer.localPosition = new Vector3(0, 0, Mathf.Clamp(m_CameraContainer.localPosition.z, -5, 5));
     }
 
-    /// <summary>
-    /// 实时看着主角
-    /// </summary>
-    /// <param name="pos"></param>
-    public void AutoLookAt(Vector3 pos)
+    void Update()
     {
-        m_CameraZoomContainer.LookAt(pos);
+        transform.position = m_Target.position;
+        m_CameraContainer.LookAt(m_Target.position);
     }
 }
