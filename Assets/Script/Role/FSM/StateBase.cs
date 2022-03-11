@@ -6,13 +6,6 @@
 
 public abstract class StateBase
 {
-    protected RoleCtrlBase m_RoleCtrl;
-
-    public StateBase(RoleCtrlBase roleCtrl)
-    {
-        m_RoleCtrl = roleCtrl;
-    }
-
     /// <summary>
     /// 进入状态
     /// </summary>

@@ -207,6 +207,7 @@
     <Compile Include="Assets\Script\Role\FSM\RoleFSM.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\Spin.cs" />
     <Compile Include="Assets\Script\UI\WindowUICtrl\UIRegisterCtrl.cs" />
+    <Compile Include="Assets\Script\Test\TestScene.cs" />
     <Compile Include="Assets\Script\Role\RoleInfo\RoleInfoMainPlayer.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIInputOnGUI.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonScale.cs" />

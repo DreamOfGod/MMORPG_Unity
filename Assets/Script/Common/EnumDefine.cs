@@ -7,6 +7,14 @@
 //const常量变量会被编译器用常量直接替换，类似于宏
 
 /// <summary>
+/// 层的名字
+/// </summary>
+public class LayerName
+{
+    public const string Ground = "Ground";//地面
+}
+
+/// <summary>
 /// 场景UI根节点名称
 /// </summary>
 public class SceneUIName

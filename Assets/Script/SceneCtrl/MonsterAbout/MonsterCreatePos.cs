@@ -8,64 +8,47 @@ using UnityEngine;
 public class MonsterCreatePos: MonoBehaviour
 {
     [SerializeField]
+    private CitySceneCtrl m_CitySceneCtrl;
+
+    [SerializeField]
     private UISceneCityCtrl m_UICtrl;
 
-    private const int MAX_COUNT = 3;
+    private const int MAX_COUNT = 1;
     private int m_CurrCount = 0;
     private float m_NextCreateTime = 0;
 
-    private void Start()
-    {
-        GameObject monsterPrefab = Resources.Load<GameObject>("RolePrefab/Monster/Role_Monster_1");
-        GameObject monster = Instantiate(monsterPrefab);
-
-        monster.transform.position = transform.position;
-        //Vector3 pos = new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
-        //Debug.Log("1:" + pos);
-        //pos = transform.TransformPoint(pos);
-        //Debug.Log("2:" + pos);
-        //monster.transform.localPosition = new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
-
-        MonsterCtrl monsterCtrl = monster.GetComponent<MonsterCtrl>();
-        RoleInfoBase roleInfo = new RoleInfoMonster();
-        roleInfo.Nickname = "小怪";
-        roleInfo.MaxHP = 100;
-        monsterCtrl.Init(roleInfo, new RoleMonsterAI());
-
-        m_UICtrl.InitHeadBar(monsterCtrl.HeadBarPos, roleInfo.Nickname, true);
-    }
-
     void Update()
     {
-        //if (m_CurrCount < MAX_COUNT)
-        //{
-        //    if (Time.time >= m_NextCreateTime)
-        //    {
-        //        m_NextCreateTime = Time.time + Random.Range(1.5f, 3.5f);
+        if (m_CurrCount < MAX_COUNT)
+        {
+            if (Time.time >= m_NextCreateTime)
+            {
+                m_NextCreateTime = Time.time + Random.Range(1.5f, 3.5f);
 
-        //        GameObject monsterPrefab = Resources.Load<GameObject>("RolePrefab/Monster/Role_Monster_1");
-        //        GameObject monster = Instantiate(monsterPrefab);
+                GameObject monsterPrefab = Resources.Load<GameObject>("RolePrefab/Monster/Role_Monster_1");
+                GameObject monster = Instantiate(monsterPrefab);
 
-        //        monster.transform.parent = transform;
-        //        monster.transform.position = transform.position;
-        //        //Vector3 pos = new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
-        //        //Debug.Log("1:" + pos);
-        //        //pos = transform.TransformPoint(pos);
-        //        //Debug.Log("2:" + pos);
-        //        //monster.transform.localPosition = new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
+                monster.transform.parent = transform;
+                Vector3 pos = transform.TransformPoint(new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f)));
+                RaycastHit hitInfo;
+                if (Physics.Raycast(pos, Vector3.down, out hitInfo)
+                    && hitInfo.collider.gameObject.layer == LayerMask.NameToLayer(LayerName.Ground))
+                {
+                    pos.y = hitInfo.point.y;
+                }
+                else
+                {
+                    Debug.LogError("小怪出生点没有位于地面之上");
+                }
+                monster.transform.position = pos;
 
-        //        MonsterCtrl monsterCtrl = monster.GetComponent<MonsterCtrl>();
-        //        RoleInfoBase roleInfo = new RoleInfoMonster();
-        //        roleInfo.Nickname = "小怪";
-        //        roleInfo.MaxHP = 100;
-        //        monsterCtrl.Init(roleInfo, new RoleMonsterAI());
+                MonsterCtrl monsterCtrl = monster.GetComponent<MonsterCtrl>();
+                monsterCtrl.mainPlayerCtrl = m_CitySceneCtrl.MainPlayerCtrl;
 
-        //        m_UICtrl.InitHeadBar(monsterCtrl.HeadBarPos, roleInfo.Nickname, true);
+                m_UICtrl.InitHeadBar(monsterCtrl.HeadBarPos, "小怪", true);
 
-
-
-        //        m_CurrCount++;
-        //    }
-        //}
+                m_CurrCount++;
+            }
+        }
     }
 }

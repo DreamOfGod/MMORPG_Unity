@@ -7,9 +7,6 @@ using UnityEngine;
 
 public class CitySceneCtrl : MonoBehaviour
 {
-    /// <summary>
-    /// 主角出生点
-    /// </summary>
     [SerializeField]
     private Transform m_PlayerBornPos;
 
@@ -22,38 +19,36 @@ public class CitySceneCtrl : MonoBehaviour
     [SerializeField]
     private CameraCtrl m_CameraCtrl;
 
+    public MainPlayerCtrl MainPlayerCtrl { get; private set; }
+
     void Awake()
+    {
+        LoadMainPlayer();
+    }
+
+    private void LoadMainPlayer() 
     {
         GameObject mainPlayerPrefab = Resources.Load<GameObject>("RolePrefab/Player/Role_MainPlayer");
         GameObject mainPlayer = Instantiate(mainPlayerPrefab);
-        mainPlayer.transform.position = m_PlayerBornPos.position;
 
-        MainPlayerCtrl mainPlayerCtrl = mainPlayer.GetComponent<MainPlayerCtrl>();
-        RoleInfoMainPlayer roleInfoMainPlayer = new RoleInfoMainPlayer();
-        roleInfoMainPlayer.Nickname = UserInfo.nickname;
-        mainPlayerCtrl.Init(roleInfoMainPlayer, new RoleMainPlayerCityAI());
+        Vector3 pos;
+        RaycastHit hitInfo;
+        if (Physics.Raycast(m_PlayerBornPos.position, Vector3.down, out hitInfo)
+            && hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            pos = hitInfo.point;
+        }
+        else
+        {
+            Debug.LogError("主角出生点没有位于地面之上");
+            pos = m_PlayerBornPos.position;
+        }
+        mainPlayer.transform.position = pos;
 
-        m_CameraCtrl.Init(mainPlayer.transform);
-        m_UICtrl.InitHeadBar(mainPlayerCtrl.HeadBarPos, roleInfoMainPlayer.Nickname, false);
+        MainPlayerCtrl = mainPlayer.GetComponent<MainPlayerCtrl>();
 
-        GameObject monsterPrefab = Resources.Load<GameObject>("RolePrefab/Monster/Role_Monster_1");
-        GameObject monster = Instantiate(monsterPrefab);
+        m_UICtrl.InitHeadBar(MainPlayerCtrl.HeadBarPos, UserInfo.nickname, false);
 
-        monster.transform.position = m_PlayerBornPos.position;
-        //Vector3 pos = new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
-        //Debug.Log("1:" + pos);
-        //pos = transform.TransformPoint(pos);
-        //Debug.Log("2:" + pos);
-        //monster.transform.localPosition = new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
-
-        MonsterCtrl monsterCtrl = monster.GetComponent<MonsterCtrl>();
-        RoleInfoBase roleInfo = new RoleInfoMonster();
-        roleInfo.Nickname = "小怪";
-        roleInfo.MaxHP = 100;
-        monsterCtrl.Init(roleInfo, new RoleMonsterAI());
-
-        m_UICtrl.InitHeadBar(monsterCtrl.HeadBarPos, roleInfo.Nickname, true);
-
-        m_CameraCtrl.Init(monster.transform);
+        m_CameraCtrl.SetTarget(mainPlayer.transform);
     }
 }

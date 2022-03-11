@@ -29,7 +29,7 @@ public class CameraCtrl : MonoBehaviour
 
     private Transform m_Target;
 
-    public void Init(Transform target)
+    public void SetTarget(Transform target)
     {
         m_Target = target; 
     }

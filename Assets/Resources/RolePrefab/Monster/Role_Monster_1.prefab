@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1769121293728765566}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1769121294354627554}
@@ -94,12 +94,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea1c640b2e2c89468626278e569559d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 1769121295314299779}
-  MoveSpeed: 10
-  RotationSpeed: 5
-  HeadBarPos: {fileID: 1769121293728765565}
-  CharacterController: {fileID: 0}
-  TargetPos: {x: 0, y: 0, z: 0}
+  m_Animator: {fileID: 1769121295314299779}
+  m_MoveSpeed: 10
+  m_RotationSpeed: 5
+  m_HeadBarPos: {fileID: 1769121293728765565}
+  m_CharacterController: {fileID: 6250144735833616961}
+  m_PatrolRadius: 1
+  m_ViewRadius: 5
+  MoveTargetPos: {x: 0, y: 0, z: 0}
+  MoveDirection: {x: 0, y: 0, z: 0}
+  RotationRatio: 0
+  BeginQuaternion: {x: 0, y: 0, z: 0, w: 0}
+  TargetQuaternion: {x: 0, y: 0, z: 0, w: 0}
+  NextPatrolTime: 0
+  mainPlayerCtrl: {fileID: 0}
 --- !u!1001 &1769121295306940131
 PrefabInstance:
   m_ObjectHideFlags: 0

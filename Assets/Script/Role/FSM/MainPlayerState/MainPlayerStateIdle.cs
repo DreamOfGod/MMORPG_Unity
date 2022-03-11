@@ -7,18 +7,23 @@ using UnityEngine;
 
 public class MainPlayerStateIdle : StateBase
 {
-    public MainPlayerStateIdle(MainPlayerCtrl mainPlayerCtrl) : base(mainPlayerCtrl) { }
+    private MainPlayerCtrl m_MainPlayerCtrl;
+
+    public MainPlayerStateIdle(MainPlayerCtrl mainPlayerCtrl)
+    {
+        m_MainPlayerCtrl = mainPlayerCtrl;
+    }
 
     public override void OnEnter()
     {
-        m_RoleCtrl.Animator.SetBool(AnimStateConditionName.ToIdleFight, true);
+        m_MainPlayerCtrl.Animator.SetBool(AnimStateConditionName.ToIdleFight, true);
 
         FingerEvent.Instance.OnFingerUpWithoutDrag += OnPlayerClickGround;
     }
 
     public override void OnLeave()
     {
-        m_RoleCtrl.Animator.SetBool(AnimStateConditionName.ToIdleFight, false);
+        m_MainPlayerCtrl.Animator.SetBool(AnimStateConditionName.ToIdleFight, false);
 
         FingerEvent.Instance.OnFingerUpWithoutDrag -= OnPlayerClickGround;
     }
@@ -30,12 +35,12 @@ public class MainPlayerStateIdle : StateBase
         if (Physics.Raycast(ray, out hitInfo))
         {
             //点击地面
-            if (hitInfo.collider.gameObject.name.Equals("Ground", System.StringComparison.CurrentCultureIgnoreCase))
+            if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer(LayerName.Ground))
             {
-                if (Vector3.Distance(hitInfo.point, m_RoleCtrl.transform.position) > 0.1f)
+                if (Vector3.Distance(hitInfo.point, m_MainPlayerCtrl.transform.position) > 0.1f)
                 {
-                    m_RoleCtrl.TargetPos = hitInfo.point;
-                    ((MainPlayerCtrl)m_RoleCtrl).ChangeToRunState();
+                    m_MainPlayerCtrl.MoveTargetPos = hitInfo.point;
+                    m_MainPlayerCtrl.ChangeToRunState();
                 }
             }
         }
