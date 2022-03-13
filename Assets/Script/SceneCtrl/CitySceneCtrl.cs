@@ -5,8 +5,14 @@
 //===============================================
 using UnityEngine;
 
+/// <summary>
+/// 主城控制器
+/// </summary>
 public class CitySceneCtrl : MonoBehaviour
 {
+    /// <summary>
+    /// 主角出生点
+    /// </summary>
     [SerializeField]
     private Transform m_PlayerBornPos;
 
@@ -16,9 +22,15 @@ public class CitySceneCtrl : MonoBehaviour
     [SerializeField]
     private UISceneCityCtrl m_UICtrl;
 
+    /// <summary>
+    /// 摄像机控制器
+    /// </summary>
     [SerializeField]
     private CameraCtrl m_CameraCtrl;
 
+    /// <summary>
+    /// 主角控制器
+    /// </summary>
     public MainPlayerCtrl MainPlayerCtrl { get; private set; }
 
     void Awake()
@@ -26,6 +38,9 @@ public class CitySceneCtrl : MonoBehaviour
         LoadMainPlayer();
     }
 
+    /// <summary>
+    /// 加载主角
+    /// </summary>
     private void LoadMainPlayer() 
     {
         GameObject mainPlayerPrefab = Resources.Load<GameObject>("RolePrefab/Player/Role_MainPlayer");
@@ -40,14 +55,16 @@ public class CitySceneCtrl : MonoBehaviour
         }
         else
         {
-            Debug.LogError("主角出生点没有位于地面之上");
+            Debug.LogError("主角出生点没有位于地面上方");
             pos = m_PlayerBornPos.position;
         }
         mainPlayer.transform.position = pos;
 
         MainPlayerCtrl = mainPlayer.GetComponent<MainPlayerCtrl>();
 
-        m_UICtrl.InitHeadBar(MainPlayerCtrl.HeadBarPos, UserInfo.nickname, false);
+        RoleHeadBarCtrl headBarCtrl = m_UICtrl.AddHeadBar(MainPlayerCtrl.HeadBarPos, UserInfo.nickname, false);
+        MainPlayerCtrl.SetHeadBarCtrl(headBarCtrl);
+        MainPlayerCtrl.SetCityUICtrl(m_UICtrl);
 
         m_CameraCtrl.SetTarget(mainPlayer.transform);
     }

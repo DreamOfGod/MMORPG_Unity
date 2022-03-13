@@ -7,33 +7,55 @@ using UnityEngine;
 
 public class UISceneCityCtrl : UISceneBase
 {
+    /// <summary>
+    /// 角色头顶UI条容器
+    /// </summary>
     [SerializeField]
     private Transform m_HeadBarParent;
 
-    private RoleHeadBarCtrl m_HeadBarCtrl;
+    /// <summary>
+    /// 主角昵称
+    /// </summary>
+    [SerializeField]
+    private UILabel m_LblNickname;
 
-    protected override void Awake()
+    /// <summary>
+    /// 主角血条
+    /// </summary>
+    [SerializeField]
+    private UISprite m_SprHP;
+
+    protected override void Start()
     {
-        base.Awake();
+        m_LblNickname.text = UserInfo.nickname;
     }
 
-    public void InitHeadBar(Transform nicknameTarget, string nickname, bool showHPBar)
+    /// <summary>
+    /// 添加角色头顶UI条
+    /// </summary>
+    /// <param name="followTarget">跟随目标</param>
+    /// <param name="nickname">昵称</param>
+    /// <param name="showHPBar">是否显示血条</param>
+    /// <returns>头顶UI条控制器</returns>
+    public RoleHeadBarCtrl AddHeadBar(Transform followTarget, string nickname, bool showHPBar)
     {
         GameObject headBarPrefab = Resources.Load<GameObject>("UIPrefab/UIOther/RoleHeadBar");
         GameObject headBar = Instantiate(headBarPrefab);
         headBar.transform.parent = m_HeadBarParent;
         headBar.transform.localScale = Vector3.one;
-        m_HeadBarCtrl = headBar.GetComponent<RoleHeadBarCtrl>();
-        m_HeadBarCtrl.SetFollowTarget(nicknameTarget);
-        m_HeadBarCtrl.SetNickname(nickname);
-        m_HeadBarCtrl.SetHPBarVisible(showHPBar);
+        RoleHeadBarCtrl headBarCtrl = headBar.GetComponent<RoleHeadBarCtrl>();
+        headBarCtrl.SetFollowTarget(followTarget);
+        headBarCtrl.SetNickname(nickname);
+        headBarCtrl.SetHPBarVisible(showHPBar);
+        return headBarCtrl;
     }
 
-    void Update()
+    /// <summary>
+    /// 设置主角血条的百分比
+    /// </summary>
+    /// <param name="percent"></param>
+    public void SetMainPlayerHPBar(float percent)
     {
-        if(Input.GetKeyUp(KeyCode.H))
-        {
-            m_HeadBarCtrl.SetHUDText(5);
-        }
+        m_SprHP.fillAmount = percent;
     }
 }

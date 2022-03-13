@@ -4,6 +4,9 @@
 //备    注：
 //===============================================
 
+/// <summary>
+/// 状态基类
+/// </summary>
 public abstract class StateBase
 {
     /// <summary>

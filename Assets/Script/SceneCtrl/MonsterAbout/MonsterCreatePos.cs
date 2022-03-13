@@ -45,7 +45,7 @@ public class MonsterCreatePos: MonoBehaviour
                 MonsterCtrl monsterCtrl = monster.GetComponent<MonsterCtrl>();
                 monsterCtrl.mainPlayerCtrl = m_CitySceneCtrl.MainPlayerCtrl;
 
-                m_UICtrl.InitHeadBar(monsterCtrl.HeadBarPos, "小怪", true);
+                m_UICtrl.AddHeadBar(monsterCtrl.HeadBarPos, "小怪", true);
 
                 m_CurrCount++;
             }

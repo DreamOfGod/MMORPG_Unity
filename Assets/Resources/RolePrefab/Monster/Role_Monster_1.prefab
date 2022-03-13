@@ -95,18 +95,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1769121295314299779}
-  m_MoveSpeed: 10
+  m_MoveSpeed: 8
   m_RotationSpeed: 5
   m_HeadBarPos: {fileID: 1769121293728765565}
   m_CharacterController: {fileID: 6250144735833616961}
-  m_PatrolRadius: 1
+  m_PatrolRange: 5
+  m_PatrolMinRange: 2
   m_ViewRadius: 5
-  MoveTargetPos: {x: 0, y: 0, z: 0}
-  MoveDirection: {x: 0, y: 0, z: 0}
-  RotationRatio: 0
-  BeginQuaternion: {x: 0, y: 0, z: 0, w: 0}
-  TargetQuaternion: {x: 0, y: 0, z: 0, w: 0}
-  NextPatrolTime: 0
+  m_AttackRadius: 2
   mainPlayerCtrl: {fileID: 0}
 --- !u!1001 &1769121295306940131
 PrefabInstance:

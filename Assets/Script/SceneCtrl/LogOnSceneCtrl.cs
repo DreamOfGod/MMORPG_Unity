@@ -9,19 +9,5 @@ using UnityEngine;
 
 public class LogOnSceneCtrl : MonoBehaviour
 {
-    void Awake()
-    {
-        GameObject obj = Resources.Load<GameObject>("UIPrefab/UIScene/UI Root_LogOnScene");
-        Instantiate(obj);
-    }
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
+    
 }

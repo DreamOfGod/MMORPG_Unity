@@ -4,10 +4,12 @@
 //备    注：
 //===============================================
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 初始场景控制器
+/// </summary>
 public class InitSceneCtrl : MonoBehaviour
 {
     void Start()
@@ -20,5 +22,6 @@ public class InitSceneCtrl : MonoBehaviour
         yield return new WaitForSeconds(3.5f);
         LoadingSceneCtrl.NextScene = SceneName.Logon;
         SceneManager.LoadScene(SceneName.Loading);
+        
     }
 }
