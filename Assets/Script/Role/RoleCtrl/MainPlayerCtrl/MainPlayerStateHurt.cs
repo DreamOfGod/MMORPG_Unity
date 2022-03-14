@@ -3,8 +3,8 @@
 //创建时间：2022-03-13 01:19:03
 //备    注：
 //===============================================
+using UnityEngine;
 
-using System.Collections;
 /// <summary>
 /// 主角控制器
 /// </summary>
@@ -17,8 +17,6 @@ public partial class MainPlayerCtrl
     {
         private MainPlayerCtrl m_MainPlayerCtrl;
 
-        private bool m_ListenPlayerClick;
-
         public MainPlayerStateHurt(MainPlayerCtrl mainPlayerCtrl)
         {
             m_MainPlayerCtrl = mainPlayerCtrl;
@@ -28,23 +26,68 @@ public partial class MainPlayerCtrl
         {
             m_MainPlayerCtrl.m_Animator.SetBool(AnimStateConditionName.ToHurt, true);
 
-            if(m_MainPlayerCtrl.HP > 0)
-            {
-                m_ListenPlayerClick = true;
-                FingerEvent.Instance.OnFingerUpWithoutDrag += m_MainPlayerCtrl.OnPlayerClick;
-            }
+            FingerEvent.Instance.OnFingerUpWithoutDrag += OnPlayerClick;
         }
 
         public override void OnLeave()
         {
             m_MainPlayerCtrl.m_Animator.SetBool(AnimStateConditionName.ToHurt, false);
-            
-            if(m_ListenPlayerClick)
+
+            FingerEvent.Instance.OnFingerUpWithoutDrag -= OnPlayerClick;
+        }
+
+        #region OnPlayerClickGround 玩家点击屏幕回调
+        /// <summary>
+        /// 玩家点击屏幕回调
+        /// </summary>
+        /// <param name="screenPos">屏幕坐标点</param>
+        private void OnPlayerClick(Vector2 screenPos)
+        {
+            if(m_MainPlayerCtrl.HP <= 0)
             {
-                FingerEvent.Instance.OnFingerUpWithoutDrag -= m_MainPlayerCtrl.OnPlayerClick;
-                m_ListenPlayerClick = false;
+                return;
+            }
+            Ray ray = Camera.main.ScreenPointToRay(screenPos);
+            RaycastHit hitInfo;
+            int groundLayer = LayerMask.NameToLayer(LayerName.Ground);
+            int monsterLayer = LayerMask.NameToLayer(LayerName.Monster);
+            int targetLayerMask = (1 << groundLayer) | (1 << monsterLayer);
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, targetLayerMask))
+            {
+                //点击了地面或怪物
+                int colliderLayer = hitInfo.collider.gameObject.layer;
+                if (colliderLayer == monsterLayer)
+                {
+                    //点击怪物
+                    m_MainPlayerCtrl.m_TargetMonster = hitInfo.collider.GetComponent<MonsterCtrl>();
+                    float distance = Vector3.Distance(m_MainPlayerCtrl.m_TargetMonster.transform.position, m_MainPlayerCtrl.transform.position);
+                    if(distance <= m_MainPlayerCtrl.m_AttackDistance)
+                    {
+                        //怪物在攻击范围，转为攻击
+                        if(Time.time >= m_MainPlayerCtrl.m_NextAttackTime)
+                        {
+                            //达到攻击时间，转为攻击状态
+                            m_MainPlayerCtrl.ChangeToAttackState();
+                        }
+                    }
+                    else
+                    {
+                        //怪物不在攻击范围，跑向怪物
+                        m_MainPlayerCtrl.ChangeToRunState(m_MainPlayerCtrl.m_TargetMonster.transform.position);
+                    }
+                }
+                else if (colliderLayer == groundLayer)
+                {
+                    //点击地面
+                    m_MainPlayerCtrl.m_TargetMonster = null;
+                    if (Vector3.Distance(hitInfo.point, m_MainPlayerCtrl.transform.position) > 0.1f)
+                    {
+                        m_MainPlayerCtrl.ChangeToRunState(hitInfo.point);
+                    }
+                }
             }
         }
+        #endregion
 
         public override void OnUpdate()
         {
@@ -57,14 +100,6 @@ public partial class MainPlayerCtrl
                 else
                 {
                     m_MainPlayerCtrl.ChangeToDieState();
-                }
-            }
-            else
-            {
-                if(m_MainPlayerCtrl.HP <= 0 && m_ListenPlayerClick)
-                {
-                    FingerEvent.Instance.OnFingerUpWithoutDrag -= m_MainPlayerCtrl.OnPlayerClick;
-                    m_ListenPlayerClick = false;
                 }
             }
         }

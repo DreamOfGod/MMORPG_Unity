@@ -20,13 +20,13 @@ public partial class MainPlayerCtrl
         }
 
         public override void OnEnter()
-        { 
-            m_MainPlayerCtrl.m_Animator.SetInteger(AnimStateConditionName.ToPhyAttack, 1);
-
+        {
+            m_MainPlayerCtrl.m_Animator.SetInteger(AnimStateConditionName.ToPhyAttack, 2);
+            //朝向目标怪物
             Vector3 targetMonsterPos = m_MainPlayerCtrl.m_TargetMonster.transform.position;
             targetMonsterPos.y = m_MainPlayerCtrl.transform.position.y;
             m_MainPlayerCtrl.transform.LookAt(targetMonsterPos);
-
+            //攻击目标
             m_MainPlayerCtrl.m_TargetMonster.ChangeToHurtState(Random.Range(50, 150), 0.2f);
             m_MainPlayerCtrl.m_NextAttackTime = Time.time + 0.8f;
         }

@@ -273,16 +273,21 @@ public partial class MonsterCtrl : MonoBehaviour
     /// <summary>
     /// 立即受伤
     /// </summary>
-    /// <param name="hurtVal"></param>
+    /// <param name="hurtVal">伤害值</param>
     private void ToBeHurt(int hurtVal)
     {
-        m_CurrState.OnLeave();
-
         HP -= hurtVal;
         HP = Mathf.Max(0, HP);
         m_HeadBarCtrl.Hurt(hurtVal, HP / 1000f);
-        m_CurrState = m_StateHurt;
-        m_CurrState.OnEnter();
+
+        if(!(m_CurrState is MonsterStateHurt))
+        {
+            //当前不是受伤状态，才转入
+            m_CurrState.OnLeave();
+            m_CurrState = m_StateHurt;
+            m_CurrState.OnEnter();
+        }
+        
     }
 
     /// <summary>
@@ -294,7 +299,10 @@ public partial class MonsterCtrl : MonoBehaviour
     private IEnumerator ToBeHurt(int hurtVal, float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
-        ToBeHurt(hurtVal);
+        if(HP > 0)
+        {
+            ToBeHurt(hurtVal);
+        }
     }
 
     /// <summary>

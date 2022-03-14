@@ -24,17 +24,52 @@ public partial class MainPlayerCtrl
 
         public override void OnEnter()
         {
-            m_MainPlayerCtrl.m_Animator.SetBool(AnimStateConditionName.ToIdleFight, true);
+            m_MainPlayerCtrl.m_Animator.SetBool(AnimStateConditionName.ToIdleNormal, true);
 
-            FingerEvent.Instance.OnFingerUpWithoutDrag += m_MainPlayerCtrl.OnPlayerClick;
+            FingerEvent.Instance.OnFingerUpWithoutDrag += OnPlayerClick;
         }
 
         public override void OnLeave()
         {
-            m_MainPlayerCtrl.m_Animator.SetBool(AnimStateConditionName.ToIdleFight, false);
+            m_MainPlayerCtrl.m_Animator.SetBool(AnimStateConditionName.ToIdleNormal, false);
 
-            FingerEvent.Instance.OnFingerUpWithoutDrag -= m_MainPlayerCtrl.OnPlayerClick;
+            FingerEvent.Instance.OnFingerUpWithoutDrag -= OnPlayerClick;
         }
+
+        #region OnPlayerClickGround 玩家点击屏幕回调
+        /// <summary>
+        /// 玩家点击屏幕回调
+        /// </summary>
+        /// <param name="screenPos">屏幕坐标点</param>
+        private void OnPlayerClick(Vector2 screenPos)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(screenPos);
+            RaycastHit hitInfo;
+            int groundLayer = LayerMask.NameToLayer(LayerName.Ground);
+            int monsterLayer = LayerMask.NameToLayer(LayerName.Monster);
+            int targetLayerMask = (1 << groundLayer) | (1 << monsterLayer);
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, targetLayerMask))
+            {
+                //点击了怪物或地面
+                int colliderLayer = hitInfo.collider.gameObject.layer;
+                if (colliderLayer == monsterLayer)
+                {
+                    //点击了怪物，设置目标怪物，等OnUpdate执行时再处理
+                    m_MainPlayerCtrl.m_TargetMonster = hitInfo.collider.GetComponent<MonsterCtrl>();
+                }
+                else if (colliderLayer == groundLayer)
+                {
+                    //点击了地面
+                    m_MainPlayerCtrl.m_TargetMonster = null;
+                    if (Vector3.Distance(hitInfo.point, m_MainPlayerCtrl.transform.position) > 0.1f)
+                    {
+                        //目标点离当前位置足够远，转入移动状态
+                        m_MainPlayerCtrl.ChangeToRunState(hitInfo.point);
+                    }
+                }
+            }
+        }
+        #endregion
 
         public override void OnUpdate()
         {
@@ -50,7 +85,6 @@ public partial class MainPlayerCtrl
                         //达到攻击时间，转为攻击状态
                         m_MainPlayerCtrl.ChangeToAttackState();
                     }
-                    return;
                 }
                 else
                 {

@@ -13,7 +13,7 @@ public class MonsterCreatePos: MonoBehaviour
     [SerializeField]
     private UISceneCityCtrl m_UICtrl;
 
-    private const int MAX_COUNT = 3;
+    private const int MAX_COUNT = 1;
     private int m_CurrCount = 0;
     private float m_NextCreateTime = 0;
 

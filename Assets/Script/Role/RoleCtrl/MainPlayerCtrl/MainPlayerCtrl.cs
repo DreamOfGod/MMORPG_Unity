@@ -111,8 +111,14 @@ public partial class MainPlayerCtrl : MonoBehaviour
     /// </summary>
     private StateBase m_CurrState;
 
+    /// <summary>
+    /// 血量
+    /// </summary>
     private int HP = 100;
 
+    /// <summary>
+    /// 主城UI控制器
+    /// </summary>
     private UISceneCityCtrl m_CityUICtrl;
 
     /// <summary>
@@ -216,7 +222,7 @@ public partial class MainPlayerCtrl : MonoBehaviour
     /// <summary>
     /// 进入受伤状态
     /// </summary>
-    /// <param name="hurtVal">受伤伤害值</param>
+    /// <param name="hurtVal">伤害值</param>
     /// <param name="delayTime">延迟时间</param>
     public void ChangeToHurtState(int hurtVal, float delayTime = 0)
     {
@@ -278,51 +284,7 @@ public partial class MainPlayerCtrl : MonoBehaviour
     #region 状态判断函数
     public bool IsDieState()
     {
-        return m_CurrState is MainPlayerStateDie;
-    }
-    #endregion
-
-    #region OnPlayerClickGround 玩家点击屏幕回调
-    /// <summary>
-    /// 玩家点击屏幕回调
-    /// </summary>
-    /// <param name="screenPos"></param>
-    private void OnPlayerClick(Vector2 screenPos)
-    {
-        Ray ray = Camera.main.ScreenPointToRay(screenPos);
-        RaycastHit hitInfo;
-        int groundLayer = LayerMask.NameToLayer(LayerName.Ground);
-        int monsterLayer = LayerMask.NameToLayer(LayerName.Monster);
-        int targetLayerMask = (1 << groundLayer) | (1 << monsterLayer);
-        if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, targetLayerMask))
-        {
-            int colliderLayer = hitInfo.collider.gameObject.layer;
-            if (colliderLayer == monsterLayer)
-            {
-                //点击怪物
-                m_TargetMonster = hitInfo.collider.GetComponent<MonsterCtrl>();
-                float distance = Vector3.Distance(transform.position, m_TargetMonster.transform.position);
-                if(distance <= m_AttackDistance)
-                {
-                    //在攻击范围内
-                    ChangeToAttackState();
-                }
-                else
-                {
-                    //在攻击范围外，跑向目标怪物
-                    ChangeToRunState(m_TargetMonster.transform.position);
-                }
-            }
-            else if (colliderLayer == groundLayer)
-            {
-                //点击地面
-                m_TargetMonster = null;
-                if (Vector3.Distance(hitInfo.point, transform.position) > 0.1f)
-                {
-                    ChangeToRunState(hitInfo.point);
-                }
-            }
-        }
+        return HP <= 0;
     }
     #endregion
 }

@@ -12,6 +12,9 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class InitSceneCtrl : MonoBehaviour
 {
+    private bool flag1 = true;
+    private bool flag2 = true;
+
     void Start()
     {
         StartCoroutine(LoadLogon());

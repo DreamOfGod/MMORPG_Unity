@@ -73,31 +73,20 @@ public partial class MainPlayerCtrl
             RaycastHit hitInfo;
             int groundLayer = LayerMask.NameToLayer(LayerName.Ground);
             int monsterLayer = LayerMask.NameToLayer(LayerName.Monster);
-            int targetLayer = groundLayer | monsterLayer;
+            int targetLayer = 1 << groundLayer | 1 << monsterLayer;
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, targetLayer))
             {
                 //检测到点击地面或怪物
                 int colliderLayer = hitInfo.collider.gameObject.layer;
                 if (colliderLayer == monsterLayer)
                 {
-                    //点击怪物
+                    //点击了怪物
                     m_MainPlayerCtrl.m_TargetMonster = hitInfo.collider.GetComponent<MonsterCtrl>();
-                    float distance = Vector3.Distance(m_MainPlayerCtrl.transform.position, m_MainPlayerCtrl.m_TargetMonster.transform.position);
-                    if (distance <= m_MainPlayerCtrl.m_AttackDistance)
-                    {
-                        //在攻击范围内，转为攻击状态
-                        m_MainPlayerCtrl.ChangeToAttackState();
-                    }
-                    else
-                    {
-                        //在攻击范围外，跑向目标怪物
-                        m_MainPlayerCtrl.m_MoveTargetPos = m_MainPlayerCtrl.m_TargetMonster.transform.position;
-                        calcuMoveDir();
-                    }
                 }
                 else if (colliderLayer == groundLayer)
                 {
-                    //点击地面
+                    //点击了地面
+                    
                     m_MainPlayerCtrl.m_TargetMonster = null;
                     if (Vector3.Distance(hitInfo.point, m_MainPlayerCtrl.transform.position) > 0.1f)
                     {
@@ -146,7 +135,7 @@ public partial class MainPlayerCtrl
                 return;
             }
 
-            //没有目标怪物或怪物已死亡
+            //没有目标怪物或怪物已死亡，继续移动
             Move();
         }
         #endregion
