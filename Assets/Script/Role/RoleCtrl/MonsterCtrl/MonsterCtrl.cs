@@ -3,6 +3,7 @@
 //创建时间：2022-03-10 11:11:32
 //备    注：
 //===============================================
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -116,8 +117,7 @@ public partial class MonsterCtrl : MonoBehaviour
     /// <summary>
     /// 主角控制器
     /// </summary>
-    [HideInInspector]
-    public MainPlayerCtrl mainPlayerCtrl;
+    private MainPlayerCtrl m_MainPlayerCtrl;
 
     /// <summary>
     /// 休闲状态
@@ -135,10 +135,35 @@ public partial class MonsterCtrl : MonoBehaviour
     private MonsterStateAttack m_StateAttack;
 
     /// <summary>
+    /// 受伤状态
+    /// </summary>
+    private MonsterStateHurt m_StateHurt;
+
+    /// <summary>
+    /// 死亡状态
+    /// </summary>
+    private MonsterStateDie m_StateDie;
+
+    /// <summary>
     /// 当前状态
     /// </summary>
     [HideInInspector]
     private StateBase m_CurrState;
+
+    /// <summary>
+    /// 头顶UI条控制器
+    /// </summary>
+    private RoleHeadBarCtrl m_HeadBarCtrl;
+
+    /// <summary>
+    /// 是否锁定敌人。用于脱战之后立即返回出生点
+    /// </summary>
+    private bool m_LockedEnemy = false;
+
+    /// <summary>
+    /// 血量
+    /// </summary>
+    private int HP = 1000;
     #endregion
 
     #region Start
@@ -158,9 +183,33 @@ public partial class MonsterCtrl : MonoBehaviour
         m_StateIdle = new MonsterStateIdle(this);
         m_StateRun = new MonsterStateRun(this);
         m_StateAttack = new MonsterStateAttack(this);
+        m_StateHurt = new MonsterStateHurt(this);
+        m_StateDie = new MonsterStateDie(this);
 
         m_CurrState = m_StateIdle;
         m_CurrState.OnEnter();
+    }
+    #endregion
+
+    #region SetMainPlayerCtrl 设置主角控制器
+    /// <summary>
+    /// 设置主角控制器
+    /// </summary>
+    /// <param name="mainPlayerCtrl">主角控制器</param>
+    public void SetMainPlayerCtrl(MainPlayerCtrl mainPlayerCtrl)
+    {
+        m_MainPlayerCtrl = mainPlayerCtrl;
+    }
+    #endregion
+
+    #region SetHeadBarCtrl 设置头顶UI条控制器
+    /// <summary>
+    /// 设置头顶UI条控制器
+    /// </summary>
+    /// <param name="headBarCtrl"></param>
+    public void SetHeadBarCtrl(RoleHeadBarCtrl headBarCtrl)
+    {
+        m_HeadBarCtrl = headBarCtrl;
     }
     #endregion
 
@@ -203,5 +252,70 @@ public partial class MonsterCtrl : MonoBehaviour
         m_CurrState = m_StateAttack;
         m_CurrState.OnEnter();
     }
+
+    /// <summary>
+    /// 进入受伤状态
+    /// </summary>
+    /// <param name="hurtVal">受伤伤害值</param>
+    /// <param name="delayTime">延迟时间</param>
+    public void ChangeToHurtState(int hurtVal, float delayTime = 0)
+    {
+        if (delayTime > 0)
+        {
+            StartCoroutine(ToBeHurt(hurtVal, delayTime));
+        }
+        else
+        {
+            ToBeHurt(hurtVal);
+        }
+    }
+
+    /// <summary>
+    /// 立即受伤
+    /// </summary>
+    /// <param name="hurtVal"></param>
+    private void ToBeHurt(int hurtVal)
+    {
+        m_CurrState.OnLeave();
+
+        HP -= hurtVal;
+        HP = Mathf.Max(0, HP);
+        m_HeadBarCtrl.Hurt(hurtVal, HP / 1000f);
+        m_CurrState = m_StateHurt;
+        m_CurrState.OnEnter();
+    }
+
+    /// <summary>
+    /// 延迟受伤
+    /// </summary>
+    /// <param name="hurtVal"></param>
+    /// <param name="delayTime"></param>
+    /// <returns></returns>
+    private IEnumerator ToBeHurt(int hurtVal, float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        ToBeHurt(hurtVal);
+    }
+
+    /// <summary>
+    /// 进入死亡状态
+    /// </summary>
+    public void ChangeToDieState()
+    {
+        m_CurrState.OnLeave();
+        m_CurrState = m_StateDie; ;
+        m_CurrState.OnEnter();
+    }
     #endregion
+
+    #region 状态判断函数
+    /// <summary>
+    /// 是否已死亡
+    /// </summary>
+    /// <returns></returns>
+    public bool isDisState()
+    {
+        return m_CurrState is MonsterStateDie;
+    }
+    #endregion'
 }

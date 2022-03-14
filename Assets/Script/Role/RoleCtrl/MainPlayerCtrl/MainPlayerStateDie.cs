@@ -24,6 +24,8 @@ public partial class MainPlayerCtrl
         public override void OnEnter()
         {
             m_MainPlayerCtrl.m_Animator.SetBool(AnimStateConditionName.ToDie, true);
+
+            DestroyImmediate(m_MainPlayerCtrl.m_HeadBarCtrl.gameObject);
         }
 
         public override void OnLeave()

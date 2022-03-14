@@ -12,6 +12,7 @@
 public class LayerName
 {
     public const string Ground = "Ground";//地面
+    public const string Monster = "Monster";//怪物
 }
 
 /// <summary>

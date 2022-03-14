@@ -39,17 +39,28 @@ public partial class MonsterCtrl
         #region OnUpdate
         public override void OnUpdate()
         {
-            if(m_MonsterCtrl.mainPlayerCtrl.IsDieState())
+            if(m_MonsterCtrl.m_MainPlayerCtrl.IsDieState())
             {
-                //主角死亡，去巡逻
-                Patrol();
+                //主角死亡
+                if(m_MonsterCtrl.m_LockedEnemy)
+                {
+                    //已锁定主角，返回出生点
+                    m_MonsterCtrl.m_LockedEnemy = false;
+                    m_MonsterCtrl.ChangeToRunState(m_MonsterCtrl.m_BornPos);
+                }
+                else
+                {
+                    //没锁定主角，继续巡逻
+                    Patrol();
+                }
                 return;
             }
 
-            float distance = Vector3.Distance(m_MonsterCtrl.mainPlayerCtrl.transform.position, m_MonsterCtrl.transform.position);
+            float distance = Vector3.Distance(m_MonsterCtrl.m_MainPlayerCtrl.transform.position, m_MonsterCtrl.transform.position);
             if (distance <= m_MonsterCtrl.m_AttackDistance)
             {
                 //主角在攻击距离内
+                m_MonsterCtrl.m_LockedEnemy = true;
                 if(Time.time >= m_MonsterCtrl.m_NextAttackTime)
                 {
                     //达到攻击时间，攻击主角
@@ -61,7 +72,16 @@ public partial class MonsterCtrl
             if(distance <= m_MonsterCtrl.m_ViewRadius)
             {
                 //主角在视野范围，跑向主角
-                m_MonsterCtrl.ChangeToRunState(m_MonsterCtrl.mainPlayerCtrl.transform.position);
+                m_MonsterCtrl.m_LockedEnemy = true;
+                m_MonsterCtrl.ChangeToRunState(m_MonsterCtrl.m_MainPlayerCtrl.transform.position);
+                return;
+            }
+
+            if(m_MonsterCtrl.m_LockedEnemy)
+            {
+                //主角不在视野范围内，且之前已锁定主角，则返回出生点
+                m_MonsterCtrl.m_LockedEnemy = false;
+                m_MonsterCtrl.ChangeToRunState(m_MonsterCtrl.m_BornPos);
                 return;
             }
 
@@ -129,4 +149,3 @@ public partial class MonsterCtrl
         #endregion
     }
 }
-

@@ -40,8 +40,10 @@ public class RoleHeadBarCtrl : MonoBehaviour
         transform.position = screenPos;
     }
 
-    public void SetHUDText(int hurtVal)
+    public void Hurt(int hurtVal, float HPPercent)
     {
         m_HUDText.Add(string.Format("-{0}", hurtVal), Color.red, 0.1f);
+        m_HPProgress.value = HPPercent;
+
     }
 }

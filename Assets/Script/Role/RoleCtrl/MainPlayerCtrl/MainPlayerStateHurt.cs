@@ -4,8 +4,7 @@
 //备    注：
 //===============================================
 
-using UnityEngine;
-
+using System.Collections;
 /// <summary>
 /// 主角控制器
 /// </summary>
@@ -18,6 +17,8 @@ public partial class MainPlayerCtrl
     {
         private MainPlayerCtrl m_MainPlayerCtrl;
 
+        private bool m_ListenPlayerClick;
+
         public MainPlayerStateHurt(MainPlayerCtrl mainPlayerCtrl)
         {
             m_MainPlayerCtrl = mainPlayerCtrl;
@@ -27,14 +28,22 @@ public partial class MainPlayerCtrl
         {
             m_MainPlayerCtrl.m_Animator.SetBool(AnimStateConditionName.ToHurt, true);
 
-            FingerEvent.Instance.OnFingerUpWithoutDrag += m_MainPlayerCtrl.OnPlayerClickGround;
+            if(m_MainPlayerCtrl.HP > 0)
+            {
+                m_ListenPlayerClick = true;
+                FingerEvent.Instance.OnFingerUpWithoutDrag += m_MainPlayerCtrl.OnPlayerClick;
+            }
         }
 
         public override void OnLeave()
         {
             m_MainPlayerCtrl.m_Animator.SetBool(AnimStateConditionName.ToHurt, false);
-
-            FingerEvent.Instance.OnFingerUpWithoutDrag -= m_MainPlayerCtrl.OnPlayerClickGround;
+            
+            if(m_ListenPlayerClick)
+            {
+                FingerEvent.Instance.OnFingerUpWithoutDrag -= m_MainPlayerCtrl.OnPlayerClick;
+                m_ListenPlayerClick = false;
+            }
         }
 
         public override void OnUpdate()
@@ -48,6 +57,14 @@ public partial class MainPlayerCtrl
                 else
                 {
                     m_MainPlayerCtrl.ChangeToDieState();
+                }
+            }
+            else
+            {
+                if(m_MainPlayerCtrl.HP <= 0 && m_ListenPlayerClick)
+                {
+                    FingerEvent.Instance.OnFingerUpWithoutDrag -= m_MainPlayerCtrl.OnPlayerClick;
+                    m_ListenPlayerClick = false;
                 }
             }
         }

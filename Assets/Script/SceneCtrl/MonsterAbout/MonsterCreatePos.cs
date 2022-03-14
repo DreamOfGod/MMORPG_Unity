@@ -13,7 +13,7 @@ public class MonsterCreatePos: MonoBehaviour
     [SerializeField]
     private UISceneCityCtrl m_UICtrl;
 
-    private const int MAX_COUNT = 1;
+    private const int MAX_COUNT = 3;
     private int m_CurrCount = 0;
     private float m_NextCreateTime = 0;
 
@@ -43,9 +43,10 @@ public class MonsterCreatePos: MonoBehaviour
                 monster.transform.position = pos;
 
                 MonsterCtrl monsterCtrl = monster.GetComponent<MonsterCtrl>();
-                monsterCtrl.mainPlayerCtrl = m_CitySceneCtrl.MainPlayerCtrl;
+                monsterCtrl.SetMainPlayerCtrl(m_CitySceneCtrl.MainPlayerCtrl);
 
-                m_UICtrl.AddHeadBar(monsterCtrl.HeadBarPos, "小怪", true);
+                RoleHeadBarCtrl headBarCtrl = m_UICtrl.AddHeadBar(monsterCtrl.HeadBarPos, "小怪", true);
+                monsterCtrl.SetHeadBarCtrl(headBarCtrl);
 
                 m_CurrCount++;
             }

@@ -41,6 +41,12 @@ public partial class MainPlayerCtrl : MonoBehaviour
     /// </summary>
     [SerializeField]
     private CharacterController m_CharacterController;
+
+    /// <summary>
+    /// 攻击距离
+    /// </summary>
+    [SerializeField]
+    private float m_AttackDistance = 2;
     #endregion
 
     #region 属性
@@ -86,6 +92,11 @@ public partial class MainPlayerCtrl : MonoBehaviour
     private MainPlayerStateRun m_StateRun;
 
     /// <summary>
+    /// 攻击状态
+    /// </summary>
+    private MainPlayerStateAttack m_StateAttack;
+
+    /// <summary>
     /// 受伤状态
     /// </summary>
     private MainPlayerStateHurt m_StateHurt;
@@ -107,7 +118,17 @@ public partial class MainPlayerCtrl : MonoBehaviour
     /// <summary>
     /// 头顶UI条控制器
     /// </summary>
-    private RoleHeadBarCtrl m_RoleHeadBarCtrl;
+    private RoleHeadBarCtrl m_HeadBarCtrl;
+
+    /// <summary>
+    /// 目标怪物
+    /// </summary>
+    private MonsterCtrl m_TargetMonster = null;
+
+    /// <summary>
+    /// 下次攻击时间
+    /// </summary>
+    private float m_NextAttackTime = 0;
     #endregion
 
     #region Start
@@ -127,6 +148,7 @@ public partial class MainPlayerCtrl : MonoBehaviour
         m_StateRun = new MainPlayerStateRun(this);
         m_StateHurt = new MainPlayerStateHurt(this);
         m_StateDie = new MainPlayerStateDie(this);
+        m_StateAttack = new MainPlayerStateAttack(this);
 
         m_CurrState = m_StateIdle;
         m_CurrState.OnEnter();
@@ -140,7 +162,7 @@ public partial class MainPlayerCtrl : MonoBehaviour
     /// <param name="headBarCtrl"></param>
     public void SetHeadBarCtrl(RoleHeadBarCtrl headBarCtrl)
     {
-        m_RoleHeadBarCtrl = headBarCtrl;
+        m_HeadBarCtrl = headBarCtrl;
     }
     #endregion
 
@@ -176,10 +198,18 @@ public partial class MainPlayerCtrl : MonoBehaviour
     /// <summary>
     /// 进入跑步状态
     /// </summary>
-    public void ChangeToRunState()
+    public void ChangeToRunState(Vector3 targetPos)
     {
         m_CurrState.OnLeave();
+        m_MoveTargetPos = targetPos;
         m_CurrState = m_StateRun;
+        m_CurrState.OnEnter();
+    }
+
+    public void ChangeToAttackState()
+    {
+        m_CurrState.OnLeave();
+        m_CurrState = m_StateAttack;
         m_CurrState.OnEnter();
     }
 
@@ -201,19 +231,22 @@ public partial class MainPlayerCtrl : MonoBehaviour
     }
 
     /// <summary>
-    /// 立即受伤
+    /// 受伤
     /// </summary>
     /// <param name="hurtVal"></param>
     private void ToBeHurt(int hurtVal)
     {
-        m_CurrState.OnLeave();
-
         HP -= hurtVal;
         HP = Mathf.Max(0, HP);
-        m_RoleHeadBarCtrl.SetHUDText(hurtVal);
+        m_HeadBarCtrl.Hurt(hurtVal, HP / 100f);
         m_CityUICtrl.SetMainPlayerHPBar(HP / 100f);
-        m_CurrState = m_StateHurt;
-        m_CurrState.OnEnter();
+
+        if (!(m_CurrState is MainPlayerStateHurt))
+        {
+            m_CurrState.OnLeave();
+            m_CurrState = m_StateHurt;
+            m_CurrState.OnEnter();
+        }
     }
 
     /// <summary>
@@ -225,7 +258,10 @@ public partial class MainPlayerCtrl : MonoBehaviour
     private IEnumerator ToBeHurt(int hurtVal, float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
-        ToBeHurt(hurtVal);
+        if(HP > 0)
+        {
+            ToBeHurt(hurtVal);
+        }
     }
 
     /// <summary>
@@ -246,24 +282,44 @@ public partial class MainPlayerCtrl : MonoBehaviour
     }
     #endregion
 
-    #region OnPlayerClickGround 玩家点击地面回调
+    #region OnPlayerClickGround 玩家点击屏幕回调
     /// <summary>
-    /// 玩家点击地面回调
+    /// 玩家点击屏幕回调
     /// </summary>
     /// <param name="screenPos"></param>
-    private void OnPlayerClickGround(Vector2 screenPos)
+    private void OnPlayerClick(Vector2 screenPos)
     {
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
         RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo))
+        int groundLayer = LayerMask.NameToLayer(LayerName.Ground);
+        int monsterLayer = LayerMask.NameToLayer(LayerName.Monster);
+        int targetLayerMask = (1 << groundLayer) | (1 << monsterLayer);
+        if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, targetLayerMask))
         {
-            //点击地面
-            if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer(LayerName.Ground))
+            int colliderLayer = hitInfo.collider.gameObject.layer;
+            if (colliderLayer == monsterLayer)
             {
+                //点击怪物
+                m_TargetMonster = hitInfo.collider.GetComponent<MonsterCtrl>();
+                float distance = Vector3.Distance(transform.position, m_TargetMonster.transform.position);
+                if(distance <= m_AttackDistance)
+                {
+                    //在攻击范围内
+                    ChangeToAttackState();
+                }
+                else
+                {
+                    //在攻击范围外，跑向目标怪物
+                    ChangeToRunState(m_TargetMonster.transform.position);
+                }
+            }
+            else if (colliderLayer == groundLayer)
+            {
+                //点击地面
+                m_TargetMonster = null;
                 if (Vector3.Distance(hitInfo.point, transform.position) > 0.1f)
                 {
-                    m_MoveTargetPos = hitInfo.point;
-                    ChangeToRunState();
+                    ChangeToRunState(hitInfo.point);
                 }
             }
         }

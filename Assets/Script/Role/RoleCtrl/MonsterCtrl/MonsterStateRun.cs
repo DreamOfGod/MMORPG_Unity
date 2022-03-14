@@ -61,17 +61,29 @@ public partial class MonsterCtrl
         #region OnUpdate
         public override void OnUpdate()
         {
-            if(m_MonsterCtrl.mainPlayerCtrl.IsDieState())
+            if(m_MonsterCtrl.m_MainPlayerCtrl.IsDieState())
             {
-                //主角死亡，继续移动
-                Move();
+                //主角死亡
+                if(m_MonsterCtrl.m_LockedEnemy)
+                {
+                    //已锁定主角，返回出生点
+                    m_MonsterCtrl.m_LockedEnemy = false;
+                    m_MonsterCtrl.m_MoveTargetPos = m_MonsterCtrl.m_BornPos;
+                    calcuMoveDir();
+                }
+                else
+                {
+                    //没锁定主角，继续移动
+                    Move();
+                }
                 return;
             }
 
-            float distance = Vector3.Distance(m_MonsterCtrl.mainPlayerCtrl.transform.position, m_MonsterCtrl.transform.position);
+            float distance = Vector3.Distance(m_MonsterCtrl.m_MainPlayerCtrl.transform.position, m_MonsterCtrl.transform.position);
             if (distance <= m_MonsterCtrl.m_AttackDistance)
             {
                 //主角在攻击范围内
+                m_MonsterCtrl.m_LockedEnemy = true;
                 if (Time.time >= m_MonsterCtrl.m_NextAttackTime)
                 {
                     //达到攻击时间，攻击主角
@@ -88,9 +100,9 @@ public partial class MonsterCtrl
             if (distance <= m_MonsterCtrl.m_ViewRadius)
             {
                 //主角在视野范围，跑向主角
-                m_MonsterCtrl.m_MoveTargetPos = m_MonsterCtrl.mainPlayerCtrl.transform.position;
+                m_MonsterCtrl.m_LockedEnemy = true;
+                m_MonsterCtrl.m_MoveTargetPos = m_MonsterCtrl.m_MainPlayerCtrl.transform.position;
                 calcuMoveDir();
-                //重置攻击时间
             }
 
             Move();
