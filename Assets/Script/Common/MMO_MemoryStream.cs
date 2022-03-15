@@ -12,6 +12,10 @@ using System.Text;
 /// </summary>
 public class MMO_MemoryStream : MemoryStream
 {
+    public MMO_MemoryStream(byte[] bytes): base(bytes) { }
+
+    public MMO_MemoryStream() { }
+
     #region 读写short
     /// <summary>
     /// 读取short
