@@ -3,8 +3,10 @@
 //创建时间：2022-03-07 17:11:26
 //备    注：
 //===============================================
+using LitJson;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -12,12 +14,27 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class InitSceneCtrl : MonoBehaviour
 {
-    private bool flag1 = true;
-    private bool flag2 = true;
-
     void Start()
     {
         StartCoroutine(LoadLogon());
+
+        NetWorkHttp.Instance.Get("http://127.0.0.1:8080/api/account?id=1", (UnityWebRequest.Result result, string text) => {
+            if(result == UnityWebRequest.Result.Success)
+            {
+                AccountEntity entity = LitJson.JsonMapper.ToObject<AccountEntity>(text);
+                Debug.Log("account name:" + entity.Username);
+            }
+        });
+
+
+        JsonData jsonData = new JsonData();
+        jsonData["Username"] = "test";
+        NetWorkHttp.Instance.Post("http://127.0.0.1:8080/api/account", jsonData.ToJson(), (UnityWebRequest.Result result, string text) => {
+            if (result == UnityWebRequest.Result.Success)
+            {
+                
+            }
+        });
     }
 
     private IEnumerator LoadLogon()
