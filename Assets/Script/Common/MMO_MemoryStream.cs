@@ -227,7 +227,7 @@ public class MMO_MemoryStream : MemoryStream
     /// <returns></returns>
     public string ReadUTF8String()
     {
-        int len = ReadInt();//读取字符串的字节数量
+        ushort len = ReadUShort();//读取字符串的字节数量
         byte[] arr = new byte[len];
         Read(arr, 0, len);//读取字符串字节
         return Encoding.UTF8.GetString(arr);
@@ -240,7 +240,7 @@ public class MMO_MemoryStream : MemoryStream
     public void WriteUTF8String(string val)
     {
         byte[] arr = Encoding.UTF8.GetBytes(val);
-        WriteInt(arr.Length);//写入字节数量
+        WriteUShort((ushort)arr.Length);//写入字节数量
         Write(arr, 0, arr.Length);//写入字符串字节数组
     }
     #endregion
