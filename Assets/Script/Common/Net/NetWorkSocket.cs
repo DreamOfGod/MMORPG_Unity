@@ -73,24 +73,22 @@ public class NetWorkSocket
     /// <summary>
     /// 发送消息
     /// </summary>
-    /// <param name="msg"></param>
-    public void SendMsg(string msg)
+    /// <param name="data"></param>
+    public void SendMsg(byte[] data)
     {
         MMO_MemoryStream ms = new MMO_MemoryStream();
-        ms.Position = 2;
-        ms.WriteUTF8String(msg);
-        ms.Position = 0;
-        ms.WriteUShort((ushort)(ms.Length - 2));
-        byte[] buffer = ms.ToArray();
-        m_Socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, SendCallback, null);
+        ms.WriteUShort((ushort)data.Length);
+        ms.Write(data, 0, data.Length);
+        byte[] msg = ms.ToArray();
+        m_Socket.BeginSend(msg, 0, msg.Length, SocketFlags.None, SendCallback, null);
     }
 
     /// <summary>
     /// 发送消息的回调
     /// </summary>
-    /// <param name="ar"></param>
-    private void SendCallback(IAsyncResult ar)
+    /// <param name="asyncResult"></param>
+    private void SendCallback(IAsyncResult asyncResult)
     {
-        m_Socket.EndSend(ar);
+        m_Socket.EndSend(asyncResult);
     }
 }
