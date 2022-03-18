@@ -17,7 +17,7 @@ public class InitSceneCtrl : MonoBehaviour
 {
     void Start()
     {
-        StartCoroutine(LoadLogon());
+        //StartCoroutine(LoadLogon());
 
         //NetWorkHttp.Instance.Get("http://127.0.0.1:8080/api/account?id=1", (UnityWebRequest.Result result, string text) => {
         //    if(result == UnityWebRequest.Result.Success)
@@ -28,16 +28,25 @@ public class InitSceneCtrl : MonoBehaviour
         //});
 
 
-        //JsonData jsonData = new JsonData();
-        //jsonData["Username"] = "test";
-        //NetWorkHttp.Instance.Post("http://127.0.0.1:8080/api/account", jsonData.ToJson(), (UnityWebRequest.Result result, string text) => {
-        //    if (result == UnityWebRequest.Result.Success)
-        //    {
+        JsonData jsonData = new JsonData();
+        jsonData["Username"] = "test";
+        NetWorkHttp.Instance.Post("http://127.0.0.1:8080/api/account", jsonData.ToJson(), (UnityWebRequest.Result result, string text) =>
+        {
+            if (result == UnityWebRequest.Result.Success)
+            {
 
-        //    }
-        //});
+            }
+        });
 
-        NetWorkSocket.Instance.Connect("127.0.0.1", 1011);
+        //NetWorkSocket.Instance.Connect("127.0.0.1", 1011);
+
+        //TestProtocol protocol = new TestProtocol();
+        //protocol.Id = 1;
+        //protocol.Name = "测试";
+        //protocol.Type = 0;
+        //protocol.Price = 99.5f;
+
+        //NetWorkSocket.Instance.SendMsg(protocol.ToArray());
     }
 
     private IEnumerator LoadLogon()
@@ -49,32 +58,32 @@ public class InitSceneCtrl : MonoBehaviour
 
     private void Update()
     {
-        //if(Input.GetKeyUp(KeyCode.A))
-        //{
-        //    string content = "A";
-        //    MMO_MemoryStream ms = new MMO_MemoryStream();
-        //    ms.WriteUTF8String(content);
-        //    NetWorkSocket.Instance.SendMsg(ms.ToArray());
-        //}
-        //else if (Input.GetKeyUp(KeyCode.B))
-        //{
-        //    string content = "B";
-        //    MMO_MemoryStream ms = new MMO_MemoryStream();
-        //    ms.WriteUTF8String(content);
-        //    NetWorkSocket.Instance.SendMsg(ms.ToArray());
-        //}
-        //else if (Input.GetKeyUp(KeyCode.C))
-        //{
-        //    for(int i = 0; i < 10; ++i)
-        //    {
-        //        MMO_MemoryStream ms = new MMO_MemoryStream();
-        //        ms.WriteUTF8String(i.ToString());
-        //        NetWorkSocket.Instance.SendMsg(ms.ToArray());
-        //    }
-        //}
-        //else if(Input.GetKeyUp(KeyCode.D))
-        //{
-        //    NetWorkSocket.Instance.Close();
-        //}
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            string content = "A";
+            MMO_MemoryStream ms = new MMO_MemoryStream();
+            ms.WriteUTF8String(content);
+            NetWorkSocket.Instance.SendMsg(ms.ToArray());
+        }
+        else if (Input.GetKeyUp(KeyCode.B))
+        {
+            string content = "B";
+            MMO_MemoryStream ms = new MMO_MemoryStream();
+            ms.WriteUTF8String(content);
+            NetWorkSocket.Instance.SendMsg(ms.ToArray());
+        }
+        else if (Input.GetKeyUp(KeyCode.C))
+        {
+            for (int i = 0; i < 10; ++i)
+            {
+                MMO_MemoryStream ms = new MMO_MemoryStream();
+                ms.WriteUTF8String(i.ToString());
+                NetWorkSocket.Instance.SendMsg(ms.ToArray());
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.D))
+        {
+            NetWorkSocket.Instance.Close();
+        }
     }
 }

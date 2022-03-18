@@ -27,6 +27,8 @@ public class NetWorkHttp
     }
     #endregion
 
+    private NetWorkHttp() { }
+
     #region Http请求回调类型
     /// <summary>
     /// Http请求回调类型
