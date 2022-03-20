@@ -30,11 +30,12 @@ public class InitSceneCtrl : MonoBehaviour
 
         JsonData jsonData = new JsonData();
         jsonData["Username"] = "test";
-        NetWorkHttp.Instance.Post("http://127.0.0.1:8080/api/account", jsonData.ToJson(), (UnityWebRequest.Result result, string text) =>
+        jsonData["Pwd"] = "123456";
+        NetWorkHttp.Instance.Post("http://127.0.0.1:8080/api/register", jsonData.ToJson(), (UnityWebRequest.Result result, string text) =>
         {
             if (result == UnityWebRequest.Result.Success)
             {
-
+                Debug.Log("用户id：" + text);
             }
         });
 
