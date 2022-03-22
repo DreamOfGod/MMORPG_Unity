@@ -21,8 +21,8 @@ namespace ReadExcel
             LoadXml();
         }
 
-        private string path = @"D:\视频\悠游课堂MMORPG\悠游课堂学习资料_中高级\悠游课堂学习资料_中高级\youyou_Proto\CreateProto";
-        private string pathLua = @"D:\视频\悠游课堂MMORPG\悠游课堂学习资料_中高级\悠游课堂学习资料_中高级\youyou_Proto\CreateLuaProto";
+        private string path = @"D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\CreateProto";
+        private string pathLua = @"D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\CreateLuaProto";
 
 
         private void LoadXml()
@@ -910,7 +910,7 @@ namespace ReadExcel
             sbr.AppendFormat("/// <summary>\r\n");
             sbr.AppendFormat("/// {0}\r\n", proto.ProtoCnName);
             sbr.AppendFormat("/// </summary>\r\n");
-            sbr.AppendFormat("public struct {0}Proto : IProto\r\n", proto.ProtoEnName);
+            sbr.AppendFormat("public struct {0}Proto : IProtocol\r\n", proto.ProtoEnName);
             sbr.AppendFormat("{{\r\n");
             sbr.AppendFormat("    public ushort ProtoCode {{ get {{ return {0}; }} }}\r\n", proto.ProtoCode);
             sbr.Append("\r\n");

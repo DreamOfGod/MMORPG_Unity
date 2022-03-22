@@ -56,5 +56,6 @@ ProtoCode=
     Goods_UseItem = 16010,
     Goods_UseItemReturn = 16011,
     Goods_EquipPut = 16012,
-    Goods_EquipPutReturn = 16013
+    Goods_EquipPutReturn = 16013,
+    Test = 5001
 }

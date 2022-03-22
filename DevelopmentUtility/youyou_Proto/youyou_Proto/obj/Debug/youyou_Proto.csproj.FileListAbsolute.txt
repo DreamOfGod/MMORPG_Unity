@@ -36,3 +36,15 @@ D:\视频\悠游课堂MMORPG\悠游课堂学习资料_中高级\悠游课堂学�
 D:\视频\悠游课堂MMORPG\悠游课堂学习资料_中高级\悠游课堂学习资料_中高级\youyou_Proto\youyou_Proto\obj\Debug\youyou_Proto.csproj.CoreCompileInputs.cache
 D:\视频\悠游课堂MMORPG\悠游课堂学习资料_中高级\悠游课堂学习资料_中高级\youyou_Proto\youyou_Proto\obj\Debug\youyou_Proto.exe
 D:\视频\悠游课堂MMORPG\悠游课堂学习资料_中高级\悠游课堂学习资料_中高级\youyou_Proto\youyou_Proto\obj\Debug\youyou_Proto.pdb
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\youyou_Proto\bin\Debug\youyou_Proto.exe.config
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\youyou_Proto\bin\Debug\youyou_Proto.exe
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\youyou_Proto\bin\Debug\youyou_Proto.pdb
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\youyou_Proto\obj\Debug\youyou_Proto.csproj.AssemblyReference.cache
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\youyou_Proto\obj\Debug\youyou_Proto.csproj.ResolveComReference.cache
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\youyou_Proto\obj\Debug\ReadExcel.frmModelEdit.resources
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\youyou_Proto\obj\Debug\ReadExcel.frmMSG.resources
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\youyou_Proto\obj\Debug\youyou_Proto.Properties.Resources.resources
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\youyou_Proto\obj\Debug\youyou_Proto.csproj.GenerateResource.cache
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\youyou_Proto\obj\Debug\youyou_Proto.csproj.CoreCompileInputs.cache
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\youyou_Proto\obj\Debug\youyou_Proto.exe
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Proto\youyou_Proto\obj\Debug\youyou_Proto.pdb

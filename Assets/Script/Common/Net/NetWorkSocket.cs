@@ -39,7 +39,7 @@ public class NetWorkSocket
     /// <summary>
     /// 接收数据包的字节数组缓冲区
     /// </summary>
-    private byte[] m_ReceiveBuffer = new byte[10240];
+    private byte[] m_ReceiveBuffer = new byte[2048];
 
     /// <summary>
     /// 接收数据包的缓冲数据流
@@ -112,8 +112,10 @@ public class NetWorkSocket
                         m_ReceiveMS.Read(content, 0, contentCount);
 
                         MMO_MemoryStream ms = new MMO_MemoryStream(content);
-                        string contentStr = ms.ReadUTF8String();
-                        Debug.Log(contentStr);
+                        ushort protoCode = ms.ReadUShort();
+                        byte[] protoContent = new byte[contentCount - 2];
+                        ms.Read(protoContent, 0, protoContent.Length);
+                        EventDispatcher.Instance.Dispatch(protoCode, protoContent);
 
                         long leftCount = m_ReceiveMS.Length - m_ReceiveMS.Position;
                         if (leftCount == 0)

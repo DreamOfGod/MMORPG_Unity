@@ -5,6 +5,7 @@
 //===============================================
 using LitJson;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -28,26 +29,36 @@ public class InitSceneCtrl : MonoBehaviour
         //});
 
 
-        JsonData jsonData = new JsonData();
-        jsonData["Username"] = "test";
-        jsonData["Pwd"] = "123456";
-        NetWorkHttp.Instance.Post("http://127.0.0.1:8080/api/register", jsonData.ToJson(), (UnityWebRequest.Result result, string text) =>
+        //JsonData jsonData = new JsonData();
+        //jsonData["Username"] = "test";
+        //jsonData["Pwd"] = "123456";
+        //NetWorkHttp.Instance.Post("http://127.0.0.1:8080/api/register", jsonData.ToJson(), (UnityWebRequest.Result result, string text) =>
+        //{
+        //    if (result == UnityWebRequest.Result.Success)
+        //    {
+        //        Debug.Log("用户id：" + text);
+        //    }
+        //});
+
+        NetWorkSocket.Instance.Connect("127.0.0.1", 1011);
+
+        EventDispatcher.Instance.AddListener(ProtoCodeDef.Test, TestListener);
+    }
+
+    private void TestListener(byte[] buffer)
+    {
+        TestProto proto = TestProto.GetProto(buffer);
+        Debug.Log(string.Format("IsSuccess：{0}", proto.IsSuccess));
+        Debug.Log(string.Format("ErrorCode：{0}", proto.ErrorCode));
+        for (int i = 0; i < proto.RoleList.Count; ++i)
         {
-            if (result == UnityWebRequest.Result.Success)
-            {
-                Debug.Log("用户id：" + text);
-            }
-        });
+            Debug.Log(string.Format("Role{0}: {1} {2}", i, proto.RoleList[i].RoleId, proto.RoleList[i].RoleName));
+        }
+    }
 
-        //NetWorkSocket.Instance.Connect("127.0.0.1", 1011);
-
-        //TestProtocol protocol = new TestProtocol();
-        //protocol.Id = 1;
-        //protocol.Name = "测试";
-        //protocol.Type = 0;
-        //protocol.Price = 99.5f;
-
-        //NetWorkSocket.Instance.SendMsg(protocol.ToArray());
+    private void OnDestroy()
+    {
+        EventDispatcher.Instance.RemoveListener(ProtoCodeDef.Test, TestListener);
     }
 
     private IEnumerator LoadLogon()
@@ -61,30 +72,22 @@ public class InitSceneCtrl : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            string content = "A";
-            MMO_MemoryStream ms = new MMO_MemoryStream();
-            ms.WriteUTF8String(content);
-            NetWorkSocket.Instance.SendMsg(ms.ToArray());
-        }
-        else if (Input.GetKeyUp(KeyCode.B))
-        {
-            string content = "B";
-            MMO_MemoryStream ms = new MMO_MemoryStream();
-            ms.WriteUTF8String(content);
-            NetWorkSocket.Instance.SendMsg(ms.ToArray());
-        }
-        else if (Input.GetKeyUp(KeyCode.C))
-        {
-            for (int i = 0; i < 10; ++i)
+            TestProto proto = new TestProto();
+            proto.IsSuccess = true;
+            proto.Name = "测试";
+            proto.Count = 4;
+            proto.RoleList = new List<TestProto.Role>();
+            proto.ItemIdList = new List<int>();
+            for (int i = 0; i < proto.Count; ++i)
             {
-                MMO_MemoryStream ms = new MMO_MemoryStream();
-                ms.WriteUTF8String(i.ToString());
-                NetWorkSocket.Instance.SendMsg(ms.ToArray());
+                proto.ItemIdList.Add(i);
+                TestProto.Role role = new TestProto.Role();
+                role.RoleId = i;
+                role.RoleName = "Role " + i;
+                proto.RoleList.Add(role);
             }
-        }
-        else if (Input.GetKeyUp(KeyCode.D))
-        {
-            NetWorkSocket.Instance.Close();
+
+            NetWorkSocket.Instance.SendMsg(proto.ToArray());
         }
     }
 }

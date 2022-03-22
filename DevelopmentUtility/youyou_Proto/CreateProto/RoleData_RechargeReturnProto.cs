@@ -1,6 +1,6 @@
 //===================================================
-//作    者：边涯  http://www.u3dol.com  QQ群：87481002
-//创建时间：2018-02-25 22:40:38
+//作    者：
+//创建时间：2022-03-22 14:16:18
 //备    注：
 //===================================================
 using System.Collections;
@@ -10,7 +10,7 @@ using System;
 /// <summary>
 /// 服务器返回角色充值信息
 /// </summary>
-public struct RoleData_RechargeReturnProto : IProto
+public struct RoleData_RechargeReturnProto : IProtocol
 {
     public ushort ProtoCode { get { return 11002; } }
 
