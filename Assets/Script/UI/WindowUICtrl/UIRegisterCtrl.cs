@@ -67,7 +67,7 @@ public class UIRegisterCtrl : UIWindowBase
 
         UserInfo.nickname = nickname;
 
-        LoadingSceneCtrl.NextScene = SceneName.City;
+        SceneLoadingCtrl.NextScene = SceneName.City;
         SceneManager.LoadScene(SceneName.Loading);
     }
 

@@ -164,7 +164,9 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
+    Android: com.DefaultCompany.MMORPG
     Standalone: com.DefaultCompany.MMORPG
+    iPhone: com.DefaultCompany.MMORPG
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -602,7 +604,11 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: DEBUG_MODE;DEBUG_LOG
+    4: DEBUG_MODE;DEBUG_LOG
+    7: DEBUG_MODE;DEBUG_LOG
+    13: 
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

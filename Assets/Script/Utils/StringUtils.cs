@@ -19,6 +19,18 @@ public static class StringUtils
     }
 
     /// <summary>
+    /// 字符串转换成long
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public static long ToLong(this string str)
+    {
+        long temp = 0;
+        long.TryParse(str, out temp);
+        return temp;
+    }
+
+    /// <summary>
     /// 字符串转换成float
     /// </summary>
     /// <param name="str"></param>

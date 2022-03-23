@@ -18,7 +18,7 @@ public class InitSceneCtrl : MonoBehaviour
 {
     void Start()
     {
-        //StartCoroutine(LoadLogon());
+        StartCoroutine(LoadLogon());
 
         //NetWorkHttp.Instance.Get("http://127.0.0.1:8080/api/account?id=1", (UnityWebRequest.Result result, string text) => {
         //    if(result == UnityWebRequest.Result.Success)
@@ -40,9 +40,14 @@ public class InitSceneCtrl : MonoBehaviour
         //    }
         //});
 
-        NetWorkSocket.Instance.Connect("127.0.0.1", 1011);
+        //NetWorkSocket.Instance.Connect("127.0.0.1", 1011);
 
-        EventDispatcher.Instance.AddListener(ProtoCodeDef.Test, TestListener);
+        //EventDispatcher.Instance.AddListener(ProtoCodeDef.Test, TestListener);
+
+        Debug.Log("dataPath=" + Application.dataPath);
+        Debug.Log("streamingAssetsPath=" + Application.streamingAssetsPath);
+        Debug.Log("persistentDataPath=" + Application.persistentDataPath);
+        Debug.Log("temporaryCachePath=" + Application.temporaryCachePath);
     }
 
     private void TestListener(byte[] buffer)
@@ -64,7 +69,7 @@ public class InitSceneCtrl : MonoBehaviour
     private IEnumerator LoadLogon()
     {
         yield return new WaitForSeconds(3.5f);
-        LoadingSceneCtrl.NextScene = SceneName.Logon;
+        SceneLoadingCtrl.NextScene = SceneName.Logon;
         SceneManager.LoadScene(SceneName.Loading);
     }
 
