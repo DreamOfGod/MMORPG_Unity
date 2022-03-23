@@ -4,7 +4,6 @@
 //备    注：
 //===============================================
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -15,7 +14,6 @@ using UnityEngine;
 /// </summary>
 public class AssetBundleWindow : EditorWindow
 {
-    private AssetBundleDAL m_Dal;
     private List<AssetBundleEntity> m_List;
     private Dictionary<string, bool> m_Dic;
 
@@ -37,13 +35,10 @@ public class AssetBundleWindow : EditorWindow
 
     private Vector2 pos;
 
-    public AssetBundleWindow()
-    {
-        
-    }
-
     private void OnEnable()
     {
+        //Application.dataPath是游戏数据路径，取决于运行的平台。在编辑器环境中是项目的Assets目录。
+        //在编辑器环境中可以读写该路径下的内容，在其它环境中不要读写
         string xmlPath = Application.dataPath + @"\Editor\AssetBundle\AssetBundleConfig.xml";
         m_List = AssetBundleDAL.GetList(xmlPath);
 
@@ -95,6 +90,7 @@ public class AssetBundleWindow : EditorWindow
         GUILayout.EndHorizontal();
         #endregion
 
+        #region 标题行
         GUILayout.BeginHorizontal("box");
         GUILayout.Label("包名");
         GUILayout.Label("标记", GUILayout.Width(100));
@@ -102,10 +98,11 @@ public class AssetBundleWindow : EditorWindow
         GUILayout.Label("版本", GUILayout.Width(100));
         GUILayout.Label("大小", GUILayout.Width(100));
         GUILayout.EndHorizontal();
+        #endregion
 
-        GUILayout.BeginVertical();
+        #region 配置内容
         pos = EditorGUILayout.BeginScrollView(pos);
-        for(int i = 0; i < m_List.Count; ++i)
+        for (int i = 0; i < m_List.Count; ++i)
         {
             AssetBundleEntity entity = m_List[i];
 
@@ -127,7 +124,7 @@ public class AssetBundleWindow : EditorWindow
             }
         }
         EditorGUILayout.EndScrollView();
-        GUILayout.EndVertical();
+        #endregion
     }
 
     /// <summary>

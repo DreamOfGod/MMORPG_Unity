@@ -3,7 +3,6 @@
 //创建时间：2022-03-23 13:39:32
 //备    注：
 //===============================================
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -16,15 +15,12 @@ public class SettingsWindow : EditorWindow
 
     private string m_Macro = null;
 
-    public SettingsWindow()
+    private void OnEnable()
     {
         m_List.Add(new MacroItem() { Name = "DEBUG_MODE", DisplayName = "调式模式", IsDebug = true, IsRelease = false });
         m_List.Add(new MacroItem() { Name = "DEBUG_LOG", DisplayName = "打印日志", IsDebug = true, IsRelease = false });
         m_List.Add(new MacroItem() { Name = "STAT_TD", DisplayName = "开启统计", IsDebug = false, IsRelease = true });
-    }
 
-    private void OnEnable()
-    {
         m_Macro = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android);
 
         for (int i = 0; i < m_List.Count; ++i)

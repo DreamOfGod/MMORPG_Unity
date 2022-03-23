@@ -5,6 +5,7 @@
 //===============================================
 
 using System.Collections.Generic;
+
 /// <summary>
 /// AssetBundle实体
 /// </summary>
@@ -16,12 +17,12 @@ public class AssetBundleEntity
     public string Key;
 
     /// <summary>
-    /// 名称
+    /// AssetBundle文件的名称
     /// </summary>
     public string Name;
 
     /// <summary>
-    /// 标记
+    /// 资源的类别（Scene场景，Role角色，Effect特效，Audio声音）
     /// </summary>
     public string Tag;
 
@@ -43,7 +44,7 @@ public class AssetBundleEntity
     private List<string> m_PathList = new List<string>();
 
     /// <summary>
-    /// 路径集合
+    /// AssetBundle包含的资源的路径集合
     /// </summary>
     public List<string> PathList { get { return m_PathList; } }
 }

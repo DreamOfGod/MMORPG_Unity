@@ -11,15 +11,15 @@ public class AssetBundleDAL
 {
     public static List<AssetBundleEntity> GetList(string xmlPath)
     {
-        //读取xml
+        //读取AssetBundle的xml配置
         XDocument xDoc = XDocument.Load(xmlPath);
         XElement root = xDoc.Root;
         XElement assetBundleNode = root.Element("AssetBundle");
 
-        IEnumerable<XElement> lst = assetBundleNode.Elements("Item");
+        IEnumerable<XElement> itemList = assetBundleNode.Elements("Item");
         int key = 1;
-        List<AssetBundleEntity> list = new List<AssetBundleEntity>();
-        foreach(XElement item in lst)
+        List<AssetBundleEntity> entityList = new List<AssetBundleEntity>();
+        foreach(XElement item in itemList)
         {
             AssetBundleEntity entity = new AssetBundleEntity();
             entity.Key = "key" + key++;
@@ -34,8 +34,8 @@ public class AssetBundleDAL
                 entity.PathList.Add(string.Format("Assets/{0}", path.Attribute("Value").Value));
             }
 
-            list.Add(entity);
+            entityList.Add(entity);
         }
-        return list;
+        return entityList;
     }
 }
