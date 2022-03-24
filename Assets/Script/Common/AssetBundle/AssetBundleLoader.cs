@@ -13,8 +13,8 @@ public class AssetBundleLoader: IDisposable
 
     public AssetBundleLoader(string assetBundlePath)
     {
-        string fullPath = LocalFileMgr.Instance.LocalFilePath + assetBundlePath;
-        bundle = AssetBundle.LoadFromMemory(LocalFileMgr.Instance.GetBuffer(fullPath));
+        string fullPath = LocalAssetBundlePath.Value + assetBundlePath;
+        bundle = AssetBundle.LoadFromFile(fullPath);
     }
 
     public void Dispose()

@@ -6,6 +6,7 @@
 
 //const常量变量会被编译器用常量直接替换，类似于宏
 
+using UnityEngine;
 /// <summary>
 /// 层的名字
 /// </summary>
@@ -71,4 +72,19 @@ public class AnimStateConditionName
     public const string ToHurt = "ToHurt";
     public const string ToDie = "ToDie";
     public const string ToPhyAttack = "ToPhyAttack";
+}
+
+public class LocalAssetBundlePath
+{
+#if UNITY_EDITOR
+    #if UNITY_STANDALONE_WIN
+        public static readonly string Value = Application.dataPath + "/../AssetBundles/Windows/";
+    #elif UNITY_ANDROID
+        public static readonly string Value = Application.dataPath + "/../AssetBundles/Android/";
+    #elif UNITY_IPHONE
+        public static readonly string Value = Application.dataPath + "/../AssetBundles/IOS/";
+    #endif
+#elif UNITY_ANDROID || UNITY_IPHONE || UNITY_STANDALONE_WIN
+        public static readonly string Value = Application.persistentDataPath + "/";
+#endif
 }

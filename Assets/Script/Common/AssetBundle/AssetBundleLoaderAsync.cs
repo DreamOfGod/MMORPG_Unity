@@ -5,6 +5,7 @@
 //===============================================
 
 using System;
+using System.IO;
 using UnityEngine;
 
 public class AssetBundleLoaderAsync : IDisposable
@@ -18,8 +19,8 @@ public class AssetBundleLoaderAsync : IDisposable
 
     public static void LoadAsync(string assetBundlePath, Action<AssetBundleLoaderAsync> callback)
     {
-        string fullPath = LocalFileMgr.Instance.LocalFilePath + assetBundlePath;
-        AssetBundleCreateRequest request = AssetBundle.LoadFromMemoryAsync(LocalFileMgr.Instance.GetBuffer(fullPath));
+        string fullPath = LocalAssetBundlePath.Value + assetBundlePath;
+        AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(fullPath);
         request.completed += (AsyncOperation ao) => {
             callback(new AssetBundleLoaderAsync(request.assetBundle));
         };

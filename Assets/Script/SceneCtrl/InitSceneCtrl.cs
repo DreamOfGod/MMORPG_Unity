@@ -4,9 +4,11 @@
 //备    注：
 //===============================================
 using LitJson;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -16,7 +18,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class InitSceneCtrl : MonoBehaviour
 {
-    void Start()
+    async void Start()
     {
         StartCoroutine(LoadLogon());
 
@@ -48,6 +50,24 @@ public class InitSceneCtrl : MonoBehaviour
         Debug.Log("streamingAssetsPath=" + Application.streamingAssetsPath);
         Debug.Log("persistentDataPath=" + Application.persistentDataPath);
         Debug.Log("temporaryCachePath=" + Application.temporaryCachePath);
+
+        TestAsync();
+        Debug.Log("Start end");//ssss
+    }
+
+    private async Task<int> TestAsync()
+    {
+        await Task.Run(() =>
+        {
+            Debug.Log("Task.Run1");
+        });
+        Debug.Log("TestAsync begin");
+        await Task.Run(() =>
+        {
+            Debug.Log("Task.Run2");
+        });
+        Debug.Log("TestAsync end");
+        return 0;
     }
 
     private void TestListener(byte[] buffer)

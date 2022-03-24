@@ -55,38 +55,34 @@ public class CitySceneCtrl : MonoBehaviour
     /// </summary>
     private void LoadMainPlayer() 
     {
-        //GameObject mainPlayerPrefab = Resources.Load<GameObject>("RolePrefab/Player/Role_MainPlayer");
-        //GameObject mainPlayer = Instantiate(mainPlayerPrefab);
+        string fullPath = LocalAssetBundlePath.Value + "Role/role.assetbundle";
+        AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(fullPath);
+        request.completed += (AsyncOperation ao) => {
+            GameObject obj = request.assetBundle.LoadAsset<GameObject>("Role_MainPlayer");
+            request.assetBundle.Unload(false);
+            GameObject mainPlayer = Instantiate(obj);
 
-        GameObject mainPlayer;
-        AssetBundleLoaderAsync.LoadAsync("Role/role.assetbundle", (AssetBundleLoaderAsync loader) =>
-        {
-            loader.LoadAssetAsyncAndClone<GameObject>("Role_MainPlayer", (GameObject obj) =>
+            Vector3 pos;
+            RaycastHit hitInfo;
+            if (Physics.Raycast(m_PlayerBornPos.position, Vector3.down, out hitInfo)
+                && hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
-                mainPlayer = obj;
+                pos = hitInfo.point;
+            }
+            else
+            {
+                Debug.LogError("主角出生点没有位于地面上方");
+                pos = m_PlayerBornPos.position;
+            }
+            mainPlayer.transform.position = pos;
 
-                Vector3 pos;
-                RaycastHit hitInfo;
-                if (Physics.Raycast(m_PlayerBornPos.position, Vector3.down, out hitInfo)
-                    && hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
-                {
-                    pos = hitInfo.point;
-                }
-                else
-                {
-                    Debug.LogError("主角出生点没有位于地面上方");
-                    pos = m_PlayerBornPos.position;
-                }
-                mainPlayer.transform.position = pos;
+            MainPlayerCtrl = mainPlayer.GetComponent<MainPlayerCtrl>();
 
-                MainPlayerCtrl = mainPlayer.GetComponent<MainPlayerCtrl>();
+            RoleHeadBarCtrl headBarCtrl = m_UICtrl.AddHeadBar(MainPlayerCtrl.HeadBarPos, UserInfo.nickname, false);
+            MainPlayerCtrl.SetHeadBarCtrl(headBarCtrl);
+            MainPlayerCtrl.SetCityUICtrl(m_UICtrl);
 
-                RoleHeadBarCtrl headBarCtrl = m_UICtrl.AddHeadBar(MainPlayerCtrl.HeadBarPos, UserInfo.nickname, false);
-                MainPlayerCtrl.SetHeadBarCtrl(headBarCtrl);
-                MainPlayerCtrl.SetCityUICtrl(m_UICtrl);
-
-                m_CameraCtrl.SetTarget(mainPlayer.transform);
-            });
-        });
+            m_CameraCtrl.SetTarget(mainPlayer.transform);
+        };
     }
 }

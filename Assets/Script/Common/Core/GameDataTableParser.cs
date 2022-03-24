@@ -28,7 +28,7 @@ public class GameDataTableParser : IDisposable
         //------------------
         //第1步：读取文件
         //------------------
-        byte[] buffer = LocalFileMgr.Instance.GetBuffer(path);
+        byte[] buffer = File.ReadAllBytes(path);
         //------------------
         //第2步：解压缩
         //------------------
