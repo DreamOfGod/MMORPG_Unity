@@ -19,6 +19,10 @@ public class MonsterCreatePos: MonoBehaviour
 
     void Update()
     {
+        if(m_CitySceneCtrl.MainPlayerCtrl == null)
+        {
+            return;
+        }
         if (m_CurrCount < MAX_COUNT)
         {
             if (Time.time >= m_NextCreateTime)

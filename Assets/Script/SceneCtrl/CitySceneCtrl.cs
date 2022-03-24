@@ -55,29 +55,38 @@ public class CitySceneCtrl : MonoBehaviour
     /// </summary>
     private void LoadMainPlayer() 
     {
-        GameObject mainPlayerPrefab = Resources.Load<GameObject>("RolePrefab/Player/Role_MainPlayer");
-        GameObject mainPlayer = Instantiate(mainPlayerPrefab);
+        //GameObject mainPlayerPrefab = Resources.Load<GameObject>("RolePrefab/Player/Role_MainPlayer");
+        //GameObject mainPlayer = Instantiate(mainPlayerPrefab);
 
-        Vector3 pos;
-        RaycastHit hitInfo;
-        if (Physics.Raycast(m_PlayerBornPos.position, Vector3.down, out hitInfo)
-            && hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        GameObject mainPlayer;
+        AssetBundleLoaderAsync.LoadAsync("Role/role.assetbundle", (AssetBundleLoaderAsync loader) =>
         {
-            pos = hitInfo.point;
-        }
-        else
-        {
-            Debug.LogError("主角出生点没有位于地面上方");
-            pos = m_PlayerBornPos.position;
-        }
-        mainPlayer.transform.position = pos;
+            loader.LoadAssetAsyncAndClone<GameObject>("Role_MainPlayer", (GameObject obj) =>
+            {
+                mainPlayer = obj;
 
-        MainPlayerCtrl = mainPlayer.GetComponent<MainPlayerCtrl>();
+                Vector3 pos;
+                RaycastHit hitInfo;
+                if (Physics.Raycast(m_PlayerBornPos.position, Vector3.down, out hitInfo)
+                    && hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+                {
+                    pos = hitInfo.point;
+                }
+                else
+                {
+                    Debug.LogError("主角出生点没有位于地面上方");
+                    pos = m_PlayerBornPos.position;
+                }
+                mainPlayer.transform.position = pos;
 
-        RoleHeadBarCtrl headBarCtrl = m_UICtrl.AddHeadBar(MainPlayerCtrl.HeadBarPos, UserInfo.nickname, false);
-        MainPlayerCtrl.SetHeadBarCtrl(headBarCtrl);
-        MainPlayerCtrl.SetCityUICtrl(m_UICtrl);
+                MainPlayerCtrl = mainPlayer.GetComponent<MainPlayerCtrl>();
 
-        m_CameraCtrl.SetTarget(mainPlayer.transform);
+                RoleHeadBarCtrl headBarCtrl = m_UICtrl.AddHeadBar(MainPlayerCtrl.HeadBarPos, UserInfo.nickname, false);
+                MainPlayerCtrl.SetHeadBarCtrl(headBarCtrl);
+                MainPlayerCtrl.SetCityUICtrl(m_UICtrl);
+
+                m_CameraCtrl.SetTarget(mainPlayer.transform);
+            });
+        });
     }
 }

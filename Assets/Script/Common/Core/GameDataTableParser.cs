@@ -24,17 +24,11 @@ public class GameDataTableParser : IDisposable
     public GameDataTableParser(string path)
     {
         m_FieldNameDic = new Dictionary<string, int>();
-        byte[] buffer = null;
 
         //------------------
         //第1步：读取文件
         //------------------
-        using (FileStream fs = new FileStream(path, FileMode.Open))
-        {
-            buffer = new byte[fs.Length];
-            fs.Read(buffer, 0, buffer.Length);
-        }
-
+        byte[] buffer = LocalFileMgr.Instance.GetBuffer(path);
         //------------------
         //第2步：解压缩
         //------------------

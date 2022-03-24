@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 849195870
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: role.assetbundle
+      Dependencies: {}

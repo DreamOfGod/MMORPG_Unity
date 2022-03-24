@@ -118,6 +118,10 @@ public class CameraCtrl : MonoBehaviour
 
     void Update()
     {
+        if(m_Target == null)
+        {
+            return;
+        }
         transform.position = m_Target.position;
         m_CameraContainer.LookAt(m_Target.position);
     }
