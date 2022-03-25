@@ -1,0 +1,63 @@
+ManifestFileVersion: 0
+CRC: 1135651262
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: e3a9eabf4da595cd1798085860a22e0b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: a440ecaa8f8897e5c8a48ad49d9c57e2
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 104
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 111
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f3a82bfbe2cfcd4ab0d2fddb591c0d5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 86ca082aebbbfb342ab7e7f7c5a0777a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c31a2135c8fe70144ab837099e8a9416, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+- Class: 157
+  Script: {instanceID: 0}
+- Class: 196
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 258
+  Script: {instanceID: 0}
+- Class: 850595691
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Download/Scene/GameScene_XueDi2.unity
+Dependencies: []

@@ -51,7 +51,7 @@ public class InitSceneCtrl : MonoBehaviour
         Debug.Log("persistentDataPath=" + Application.persistentDataPath);
         Debug.Log("temporaryCachePath=" + Application.temporaryCachePath);
 
-        TestAsync();
+        await TestAsync();
         Debug.Log("Start end");//ssss
     }
 

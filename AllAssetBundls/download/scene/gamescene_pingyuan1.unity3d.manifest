@@ -1,0 +1,67 @@
+ManifestFileVersion: 0
+CRC: 3891903575
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: dc8b90ab303222456568e19de1de73b4
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: ddfd9b26c0b0a6ff989348ff616571a3
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 104
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 111
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f3a82bfbe2cfcd4ab0d2fddb591c0d5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 86ca082aebbbfb342ab7e7f7c5a0777a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c31a2135c8fe70144ab837099e8a9416, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 90c895447b7828a40926e52e3cc20989, type: 3}
+- Class: 157
+  Script: {instanceID: 0}
+- Class: 196
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 258
+  Script: {instanceID: 0}
+- Class: 850595691
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Download/Scene/GameScene_PingYuan1.unity
+Dependencies: []

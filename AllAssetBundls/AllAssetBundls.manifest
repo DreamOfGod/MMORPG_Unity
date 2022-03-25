@@ -1,0 +1,52 @@
+ManifestFileVersion: 0
+CRC: 559532186
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: download/scene/gamescene_xuedi2.unity3d
+      Dependencies: {}
+    Info_1:
+      Name: download/scene/gamescene_hupaocun.unity3d
+      Dependencies: {}
+    Info_2:
+      Name: download/scene/gamescene_shangu.unity3d
+      Dependencies: {}
+    Info_3:
+      Name: download/scene/gamescene_rongyan2.unity3d
+      Dependencies: {}
+    Info_4:
+      Name: download/scene/gamescene_shamo1.unity3d
+      Dependencies: {}
+    Info_5:
+      Name: download/scene/gamescene_shangu2.unity3d
+      Dependencies: {}
+    Info_6:
+      Name: download/scene/gamescene_xuedi1.unity3d
+      Dependencies: {}
+    Info_7:
+      Name: download/scene/scene_selectrole.unity3d
+      Dependencies: {}
+    Info_8:
+      Name: download/scene/gamescene_shangu3.unity3d
+      Dependencies: {}
+    Info_9:
+      Name: download/scene/gamescene_changan.unity3d
+      Dependencies: {}
+    Info_10:
+      Name: download/scene/gamescene_pingyuan1.unity3d
+      Dependencies: {}
+    Info_11:
+      Name: download/scene/gamescene_digong1.unity3d
+      Dependencies: {}
+    Info_12:
+      Name: download/scene/gamescene_rongyan1.unity3d
+      Dependencies: {}
+    Info_13:
+      Name: download/scene/gamescene_digong2.unity3d
+      Dependencies: {}
+    Info_14:
+      Name: download/scene/gamescene_rongyan3.unity3d
+      Dependencies: {}
+    Info_15:
+      Name: download/scene/gamescene_hangzhou.unity3d
+      Dependencies: {}

@@ -33,4 +33,16 @@ public class Menu
         win.titleContent = new GUIContent("资源打包");
         win.Show();
     }
+
+    [MenuItem("MyTools/CreateAllAssetBundle")]
+    public static void CreateAllAssetBundle()
+    {
+        string path = $"{ Application.dataPath }/../AllAssetBundls";
+        if(Directory.Exists(path))
+        {
+            Directory.Delete(path);
+        }
+        Directory.CreateDirectory(path);
+        BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.None, BuildTarget.Android);
+    }
 }

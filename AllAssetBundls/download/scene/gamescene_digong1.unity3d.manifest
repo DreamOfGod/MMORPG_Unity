@@ -1,0 +1,61 @@
+ManifestFileVersion: 0
+CRC: 3251561530
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 52deeaa612f2ede9a8c8f294f2870813
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 8d6d8856974cb918cbf6d564845f0f25
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 104
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f3a82bfbe2cfcd4ab0d2fddb591c0d5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 86ca082aebbbfb342ab7e7f7c5a0777a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c31a2135c8fe70144ab837099e8a9416, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+- Class: 157
+  Script: {instanceID: 0}
+- Class: 196
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 258
+  Script: {instanceID: 0}
+- Class: 850595691
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Download/Scene/GameScene_DiGong1.unity
+Dependencies: []

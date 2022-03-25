@@ -1,0 +1,71 @@
+ManifestFileVersion: 0
+CRC: 2830118488
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7ee6c5e25651d50646ec5c326d32e41d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: a5255f788768925b6dad9908ce3f8da8
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 104
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f3a82bfbe2cfcd4ab0d2fddb591c0d5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 86ca082aebbbfb342ab7e7f7c5a0777a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c31a2135c8fe70144ab837099e8a9416, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9391fd375d562414db8677b7e4b2d346, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 027a9914af8ecbb4bbf0ea73fd73a678, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 068830516de7a5948972663caae81d3f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9214abaea021f6541b730bd241f489a4, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 90c895447b7828a40926e52e3cc20989, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 52c90780ccd66f6408b54b5bf19b36cf, type: 3}
+- Class: 157
+  Script: {instanceID: 0}
+- Class: 196
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 258
+  Script: {instanceID: 0}
+- Class: 850595691
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Download/Scene/GameScene_ShanGu.unity
+Dependencies: []
