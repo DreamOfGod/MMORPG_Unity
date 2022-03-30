@@ -345,6 +345,8 @@
     <Compile Include="Assets\Script\Data\Protocol\Shop_BuyProductProto.cs" />
     <Compile Include="Assets\Script\SceneCtrl\MonsterAbout\MonsterCreatePos.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenRotation.cs" />
+    <Compile Include="Assets\Script\Common\Core\SecurityUtil.cs" />
+    <Compile Include="Assets\Script\Common\Core\CRC16.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\T4M\Shaders\ShaderModel2\Diffuse\T4M 4 Textures.shader" />

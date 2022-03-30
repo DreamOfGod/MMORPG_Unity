@@ -20,7 +20,7 @@ public class InitSceneCtrl : MonoBehaviour
 {
     async void Start()
     {
-        StartCoroutine(LoadLogon());
+        //StartCoroutine(LoadLogon());
 
         //NetWorkHttp.Instance.Get("http://127.0.0.1:8080/api/account?id=1", (UnityWebRequest.Result result, string text) => {
         //    if(result == UnityWebRequest.Result.Success)
@@ -42,9 +42,9 @@ public class InitSceneCtrl : MonoBehaviour
         //    }
         //});
 
-        //NetWorkSocket.Instance.Connect("127.0.0.1", 1011);
+        NetWorkSocket.Instance.Connect("127.0.0.1", 1011);
 
-        //EventDispatcher.Instance.AddListener(ProtoCodeDef.Test, TestListener);
+        EventDispatcher.Instance.AddListener(ProtoCodeDef.Test, TestListener);
 
         Debug.Log("dataPath=" + Application.dataPath);
         Debug.Log("streamingAssetsPath=" + Application.streamingAssetsPath);

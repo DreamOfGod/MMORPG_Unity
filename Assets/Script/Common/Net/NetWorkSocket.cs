@@ -37,6 +37,11 @@ public class NetWorkSocket
     private Socket m_Socket;
 
     /// <summary>
+    /// 进行压缩的长度下限
+    /// </summary>
+    private const int COMPRESS_LENGTH = 200;
+
+    /// <summary>
     /// 接收数据包的字节数组缓冲区
     /// </summary>
     private byte[] m_ReceiveBuffer = new byte[2048];
@@ -97,7 +102,7 @@ public class NetWorkSocket
             //把接收的字节写入字节流的尾部
             m_ReceiveMS.Write(m_ReceiveBuffer, 0, count);
 
-            //字节流长度达到2个字节，至少一个消息的头部接收完成，因为客户端消息的头部是ushort类型
+            //字节流长度达到2个字节，至少消息的数据包长度接收完成
             if (m_ReceiveMS.Length >= 2)
             {
                 m_ReceiveMS.Position = 0;
@@ -108,30 +113,48 @@ public class NetWorkSocket
                     if (m_ReceiveMS.Length - m_ReceiveMS.Position >= contentCount)
                     {
                         //消息的内容已经接收完成
-                        byte[] content = new byte[contentCount];
-                        m_ReceiveMS.Read(content, 0, contentCount);
+                        //压缩标志
+                        bool compressed = m_ReceiveMS.ReadBool();
+                        //crc16校验码
+                        ushort crc16 = m_ReceiveMS.ReadUShort();
+                        //数据包
+                        byte[] content = new byte[contentCount - 3];
+                        m_ReceiveMS.Read(content, 0, content.Length);
+                        //crc16校验
+                        if (Crc16.CalculateCrc16(content) != crc16)
+                        {
+
+                        }
+                        //数据包异或
+                        SecurityUtil.XOR(content);
+                        //解压
+                        if (compressed)
+                        {
+                            content = ZlibHelper.DeCompressBytes(content);
+                        }
 
                         MMO_MemoryStream ms = new MMO_MemoryStream(content);
+                        //协议ID
                         ushort protoCode = ms.ReadUShort();
+                        //协议内容
                         byte[] protoContent = new byte[contentCount - 2];
                         ms.Read(protoContent, 0, protoContent.Length);
+                        //派发协议消息
                         EventDispatcher.Instance.Dispatch(protoCode, protoContent);
 
                         long leftCount = m_ReceiveMS.Length - m_ReceiveMS.Position;
-                        if (leftCount == 0)
+                        if (leftCount < 2)
                         {
-                            //没有剩余字节，指针和长度都置为0
-                            m_ReceiveMS.Position = 0;
-                            m_ReceiveMS.SetLength(0);
-                            break;
-                        }
-                        else if (leftCount == 1)
-                        {
-                            //剩余1个字节，移到字节流开头，指针和长度都置为1
+                            //剩余不到2个字节，将剩余字节移到字节流开头，等内容接收完整再解析
                             byte[] buffer = m_ReceiveMS.GetBuffer();
-                            buffer[0] = buffer[m_ReceiveMS.Position];
-                            m_ReceiveMS.Position = 1;
-                            m_ReceiveMS.SetLength(1);
+                            long i = 0, j = m_ReceiveMS.Position;
+                            while (j < m_ReceiveMS.Length)
+                            {
+                                buffer[i] = buffer[j];
+                                ++i;
+                                ++j;
+                            }
+                            m_ReceiveMS.SetLength(i);
                             break;
                         }
                     }
@@ -140,13 +163,13 @@ public class NetWorkSocket
                         //消息内容接收不完整，将剩余字节移到字节流开头，等内容接收完整再解析
                         byte[] buffer = m_ReceiveMS.GetBuffer();
                         long i = 0, j = m_ReceiveMS.Position;
-                        while (i < m_ReceiveMS.Length)
+                        while (j < m_ReceiveMS.Length)
                         {
                             buffer[i] = buffer[j];
                             ++i;
                             ++j;
                         }
-                        m_ReceiveMS.SetLength(j);
+                        m_ReceiveMS.SetLength(i);
                         break;
                     }
                 }
@@ -175,15 +198,47 @@ public class NetWorkSocket
     }
 
     /// <summary>
+    /// 封装数据包
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    private byte[] MakeMsg(byte[] data) 
+    {
+        //消息格式：数据包长度(ushort)|压缩标志(bool)|crc16(ushort)|先压缩后异或的数据包
+        MMO_MemoryStream ms = new MMO_MemoryStream();
+        if (data.Length > COMPRESS_LENGTH)
+        {
+            //压缩
+            data = ZlibHelper.CompressBytes(data);
+            //数据包长度
+            ms.WriteUShort((ushort)(data.Length + 3));
+            //压缩标志
+            ms.WriteBool(true);
+        }
+        else
+        {
+            //不压缩
+            //数据包长度
+            ms.WriteUShort((ushort)(data.Length + 3));
+            //压缩标志
+            ms.WriteBool(false);
+        }
+        //异或
+        SecurityUtil.XOR(data);
+        //crc16
+        ms.WriteUShort(Crc16.CalculateCrc16(data));
+        //数据包
+        ms.Write(data, 0, data.Length);
+        return ms.ToArray();
+    }
+
+    /// <summary>
     /// 发送消息
     /// </summary>
     /// <param name="data"></param>
     public void SendMsg(byte[] data)
     {
-        MMO_MemoryStream ms = new MMO_MemoryStream();
-        ms.WriteUShort((ushort)data.Length);
-        ms.Write(data, 0, data.Length);
-        byte[] msg = ms.ToArray();
+        byte[] msg = MakeMsg(data);
         m_Socket.BeginSend(msg, 0, msg.Length, SocketFlags.None, SendCallback, null);
     }
 
