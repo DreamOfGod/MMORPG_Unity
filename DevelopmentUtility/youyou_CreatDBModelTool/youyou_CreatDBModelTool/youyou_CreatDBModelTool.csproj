@@ -1,0 +1,507 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CDAEEC96-6EC7-40AA-8BAC-B9F9EDE4CE19}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>youyou_CreatDBModelTool</RootNamespace>
+    <AssemblyName>youyou_CreatDBModelTool</AssemblyName>
+    <ApplicationIcon>Logo32.ico</ApplicationIcon>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.TextEditor, Version=2.0.0.922, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>InClude\ICSharpCode.TextEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>InClude\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\..\MMORPG_AccountServer\DLL\MySQL Connector v4.5.2\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AttributeBuild\AttributeBuild.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AttributeBuild\AttributeBuild.Designer.cs">
+      <DependentUpon>AttributeBuild.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Buttons\Buttons_A.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Buttons\Buttons_A.Designer.cs">
+      <DependentUpon>Buttons_A.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Buttons\Buttons_B.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Buttons\Buttons_B.Designer.cs">
+      <DependentUpon>Buttons_B.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Config.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_A_H.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_A_H.Designer.cs">
+      <DependentUpon>UserControl_A_H.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_A_G.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_A_G.Designer.cs">
+      <DependentUpon>UserControl_A_G.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_A_F.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_A_F.Designer.cs">
+      <DependentUpon>UserControl_A_F.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_A_E.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_A_E.Designer.cs">
+      <DependentUpon>UserControl_A_E.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_A_D.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_A_D.Designer.cs">
+      <DependentUpon>UserControl_A_D.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_A_C.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_A_C.Designer.cs">
+      <DependentUpon>UserControl_A_C.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_A_B.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_A_B.Designer.cs">
+      <DependentUpon>UserControl_A_B.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MessageForm.Designer.cs">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="ProgressBars\ProgressBars_A.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ProgressBars\ProgressBars_A.Designer.cs">
+      <DependentUpon>ProgressBars_A.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AttributeBuild\AttributeBuild.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AttributeBuild.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buttons\Buttons_A.resx">
+      <DependentUpon>Buttons_A.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buttons\Buttons_B.resx">
+      <DependentUpon>Buttons_B.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_A_H.resx">
+      <DependentUpon>UserControl_A_H.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_A_G.resx">
+      <DependentUpon>UserControl_A_G.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_A_F.resx">
+      <DependentUpon>UserControl_A_F.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_A_E.resx">
+      <DependentUpon>UserControl_A_E.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_A_D.resx">
+      <DependentUpon>UserControl_A_D.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_A_C.resx">
+      <DependentUpon>UserControl_A_C.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_A_B.resx">
+      <DependentUpon>UserControl_A_B.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageForm.resx">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressBars\ProgressBars_A.resx">
+      <DependentUpon>ProgressBars_A.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_A.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UserControl_A.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_A_A.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UserControl_A_A.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_A_Left.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UserControl_A_Left.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UserControl_A.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_A.Designer.cs">
+      <DependentUpon>UserControl_A.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_A_A.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_A_A.Designer.cs">
+      <DependentUpon>UserControl_A_A.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_A_Left.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_A_Left.Designer.cs">
+      <DependentUpon>UserControl_A_Left.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Min_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Min_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Min_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Max_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Max_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Max_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Close_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Close_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Close_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Normal_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Normal_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Normal_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Logo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_H_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_H_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_G_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_G_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_F_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_F_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_E_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_E_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_D_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_D_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_C_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_C_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_B_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_B_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_A_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_A_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Create_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Create_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Create_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MessageForm.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_MessageForm_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_MessageForm_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_MessageForm_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\A_Left_Pic.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_A_Left_B_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_A_Left_B_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_A_Left_A_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_A_Left_A_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_A_Left_D_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_A_Left_D_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_A_Left_D_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_A_Left_C_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_A_Left_C_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_A_Left_C_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Subject_D_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Subject_D_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Subject_D_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Subject_C_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Subject_C_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Subject_C_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Subject_B_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Subject_B_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Subject_B_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Subject_A_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Subject_A_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Subject_A_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Change_B_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Change_B_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Change_A_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Change_A_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Change_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Change_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Change_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Run_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Run_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_Run_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_CloseB_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_CloseB_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button_CloseB_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Logo_1616.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Logo32.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="KeyAttribute\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

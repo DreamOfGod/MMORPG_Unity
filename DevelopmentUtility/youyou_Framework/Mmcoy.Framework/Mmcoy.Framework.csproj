@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E6ECD27A-00EA-48DA-A110-F315F26CC524}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mmcoy.Framework</RootNamespace>
+    <AssemblyName>Mmcoy.Framework</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Mmcoy.Lib\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HtmlSanitizationLibrary">
+      <HintPath>..\Mmcoy.Lib\HtmlSanitizationLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Mmcoy.Lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Mmcoy.Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Mmcoy.Lib\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Mmcoy.Lib\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Mmcoy.Lib\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractBase\MFAbstractApiController.cs" />
+    <Compile Include="AbstractBase\MFAbstractCacheModel.cs" />
+    <Compile Include="AbstractBase\MFAbstractController.cs" />
+    <Compile Include="AbstractBase\MFAbstractEntity.cs" />
+    <Compile Include="AbstractBase\MFAbstractModel.cs" />
+    <Compile Include="AbstractBase\MFAbstractSQLDBModel.cs" />
+    <Compile Include="AbstractBase\MFAbstractWinService.cs" />
+    <Compile Include="AbstractBase\MFAbstractXmlDAL.cs" />
+    <Compile Include="Config\MFWebConfig.cs" />
+    <Compile Include="DynamicEntity\MFDPAccessor.cs" />
+    <Compile Include="DynamicEntity\MFDynamicProperty.cs" />
+    <Compile Include="Entity\FileUploadEntity.cs" />
+    <Compile Include="Helper\MFSqlHelper.cs" />
+    <Compile Include="Helper\MFSqlHelperParameterCache.cs" />
+    <Compile Include="Helper\MFSQLInjectionHelper.cs" />
+    <Compile Include="Interface\ICache.cs" />
+    <Compile Include="Interface\IModel.cs" />
+    <Compile Include="Interface\IWinService.cs" />
+    <Compile Include="MFAppLoggerManager.cs" />
+    <Compile Include="MFAppLogImpl.cs" />
+    <Compile Include="MFDSAUtil.cs" />
+    <Compile Include="MFFileCacheUtil.cs" />
+    <Compile Include="MFIOLock.cs" />
+    <Compile Include="MFReturnValue.cs" />
+    <Compile Include="MFCacheUtil.cs" />
+    <Compile Include="MFCookieUtil.cs" />
+    <Compile Include="MFDateTimeUtil.cs" />
+    <Compile Include="MFEmailClient.cs" />
+    <Compile Include="MFEncryptUtil.cs" />
+    <Compile Include="MFEnumerableUtil.cs" />
+    <Compile Include="MFHtmlUtil.cs" />
+    <Compile Include="MFIAppLog.cs" />
+    <Compile Include="MFIDictionaryUtil.cs" />
+    <Compile Include="MFIOUtil.cs" />
+    <Compile Include="MFPagerSplit.cs" />
+    <Compile Include="MFRSAUtil.cs" />
+    <Compile Include="MFSerializationUtil.cs" />
+    <Compile Include="MFSiteCacheUtil.cs" />
+    <Compile Include="MFStringUtil.cs" />
+    <Compile Include="MFSystemUtil.cs" />
+    <Compile Include="MFUniqueKey.cs" />
+    <Compile Include="MFValidateCode.cs" />
+    <Compile Include="MFValidateUtil.cs" />
+    <Compile Include="MFVerification.cs" />
+    <Compile Include="MFWebUtil.cs" />
+    <Compile Include="MFXMLUtil.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\MFAppErrorFilter.cs" />
+    <Compile Include="WebAPIAuth\MFClientAuthRequestHandler.cs" />
+    <Compile Include="WebAPIAuth\MFServiceAuthHandler.cs" />
+    <Compile Include="WebAPIAuth\MFWebAPIHttpClient.cs" />
+    <Compile Include="WinService\WinServiceConfigDAL.cs" />
+    <Compile Include="WinService\WinServiceConfigEntity.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
