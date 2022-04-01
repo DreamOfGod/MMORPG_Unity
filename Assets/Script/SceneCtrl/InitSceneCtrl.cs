@@ -18,56 +18,39 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class InitSceneCtrl : MonoBehaviour
 {
-    async void Start()
+    void Start()
     {
         //StartCoroutine(LoadLogon());
 
-        //NetWorkHttp.Instance.Get("http://127.0.0.1:8080/api/account?id=1", (UnityWebRequest.Result result, string text) => {
-        //    if(result == UnityWebRequest.Result.Success)
-        //    {
-        //        AccountEntity entity = LitJson.JsonMapper.ToObject<AccountEntity>(text);
-        //        Debug.Log("account name:" + entity.Username);
-        //    }
-        //});
-
-
-        //JsonData jsonData = new JsonData();
-        //jsonData["Username"] = "test";
-        //jsonData["Pwd"] = "123456";
-        //NetWorkHttp.Instance.Post("http://127.0.0.1:8080/api/register", jsonData.ToJson(), (UnityWebRequest.Result result, string text) =>
-        //{
-        //    if (result == UnityWebRequest.Result.Success)
-        //    {
-        //        Debug.Log("用户id：" + text);
-        //    }
-        //});
-
-        NetWorkSocket.Instance.Connect("127.0.0.1", 1011);
-
-        EventDispatcher.Instance.AddListener(ProtoCodeDef.Test, TestListener);
-
-        Debug.Log("dataPath=" + Application.dataPath);
-        Debug.Log("streamingAssetsPath=" + Application.streamingAssetsPath);
-        Debug.Log("persistentDataPath=" + Application.persistentDataPath);
-        Debug.Log("temporaryCachePath=" + Application.temporaryCachePath);
-
-        await TestAsync();
-        Debug.Log("Start end");//ssss
-    }
-
-    private async Task<int> TestAsync()
-    {
-        await Task.Run(() =>
+        NetWorkHttp.Instance.Get("http://127.0.0.1:8080/api/account?id=1", (UnityWebRequest.Result result, string text) =>
         {
-            Debug.Log("Task.Run1");
+            if (result == UnityWebRequest.Result.Success)
+            {
+                AccountEntity entity = LitJson.JsonMapper.ToObject<AccountEntity>(text);
+                Debug.Log("account name:" + entity.Username);
+            }
         });
-        Debug.Log("TestAsync begin");
-        await Task.Run(() =>
+
+
+        JsonData jsonData = new JsonData();
+        jsonData["Username"] = "test";
+        jsonData["Pwd"] = "123456";
+        NetWorkHttp.Instance.Post("http://127.0.0.1:8080/api/register", jsonData.ToJson(), (UnityWebRequest.Result result, string text) =>
         {
-            Debug.Log("Task.Run2");
+            if (result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("用户id：" + text);
+            }
         });
-        Debug.Log("TestAsync end");
-        return 0;
+
+        //NetWorkSocket.Instance.Connect("127.0.0.1", 1011);
+
+        //EventDispatcher.Instance.AddListener(ProtoCodeDef.Test, TestListener);
+
+        //Debug.Log("dataPath=" + Application.dataPath);
+        //Debug.Log("streamingAssetsPath=" + Application.streamingAssetsPath);
+        //Debug.Log("persistentDataPath=" + Application.persistentDataPath);
+        //Debug.Log("temporaryCachePath=" + Application.temporaryCachePath);
     }
 
     private void TestListener(byte[] buffer)
