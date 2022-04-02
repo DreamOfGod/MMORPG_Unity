@@ -4,36 +4,15 @@
 //备    注：
 //===============================================
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using UnityEngine;
 
 /// <summary>
 /// Socket通信管理
 /// </summary>
-public class NetWorkSocket
+public class NetWorkSocket: Singleton<NetWorkSocket>
 {
-    #region 单例
-    private static NetWorkSocket instance;
-    public static NetWorkSocket Instance
-    {
-        get
-        {
-            if(instance == null)
-            {
-                instance = new NetWorkSocket();
-            }
-            return instance;
-        }
-    }
-    #endregion
-
-    private NetWorkSocket() { }
-
     private Socket m_Socket;
 
     /// <summary>

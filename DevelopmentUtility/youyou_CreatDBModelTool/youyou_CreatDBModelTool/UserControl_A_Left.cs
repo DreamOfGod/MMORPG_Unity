@@ -9,7 +9,6 @@ using System.Windows.Forms;
 
 using System.Data.SqlClient;
 using Microsoft.ApplicationBlocks.Data;
-using MySql.Data.MySqlClient;
 
 namespace youyou_CreatDBModelTool
 {
@@ -142,9 +141,10 @@ namespace youyou_CreatDBModelTool
                     return;
                 }
             }
+
             if (this.radioButton2.Checked)
             {
-                Config.DefaultConn = "server=" + this.txt_IP.Text.Trim() + "; port=3306 ;user=" + this.txt_UID.Text.Trim() + ";password=" + this.txt_PWD.Text.Trim();
+                Config.DefaultConn = "server=" + this.txt_IP.Text.Trim() + ";uid=" + this.txt_UID.Text.Trim() + ";pwd=" + this.txt_PWD.Text.Trim() + ";database=master";
             }
             else
             {
@@ -161,25 +161,25 @@ namespace youyou_CreatDBModelTool
 
         private void Init_comBoxDataBase(DataTable dt)
         {
-            //this.comBox_DataBase.DataSource = null;
+            this.comBox_DataBase.DataSource = null;
             this.comBox_DataBase.DataSource = dt;
-            this.comBox_DataBase.DisplayMember = "Database";
-            this.comBox_DataBase.ValueMember = "Database";
+            this.comBox_DataBase.DisplayMember = "name";
+            this.comBox_DataBase.ValueMember = "name";
         }
 
         private void ConnectionDataBase()
         {
             try
             {
-                MySqlConnection myTestConnection = new MySqlConnection(Config.DefaultConn);
-                DataSet ds = MySqlHelper.ExecuteDataset(myTestConnection, "show databases;");
+                SqlConnection myTestConnection = new SqlConnection(Config.DefaultConn);
+                DataTable dt = SqlHelper.ExecuteDataTable(myTestConnection, CommandType.Text, "select [name] from [sysdatabases] order by [name]");
 
                 InitcomBoxDataBase ibd = new InitcomBoxDataBase(Init_comBoxDataBase);
-                this.Invoke(ibd, ds.Tables[0]);
+                this.Invoke(ibd, dt);
             }
-            catch(Exception ex)
+            catch
             {
-                new MessageForm("数据库无法打开\n" + ex.Message).ShowDialog();
+                new MessageForm("数据库无法打开").ShowDialog();
             }
         }
 
@@ -215,15 +215,15 @@ namespace youyou_CreatDBModelTool
 
             if (this.radioButton2.Checked)
             {
-                Config.CurrentConn = "server=" + this.txt_IP.Text.Trim() + "; port=3306 ;user=" + this.txt_UID.Text.Trim() + ";password=" + this.txt_PWD.Text.Trim() + ";database=" + this.comBox_DataBase.SelectedValue.ToString().Trim();
+                Config.CurrentConn = "server=" + this.txt_IP.Text.Trim() + ";uid=" + this.txt_UID.Text.Trim() + ";pwd=" + this.txt_PWD.Text.Trim() + ";database=" + this.comBox_DataBase.SelectedValue.ToString().Trim();
             }
             else
             {
                 Config.CurrentConn = "Data Source=" + this.txt_IP.Text.Trim() + ";Initial Catalog=" + this.comBox_DataBase.SelectedValue.ToString() + ";Integrated Security=True";
             }
-            MySqlConnection myConnection = new MySqlConnection(Config.CurrentConn);
+            SqlConnection myConnection = new SqlConnection(Config.CurrentConn);
 
-            DataSet ds = MySqlHelper.ExecuteDataset(myConnection, "show tables;");
+            DataTable dt = SqlHelper.ExecuteDataTable(myConnection, CommandType.Text, "select [id], [name] from [sysobjects] where [type] = 'u' order by [name]");
 
             Config.CurrentDataBaseName = this.comBox_DataBase.SelectedValue.ToString();
 
@@ -231,11 +231,11 @@ namespace youyou_CreatDBModelTool
 
             TreeNode _TreeNode = new TreeNode(this.comBox_DataBase.SelectedValue.ToString(), 0, 0);
 
-            foreach (DataRow drw in ds.Tables[0].Rows)
+            foreach (DataRow drw in dt.Rows)
             {
                 TreeNode myNode = new TreeNode();
-                //myNode.Tag = drw["id"];
-                myNode.Text = drw["Tables_in_" + this.comBox_DataBase.SelectedValue.ToString().Trim()].ToString();
+                myNode.Tag = drw["id"];
+                myNode.Text = drw["name"].ToString();
                 myNode.ImageIndex = 1;
                 myNode.SelectedImageIndex = 1;
                 _TreeNode.Nodes.Add(myNode);

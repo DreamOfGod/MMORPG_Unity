@@ -361,9 +361,5 @@ namespace youyou_CreatDBModelTool
             System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
         }
 
-        private void userControl_A1_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -109,7 +109,7 @@ namespace youyou_CreatDBModelTool
             if (this.cb_Add.Checked)
             {
                 sbContent.Append("-- =============================================\n");
-                sbContent.Append("-- Author:北京-边涯\n");
+                sbContent.Append("-- Author:\n");
                 sbContent.Append("-- Create Date:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\n");
                 sbContent.Append("-- Description:添加\n");
                 sbContent.Append("-- =============================================\n");
@@ -179,7 +179,7 @@ namespace youyou_CreatDBModelTool
                     strUpdatezd += "		    " + drw[3].ToString() + "=@" + drw[3].ToString() + ",\n";
                 }
                 sbContent.Append("-- =============================================\n");
-                sbContent.Append("-- Author:北京-边涯\n");
+                sbContent.Append("-- Author:\n");
                 sbContent.Append("-- Create Date:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\n");
                 sbContent.Append("-- Description:修改\n");
                 sbContent.Append("-- =============================================\n");
@@ -249,7 +249,7 @@ namespace youyou_CreatDBModelTool
                     }
                 }
                 sbContent.Append("-- =============================================\n");
-                sbContent.Append("-- Author:北京-边涯\n");
+                sbContent.Append("-- Author:\n");
                 sbContent.Append("-- Create Date:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\n");
                 sbContent.Append("-- Description:删除\n");
                 sbContent.Append("-- =============================================\n");
@@ -322,7 +322,7 @@ namespace youyou_CreatDBModelTool
                     }
                 }
                 sbContent.Append("-- =============================================\n");
-                sbContent.Append("-- Author:北京-边涯\n");
+                sbContent.Append("-- Author:\n");
                 sbContent.Append("-- Create Date:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\n");
                 sbContent.Append("-- Description:查询实体\n");
                 sbContent.Append("-- =============================================\n");

@@ -9,26 +9,8 @@ using UnityEngine.Networking;
 /// <summary>
 /// Http通讯管理
 /// </summary>
-public class NetWorkHttp
+public class NetWorkHttp : Singleton<NetWorkHttp>
 {
-    #region 单例
-    private static NetWorkHttp instance;
-
-    public static NetWorkHttp Instance
-    {
-        get
-        {
-            if(instance == null)
-            {
-                instance = new NetWorkHttp();
-            }
-            return instance;
-        }
-    }
-    #endregion
-
-    private NetWorkHttp() { }
-
     #region Http请求回调类型
     /// <summary>
     /// Http请求回调类型

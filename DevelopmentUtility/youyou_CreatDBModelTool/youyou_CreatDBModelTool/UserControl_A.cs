@@ -175,10 +175,5 @@ namespace youyou_CreatDBModelTool
             this.ReSetControls();
             this.userControl_A_H1.Visible = true;
         }
-
-        private void userControl_A_Left1_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

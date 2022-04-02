@@ -9,8 +9,7 @@ using System.Collections;
 using System.Windows.Forms;
 
 using System.Net;
-using System.Net.Sockets;
-using MySql.Data.MySqlClient;
+using System.Net.Sockets; 
 
 namespace youyou_CreatDBModelTool
 {
@@ -19,10 +18,10 @@ namespace youyou_CreatDBModelTool
         public static readonly string strUrl = "http://www.u3dol.com";
         public static readonly string CurrentVersion = "2016.03";
 
-        public static string strEdition = CurrentVersion.Equals(ServerVersion) ? "本系统适用于SqlServer    当前版本：Beta V" + CurrentVersion + "    开发：北京-边涯    QQ：2838771247" : "                                    您的软件不是最新版本　请下载最新　V" + ServerVersion + "　版";
+        public static string strEdition = CurrentVersion.Equals(ServerVersion) ? "本系统适用于SqlServer    当前版本：Beta V" + CurrentVersion : "                                    您的软件不是最新版本　请下载最新　V" + ServerVersion + "　版";
 
-        public static string DefaultIP = "127.0.0.1";
-        public static string DefaultUID = "root";
+        public static string DefaultIP = ".";
+        public static string DefaultUID = "youyou";
         public static string DefaultPwd = "123456";
 
         private static string _ServerVersion;
@@ -103,7 +102,7 @@ namespace youyou_CreatDBModelTool
         {
             StringBuilder sbTable = new StringBuilder();
 
-            if (MySqlHelper.ExecuteScalar(DefaultConn, "SELECT COUNT(1) FROM sysobjects WHERE [NAME] ='sysproperties'").ToString().Trim().Equals("0"))
+            if (SqlHelper.ExecuteScalar(DefaultConn, CommandType.Text, "SELECT COUNT(1) FROM sysobjects WHERE [NAME] ='sysproperties'").ToString().Trim().Equals("0"))
             {//2005
 
 

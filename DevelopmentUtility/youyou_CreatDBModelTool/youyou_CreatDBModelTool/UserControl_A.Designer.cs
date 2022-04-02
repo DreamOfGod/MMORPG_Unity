@@ -136,7 +136,6 @@ namespace youyou_CreatDBModelTool
             this.userControl_A_Left1.Name = "userControl_A_Left1";
             this.userControl_A_Left1.Size = new System.Drawing.Size(190, 595);
             this.userControl_A_Left1.TabIndex = 0;
-            this.userControl_A_Left1.Load += new System.EventHandler(this.userControl_A_Left1_Load);
             // 
             // userControl_A_B1
             // 

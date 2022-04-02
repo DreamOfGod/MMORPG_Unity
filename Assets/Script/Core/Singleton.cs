@@ -3,25 +3,22 @@
 //创建时间：2022-02-23 16:50:48
 //备    注：
 //===============================================
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 /// <summary>
 /// 单例基类
 /// </summary>
-/// <typeparam name="T"></typeparam>
-public class Singleton<T> where T: new()//泛型约束：T必须具有无参构造
+/// <typeparam name="Subclass">子类类型</typeparam>
+public abstract class Singleton<Subclass> where Subclass : new()
 {
-    private static T instance;
+    private static Subclass instance;
 
-    public static T Instance
+    public static Subclass Instance
     {
         get
         {
             if(instance == null)
             {
-                instance = new T();
+                instance = new Subclass();
             }
             return instance;
         }

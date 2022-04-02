@@ -84,7 +84,7 @@ namespace youyou_CreatDBModelTool
             StringBuilder sbContent = new StringBuilder();
             sbContent.Append("/// <summary>\n");
             sbContent.AppendFormat("/// 类名 : {0}Entity\n", Config.CurrentTableName);
-            sbContent.Append("/// 作者 : 北京-边涯\n");
+            sbContent.Append("/// 作者 : \n");
             sbContent.Append("/// 说明 : \n");
             sbContent.Append("/// 创建日期 : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\n");
             sbContent.Append("/// </summary>\n");
