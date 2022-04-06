@@ -347,10 +347,12 @@
     <Compile Include="Assets\Script\Data\Protocol\Shop_BuyProductProto.cs" />
     <Compile Include="Assets\Script\SceneCtrl\MonsterAbout\MonsterCreatePos.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenRotation.cs" />
+    <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\T4M\Shaders\ShaderModel2\Diffuse\T4M 4 Textures.shader" />
     <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
+    <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
     <None Include="Assets\NGUI\Examples\Models\Orc\Orc Skin.shader" />
     <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
@@ -358,17 +360,22 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 3.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (TextureClip).shader" />
     <None Include="Assets\HUD Text\ReadMe - 1.13.txt" />
+    <None Include="Assets\Demigiant\DOTween\DOTween46.xml" />
+    <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (TextureClip).shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
     <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth.shader" />
+    <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
+    <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
     <None Include="Assets\HUD Text\Examples\Atlases\Arimo20.txt" />
     <None Include="Assets\T4M\Shaders\ShaderModel2\DirectionLM\T4M 3 TexturesBumped DLM.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 2.shader" />
     <None Include="Assets\NGUI\ReadMe - 3.12.0.txt" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 2.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
+    <None Include="Assets\Demigiant\DemiLib\DemiLib.dll" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 2.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 3.shader" />
@@ -378,20 +385,29 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
     <None Include="Assets\Scene\SceneModel\ShanGu\Shader\MogoTransparentDiffuse.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 1.shader" />
+    <None Include="Assets\Demigiant\DOTween\DOTween43.dll" />
+    <None Include="Assets\Demigiant\DOTween\DOTween.dll" />
     <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
     <None Include="Assets\Scene\SceneModel\ShanGu\Shader\MogoSkybox.shader" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
+    <None Include="Assets\Demigiant\DOTween\DOTween46.dll" />
     <None Include="Assets\NGUI\Examples\Shaders\Refractive.shader" />
     <None Include="Assets\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
+    <None Include="Assets\Demigiant\DemiLib\DemiLib.xml" />
     <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
+    <None Include="Assets\Demigiant\DOTweenPro\DOTweenPro.dll" />
+    <None Include="Assets\Demigiant\DOTweenPro\readme.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
+    <None Include="Assets\Demigiant\DOTweenPro\DOTweenPro.XML" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 1.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 3.shader" />
+    <None Include="Assets\Demigiant\DOTween\readme.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
     <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
+    <None Include="Assets\Demigiant\DOTween\DOTween50.dll" />
     <None Include="Assets\HUD Text\Examples\Atlases\Large.txt" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text (TextureClip).shader" />
     <None Include="Assets\NGUI\Examples\Shaders\Unlit - Additive Colored.shader" />
@@ -632,6 +648,24 @@
     </Reference>
     <Reference Include="LitJson">
       <HintPath>Assets\Plugins\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Demigiant\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DemiLib">
+      <HintPath>Assets\Demigiant\DemiLib\DemiLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>Assets\Demigiant\DOTween\DOTween46.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween50">
+      <HintPath>Assets\Demigiant\DOTween\DOTween50.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenPro">
+      <HintPath>Assets\Demigiant\DOTweenPro\DOTweenPro.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Demigiant\DOTween\DOTween43.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>E:\UnityEditors\2020.3.28f1c1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

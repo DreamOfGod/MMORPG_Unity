@@ -148,11 +148,18 @@
     <Compile Include="Assets\NGUI\Scripts\Editor\UIButtonMessageEditor.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWidgetContainerEditor.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\NGUISnap.cs" />
+    <Compile Include="Assets\Demigiant\DOTweenPro\Editor\DOTweenAnimationInspector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\NGUI\Editor\x86_64\FreeType.dll" />
+    <None Include="Assets\Demigiant\DOTween\Editor\DOTweenEditor.dll" />
+    <None Include="Assets\Demigiant\DOTweenPro\Editor\DOTweenProEditor.XML" />
+    <None Include="Assets\Demigiant\DOTweenPro\Editor\DOTweenProEditor.dll" />
     <None Include="Assets\Editor\AssetBundle\AssetBundleConfig.xml" />
+    <None Include="Assets\Demigiant\DemiLib\Editor\DemiEditor.dll" />
     <None Include="Assets\NGUI\Editor\x86\FreeType.dll" />
+    <None Include="Assets\Demigiant\DemiLib\Editor\DemiEditor.XML" />
+    <None Include="Assets\Demigiant\DOTween\Editor\DOTweenEditor.XML" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -418,6 +425,33 @@
     </Reference>
     <Reference Include="LitJson">
       <HintPath>Assets\Plugins\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenProEditor">
+      <HintPath>Assets\Demigiant\DOTweenPro\Editor\DOTweenProEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>Assets\Demigiant\DOTween\Editor\DOTweenEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Demigiant\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DemiLib">
+      <HintPath>Assets\Demigiant\DemiLib\DemiLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DemiEditor">
+      <HintPath>Assets\Demigiant\DemiLib\Editor\DemiEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>Assets\Demigiant\DOTween\DOTween46.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween50">
+      <HintPath>Assets\Demigiant\DOTween\DOTween50.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenPro">
+      <HintPath>Assets\Demigiant\DOTweenPro\DOTweenPro.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Demigiant\DOTween\DOTween43.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
