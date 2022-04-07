@@ -81,8 +81,8 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UITextList.cs" />
     <Compile Include="Assets\Script\Data\Protocol\RoleOperation_CreateRoleProto.cs" />
     <Compile Include="Assets\FingerGestures\Utils\GestureStateTracker.cs" />
-    <Compile Include="Assets\NGUI\Scripts\Interaction\UIEventTrigger.cs" />
     <Compile Include="Assets\Script\Data\Protocol\Task_SearchTaskProto.cs" />
+    <Compile Include="Assets\NGUI\Scripts\Interaction\UIEventTrigger.cs" />
     <Compile Include="Assets\Script\Data\Protocol\Shop_BuyProductReturnProto.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
     <Compile Include="Assets\Script\Common\Core\zlib_NET_104\Tree.cs" />
@@ -219,6 +219,7 @@
     <Compile Include="Assets\Script\Data\Protocol\WorldMap_CurrRoleUseSkillProto.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\PropertyReference.cs" />
     <Compile Include="Assets\FingerGestures\Toolbox\TBSwipe.cs" />
+    <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
     <Compile Include="Assets\Script\Common\Core\ZlibHelper.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIRoot.cs" />
     <Compile Include="Assets\Script\Data\Protocol\WorldMap_CurrRoleMoveProto.cs" />
@@ -347,7 +348,8 @@
     <Compile Include="Assets\Script\Data\Protocol\Shop_BuyProductProto.cs" />
     <Compile Include="Assets\Script\SceneCtrl\MonsterAbout\MonsterCreatePos.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenRotation.cs" />
-    <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
+    <Compile Include="Assets\Script\Core\ViewBase.cs" />
+    <Compile Include="Assets\Script\UI\View\LogonView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\T4M\Shaders\ShaderModel2\Diffuse\T4M 4 Textures.shader" />
@@ -643,29 +645,29 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>E:\UnityEditors\2020.3.28f1c1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="LitJson">
-      <HintPath>Assets\Plugins\LitJson.dll</HintPath>
-    </Reference>
     <Reference Include="DOTween">
       <HintPath>Assets\Demigiant\DOTween\DOTween.dll</HintPath>
     </Reference>
     <Reference Include="DemiLib">
       <HintPath>Assets\Demigiant\DemiLib\DemiLib.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="DOTween46">
       <HintPath>Assets\Demigiant\DOTween\DOTween46.dll</HintPath>
     </Reference>
-    <Reference Include="DOTween50">
-      <HintPath>Assets\Demigiant\DOTween\DOTween50.dll</HintPath>
+    <Reference Include="LitJson">
+      <HintPath>Assets\Plugins\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Demigiant\DOTween\DOTween43.dll</HintPath>
     </Reference>
     <Reference Include="DOTweenPro">
       <HintPath>Assets\Demigiant\DOTweenPro\DOTweenPro.dll</HintPath>
     </Reference>
-    <Reference Include="DOTween43">
-      <HintPath>Assets\Demigiant\DOTween\DOTween43.dll</HintPath>
+    <Reference Include="DOTween50">
+      <HintPath>Assets\Demigiant\DOTween\DOTween50.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>E:\UnityEditors\2020.3.28f1c1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -1035,6 +1037,9 @@
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
