@@ -17,6 +17,14 @@ public class LayerName
 }
 
 /// <summary>
+/// 排序层名字
+/// </summary>
+public class SortingLayerName
+{
+    public const string Window = "Window";//窗口
+}
+
+/// <summary>
 /// 场景UI根节点名称
 /// </summary>
 public class SceneUIName

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2956707129302782061}
   - component: {fileID: 2956707129302782067}
   - component: {fileID: 2956707129302782060}
-  - component: {fileID: 2956707129302782066}
   - component: {fileID: 3279438185191959850}
+  - component: {fileID: 7810584682912193158}
   m_Layer: 5
   m_Name: LogonView
   m_TagString: Untagged
@@ -81,27 +81,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!223 &2956707129302782066
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2956707129302782062}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
 --- !u!114 &3279438185191959850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +95,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ViewDuration: 0.2
   ViewEase: 1
+--- !u!114 &7810584682912193158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2956707129302782062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db4d70f6c960b5f4eb3cdcc29f1e829f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LogonView: {fileID: 3279438185191959850}
+  m_InputAccount: {fileID: 0}
+  m_InputPwd: {fileID: 0}
 --- !u!1 &2956707129332250950
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,7 +1046,6 @@ GameObject:
   - component: {fileID: 2956707130031505390}
   - component: {fileID: 2956707130031505388}
   - component: {fileID: 2956707130031505389}
-  - component: {fileID: 1079910839568732618}
   m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
@@ -1117,17 +1110,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!210 &1079910839568732618
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2956707130031505391}
-  m_Enabled: 1
-  m_SortingLayerID: 42775841
-  m_SortingLayer: 1
-  m_SortingOrder: 1
 --- !u!1 &2956707130046767293
 GameObject:
   m_ObjectHideFlags: 0
@@ -1422,7 +1404,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2956707130403711878}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7810584682912193158}
+        m_TargetAssemblyTypeName: LogonController, Assembly-CSharp
+        m_MethodName: Logon
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2956707130517749228
 GameObject:
   m_ObjectHideFlags: 0
@@ -1543,7 +1537,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2956707130517749233}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7810584682912193158}
+        m_TargetAssemblyTypeName: LogonController, Assembly-CSharp
+        m_MethodName: ToRegister
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2956707130535011045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1774,7 +1780,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 287.5, y: 148.6}
+  m_AnchoredPosition: {x: 289, y: 155.6}
   m_SizeDelta: {x: 63, y: 62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2956707131344577973
@@ -1861,7 +1867,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3279438185191959850}
         m_TargetAssemblyTypeName: ViewBase, Assembly-CSharp
-        m_MethodName: ZoomOutClose
+        m_MethodName: MoveFromRightToLeftClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
