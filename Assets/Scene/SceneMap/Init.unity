@@ -220,6 +220,7 @@ GameObject:
   - component: {fileID: 1055838450}
   - component: {fileID: 1055838449}
   - component: {fileID: 1055838448}
+  - component: {fileID: 1055838452}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -309,6 +310,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1055838452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055838447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e5b6ef18f7ad5f4ea5eb2c948a45731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InitSceneController: {fileID: 0}
 --- !u!1 &1082163525
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +409,7 @@ GameObject:
   - component: {fileID: 1288877906}
   - component: {fileID: 1288877905}
   m_Layer: 5
-  m_Name: Img_BG
+  m_Name: ImgBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -466,7 +480,7 @@ GameObject:
   - component: {fileID: 1389744006}
   - component: {fileID: 1389744005}
   m_Layer: 0
-  m_Name: InitSceneCtrl
+  m_Name: InitSceneController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -484,6 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a25096d72d584a2498694c7c457139c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InitSceneUIView: {fileID: 1055838452}
 --- !u!4 &1389744006
 Transform:
   m_ObjectHideFlags: 0
@@ -507,7 +522,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1390112536}
-  - component: {fileID: 1390112535}
   m_Layer: 0
   m_Name: Global
   m_TagString: Untagged
@@ -515,18 +529,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1390112535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1390112534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15cdfde07ad26a148a3bd93e4c0909cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1390112536
 Transform:
   m_ObjectHideFlags: 0
@@ -621,7 +623,7 @@ GameObject:
   - component: {fileID: 2114472124}
   - component: {fileID: 2114472123}
   m_Layer: 5
-  m_Name: Text
+  m_Name: TxtTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

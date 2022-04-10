@@ -4,6 +4,7 @@
 /// 说明 : 返回值类
 /// 创建日期 : 2013-01-01
 /// </summary>
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;

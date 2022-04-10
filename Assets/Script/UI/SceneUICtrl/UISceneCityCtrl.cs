@@ -5,7 +5,7 @@
 //===============================================
 using UnityEngine;
 
-public class UISceneCityCtrl : UISceneBase
+public class UISceneCityCtrl : MonoBehaviour
 {
     /// <summary>
     /// 角色头顶UI条容器
@@ -25,7 +25,7 @@ public class UISceneCityCtrl : UISceneBase
     [SerializeField]
     private UISprite m_SprHP;
 
-    protected override void Start()
+    void Start()
     {
         m_LblNickname.text = UserInfo.nickname;
     }

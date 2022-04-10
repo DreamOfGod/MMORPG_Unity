@@ -36,17 +36,17 @@ public class CitySceneCtrl : MonoBehaviour
     void Awake()
     {
 #if UNITY_EDITOR
-    Debug.Log("UNITY_EDITOR");
+        DebugLogger.Log("UNITY_EDITOR");
 #endif
 
 #if ANDROID
-    Debug.Log("ANDROID");
+    DebugLogger.Log("ANDROID");
 #endif
 
 #if DEBUG_MODE
-    Debug.Log("Debug Mode");
+        DebugLogger.Log("Debug Mode");
 #endif
-        Debug.Log("-------------");
+        DebugLogger.Log("-------------");
         LoadMainPlayer();
     }
 

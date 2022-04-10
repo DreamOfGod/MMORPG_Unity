@@ -17,6 +17,12 @@ public class SceneLoadingCtrl : MonoBehaviour
 
     private int m_CurrentProgress;
 
+    public static void LoadScene(string sceneName)
+    {
+        NextScene = sceneName;
+        SceneManager.LoadScene(SceneName.Loading);
+    }
+
     void Start()
     {
         m_CurrentProgress = 0;

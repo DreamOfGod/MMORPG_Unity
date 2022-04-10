@@ -605,9 +605,9 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    1: DEBUG_MODE;DEBUG_LOG
-    4: DEBUG_MODE;DEBUG_LOG
-    7: DEBUG_MODE;DEBUG_LOG
+    1: DEBUG_MODE
+    4: DEBUG_MODE
+    7: DEBUG_MODE
     13: 
   additionalCompilerArguments: {}
   platformArchitecture: {}

@@ -44,14 +44,14 @@ public class NetWorkSocket: Singleton<NetWorkSocket>
         try
         {
             m_Socket.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
-            Debug.Log(string.Format("连接{0}:{1}成功", ip, port));
+            DebugLogger.LogFormat("连接{0}:{1}成功", ip, port);
 
             //异步接收数据
             m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
         }
         catch(Exception ex)
         {
-            Debug.Log(string.Format("连接{0}:{1}失败，error：{2}", ip, port, ex.Message));
+            DebugLogger.LogFormat("连接{0}:{1}失败，error：{2}", ip, port, ex.Message);
         }
     }
 
@@ -70,7 +70,7 @@ public class NetWorkSocket: Singleton<NetWorkSocket>
         catch (Exception ex)
         {
             //连接异常
-            Console.WriteLine("与{0}的连接异常，error：{1}", m_Socket.RemoteEndPoint.ToString(), ex.Message);
+            DebugLogger.LogFormat("与{0}的连接异常，error：{1}", m_Socket.RemoteEndPoint.ToString(), ex.Message);
             return;
         }
 
@@ -160,7 +160,7 @@ public class NetWorkSocket: Singleton<NetWorkSocket>
         else
         {
             //客户端断开连接
-            Debug.Log("服务器{0}断开连接" + m_Socket.RemoteEndPoint.ToString());
+            DebugLogger.LogFormat("服务器{0}断开连接",  m_Socket.RemoteEndPoint.ToString());
         }
     }
 

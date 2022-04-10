@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UISceneLoadingCtrl : UISceneBase
+public class UISceneLoadingCtrl : MonoBehaviour
 {
     [SerializeField]
     private UIProgressBar m_Progress;

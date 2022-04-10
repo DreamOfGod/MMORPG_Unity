@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 16556099}
   - component: {fileID: 16556098}
   - component: {fileID: 16556097}
+  - component: {fileID: 16556101}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -216,13 +217,25 @@ RectTransform:
   m_Children:
   - {fileID: 1312964956}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &16556101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16556096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4af9212e7845d49a15800869f7a6a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &503453474
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +247,7 @@ GameObject:
   - component: {fileID: 503453476}
   - component: {fileID: 503453475}
   m_Layer: 0
-  m_Name: LogOnSceneCtrl
+  m_Name: LogonSceneController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -265,7 +278,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1127815838
 GameObject:
