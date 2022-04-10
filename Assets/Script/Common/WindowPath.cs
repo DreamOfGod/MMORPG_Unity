@@ -12,5 +12,5 @@ public class WindowPath
     public const string Message = "UIPrefab/Window/MessageWindow";
     public const string Logon = "UIPrefab/Window/LogonWindow";
     public const string Register = "UIPrefab/Window/RegisterWindow";
-    
+    public const string GameServerEnter = "UIPrefab/Window/GameServerEnterWindow";
 }

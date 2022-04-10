@@ -3,19 +3,41 @@
 //创建时间：2022-04-10 18:34:22
 //备    注：
 //===============================================
-using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class LogonSceneUIView : MonoBehaviour
 {
     private void Start()
     {
-        StartCoroutine(OpenLogonView());
+        CheckAccount();
     }
 
-    private IEnumerator OpenLogonView()
+    private void CheckAccount()
     {
-        yield return new WaitForSeconds(0.5f);
-        WindowBase.OpenWindowZoomInShow(WindowPath.Logon, transform);
+        if(PlayerPrefs.HasKey(PlayerPrefsKey.AccountID))
+        {
+            AccountModel.Instance.QuickLogon((UnityWebRequest.Result result, MFReturnValue<int> ret) => { 
+                if(result == UnityWebRequest.Result.Success)
+                {
+                    if(ret.HasError)
+                    {
+                        WindowBase.OpenWindowZoomInShow(WindowPath.Logon, transform);
+                    }
+                    else
+                    {
+                        WindowBase.OpenWindowZoomInShow(WindowPath.GameServerEnter, transform);
+                    }
+                }
+                else
+                {
+                    WindowBase.OpenWindowZoomInShow(WindowPath.Logon, transform);
+                }
+            });
+        }
+        else
+        {
+            WindowBase.OpenWindowZoomInShow(WindowPath.Register, transform);
+        }
     }
 }

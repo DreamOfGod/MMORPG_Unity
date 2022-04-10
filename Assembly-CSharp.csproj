@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\Bin\Debug\</OutputPath>
-    <DefineConstants>UNITY_2020_3_28;UNITY_2020_3;UNITY_2020;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;USE_SEARCH_ENGINE_API;SCENE_TEMPLATE_MODULE;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_MONO_BDWGC;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;PLATFORM_STANDALONE;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;UNITY_UGP_API;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_STANDARD_2_0;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_IG;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_CLOUD_FEATURES;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;DEBUG_MODE;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <DefineConstants>UNITY_2020_3_28;UNITY_2020_3;UNITY_2020;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;USE_SEARCH_ENGINE_API;SCENE_TEMPLATE_MODULE;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_MONO_BDWGC;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;PLATFORM_STANDALONE;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;UNITY_UGP_API;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_STANDARD_2_0;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_IG;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_CLOUD_FEATURES;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;DEBUG_MODE;DEBUG_LOG;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -65,6 +65,7 @@
     <Compile Include="Assets\Script\Data\Protocol\WorldMap_OtherRoleLeaveProto.cs" />
     <Compile Include="Assets\Script\Role\RoleCtrl\MainPlayerCtrl\MainPlayerStateHurt.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\LagRotation.cs" />
+    <Compile Include="Assets\Script\Common\DebugLogger.cs" />
     <Compile Include="Assets\Script\Common\Core\zlib_NET_104\InfCodes.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIScrollView.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIToggle.cs" />
@@ -113,12 +114,13 @@
     <Compile Include="Assets\NGUI\Scripts\Internal\ByteReader.cs" />
     <Compile Include="Assets\Script\Data\Protocol\Task_SearchTaskReturnProto.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIStretch.cs" />
-    <Compile Include="Assets\Script\UI\Window\RegisterWindow\ReigsterWindow.cs" />
+    <Compile Include="Assets\Script\UI\Window\LogonWindow\ReigsterWindow.cs" />
     <Compile Include="Assets\Script\Common\Core\zlib_NET_104\SupportClass.cs" />
+    <Compile Include="Assets\Script\Common\Statistics.cs" />
     <Compile Include="Assets\Script\Data\Protocol\GameLevel_ResurgenceReturnProto.cs" />
     <Compile Include="Assets\Script\Common\Core\zlib_NET_104\ZStreamException.cs" />
     <Compile Include="Assets\Script\Data\Protocol\Goods_SearchEquipDetailProto.cs" />
-    <Compile Include="Assets\Script\Common\ViewPath.cs" />
+    <Compile Include="Assets\Script\Common\WindowPath.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\System\InvGameItem.cs" />
     <Compile Include="Assets\HUD Text\Examples\Scripts\ChatParticipant.cs" />
     <Compile Include="Assets\Script\Data\Protocol\GameLevel_EnterReturnProto.cs" />
@@ -147,6 +149,7 @@
     <Compile Include="Assets\Script\Data\Protocol\WorldMap_CurrRoleUpdateInfoProto.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIDragDropContainer.cs" />
     <Compile Include="Assets\Script\Data\Protocol\System_GameServerConfigReturnProto.cs" />
+    <Compile Include="Assets\Script\UI\SceneUI\InitSceneUI\InitSceneUIView.cs" />
     <Compile Include="Assets\Script\Data\Protocol\GameLevel_FailReturnProto.cs" />
     <Compile Include="Assets\Script\SceneCtrl\SceneLoadingCtrl.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenHeight.cs" />
@@ -217,12 +220,14 @@
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\BMSymbol.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIDragDropItem.cs" />
+    <Compile Include="Assets\Script\UI\Window\MessageWindow\MessageController.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonColor.cs" />
     <Compile Include="Assets\Script\Data\Protocol\WorldMap_CurrRoleUseSkillProto.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\PropertyReference.cs" />
     <Compile Include="Assets\FingerGestures\Toolbox\TBSwipe.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
     <Compile Include="Assets\Script\Common\Core\ZlibHelper.cs" />
+    <Compile Include="Assets\Script\UI\Window\MessageWindow\MessageWindow.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIRoot.cs" />
     <Compile Include="Assets\Script\Data\Protocol\WorldMap_CurrRoleMoveProto.cs" />
     <Compile Include="Assets\Script\Data\Protocol\RoleData_GoldChangeReturnProto.cs" />
@@ -262,7 +267,7 @@
     <Compile Include="Assets\Script\Common\Core\zlib_NET_104\Zlib.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenAlpha.cs" />
     <Compile Include="Assets\Script\UI\Window\LogonWindow\LogonWindow.cs" />
-    <Compile Include="Assets\Script\UI\Window\RegisterWindow\ReigsterController.cs" />
+    <Compile Include="Assets\Script\UI\Window\LogonWindow\ReigsterController.cs" />
     <Compile Include="Assets\Script\Data\Protocol\WorldMap_OtherRoleMoveProto.cs" />
     <Compile Include="Assets\Script\Data\Base\IProtocol.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIWrapContent.cs" />
@@ -282,8 +287,10 @@
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonScale.cs" />
     <Compile Include="Assets\Script\Data\NetData\AccountEntity.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
+    <Compile Include="Assets\Script\UI\SceneUI\LogonSceneUI\LogonSceneUIView.cs" />
     <Compile Include="Assets\Script\Role\RoleCtrl\MainPlayerCtrl\MainPlayerStateAttack.cs" />
     <Compile Include="Assets\Script\Data\Protocol\GameLevel_VictoryProto.cs" />
+    <Compile Include="Assets\Script\Utils\DeviceUtil.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonKeys.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\PanWithMouse.cs" />
     <Compile Include="Assets\Script\Common\MMO_MemoryStream.cs" />
@@ -348,13 +355,9 @@
     <Compile Include="Assets\Script\Data\Protocol\Shop_BuyProductProto.cs" />
     <Compile Include="Assets\Script\SceneCtrl\MonsterAbout\MonsterCreatePos.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenRotation.cs" />
-    <Compile Include="Assets\Script\Utils\DeviceUtil.cs" />
-    <Compile Include="Assets\Script\Common\DebugLogger.cs" />
-    <Compile Include="Assets\Script\Common\Statistics.cs" />
-    <Compile Include="Assets\Script\UI\Window\MessageWindow\MessageWindow.cs" />
-    <Compile Include="Assets\Script\UI\Window\MessageWindow\MessageController.cs" />
-    <Compile Include="Assets\Script\UI\SceneUI\InitSceneUI\InitSceneUIView.cs" />
-    <Compile Include="Assets\Script\UI\SceneUI\LogonSceneUI\LogonSceneUIView.cs" />
+    <Compile Include="Assets\Script\UI\Window\LogonWindow\GameServerEnterWindow.cs" />
+    <Compile Include="Assets\Script\Common\PlayerPrefsKey.cs" />
+    <Compile Include="Assets\Script\UI\Window\LogonWindow\AccountModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\T4M\Shaders\ShaderModel2\Diffuse\T4M 4 Textures.shader" />
