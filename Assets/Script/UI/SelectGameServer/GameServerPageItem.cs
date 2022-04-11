@@ -13,19 +13,20 @@ public class GameServerPageItem : MonoBehaviour
     private Text m_GameServerPageName;
 
     private int m_PageIndex;
-    public Action<int> OnClick;
+    private Action<int> m_OnClick;
 
-    public void Init(RetGameServerPageEntity entity)
+    public void Init(RetGameServerPageEntity entity, Action<int> onClick)
     {
         m_PageIndex = entity.PageIndex;
+        m_OnClick = onClick;
         m_GameServerPageName.text = string.Format("{0} -- {1} 服", entity.BeginId, entity.EndId);
     }
 
     public void OnBtnClick()
     {
-        if(OnClick != null)
+        if(m_OnClick != null)
         {
-            OnClick(m_PageIndex);
+            m_OnClick(m_PageIndex);
         }
     }
 }

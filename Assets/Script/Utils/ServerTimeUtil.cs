@@ -19,19 +19,22 @@ public class ServerTimeUtil: Singleton<ServerTimeUtil>
         }
     }
 
-    public void ReqServerTime(Action<UnityWebRequest.Result> callback)
+    public void ReqServerTime(Action<UnityWebRequest.Result> callback = null)
     {
-        NetWorkHttp.Instance.Get(NetWorkHttp.AccountServerURL + "api/time", (UnityWebRequest.Result result, string text) =>
+        NetWorkHttp.Instance.Get(NetWorkHttp.AccountServerURL + "api/time", ReqServerTimeCallback, callback);
+    }
+
+    private void ReqServerTimeCallback(UnityWebRequest.Result result, object callbackData, string text)
+    {
+        Action<UnityWebRequest.Result> callback = (Action<UnityWebRequest.Result>)callbackData;
+        if (result == UnityWebRequest.Result.Success)
         {
-            if(result == UnityWebRequest.Result.Success)
-            {
-                m_ServerInitialTime = long.Parse(text) - (long)RealTime.time;
-                Debug.LogFormat("服务器初始时间戳：{0}", m_ServerInitialTime);
-            }
-            if(callback != null)
-            {
-                callback(result);
-            }
-        });
+            m_ServerInitialTime = long.Parse(text) - (long)RealTime.time;
+            Debug.LogFormat("服务器初始时间戳：{0}", m_ServerInitialTime);
+        }
+        if (callback != null)
+        {
+            callback(result);
+        }
     }
 }

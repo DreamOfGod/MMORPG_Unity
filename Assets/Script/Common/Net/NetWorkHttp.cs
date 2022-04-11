@@ -20,8 +20,39 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
     /// </summary>
     public const string AccountServerURL = "http://127.0.0.1:8080/";
 
+    #region Http请求的本地编号
+    private int m_HttpRequestLocalID = 0;
+    #endregion
+
     #region Http请求回调类型
-    public delegate void HttpCallback(UnityWebRequest.Result result, string text);
+    public delegate void HttpCallback(UnityWebRequest.Result result, object callbackData, string text);
+    #endregion
+
+    #region 请求异步回调需要的数据
+    private struct RequestCallbackRequiredData
+    {
+        /// <summary>
+        /// 请求的本地ID
+        /// </summary>
+        public int LocalID;
+        /// <summary>
+        /// 请求的回调
+        /// </summary>
+        public HttpCallback Callback;
+        /// <summary>
+        /// 执行请求的回调时原样传递的数据
+        /// </summary>
+        public object CallbackData;
+
+        public RequestCallbackRequiredData(int id, HttpCallback callback, object callbackData)
+        {
+            LocalID = id; Callback = callback; CallbackData = callbackData;
+        }
+    }
+    #endregion
+
+    #region 请求对象的字典
+    private Dictionary<UnityWebRequest, RequestCallbackRequiredData> m_RequestDic = new Dictionary<UnityWebRequest, RequestCallbackRequiredData>();
     #endregion
 
     #region 计算字符串MD5，并转成十六进制字符串
@@ -60,24 +91,31 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
     #endregion
 
     #region Get请求
-    public void Get(string url, HttpCallback callback = null)
+    public void Get(string url, HttpCallback callback = null, object callbackData = null)
     {
         url = AddSign(url);
-        UnityWebRequest req = UnityWebRequest.Get(url);
-        DebugLogger.LogFormat("发送GET请求\n\turl:{0}", req.url);
-        req.SendWebRequest().completed += (AsyncOperation asyncOperation) =>
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        DebugLogger.LogFormat("发送GET请求\n\tID:{0}\n\turl:{1}", m_HttpRequestLocalID, url);
+        m_RequestDic.Add(request, new RequestCallbackRequiredData(m_HttpRequestLocalID++, callback, callbackData));
+        request.SendWebRequest().completed += GetCallback;
+    }
+
+    private void GetCallback(AsyncOperation ao)
+    {
+        UnityWebRequestAsyncOperation requestAO = (UnityWebRequestAsyncOperation)ao;
+        UnityWebRequest request = requestAO.webRequest;
+        RequestCallbackRequiredData requestData = m_RequestDic[request];
+        DebugLogger.LogFormat("GET请求响应\n\trequest ID:{0}\n\turl:{1}\n\tresult:{2}\n\tresponseCode:{3}\n\terror:{4}\n\ttext:{5}", requestData.LocalID, request.url, request.result, request.responseCode, request.error, request.downloadHandler.text);
+        if (requestData.Callback != null)
         {
-            DebugLogger.LogFormat("GET请求响应\n\turl:{0}\n\tresult:{1}\n\tresponseCode:{2}\n\terror:{3}\n\ttext:{4}", req.url, req.result, req.responseCode, req.error, req.downloadHandler.text);
-            if(callback != null)
-            {
-                callback(req.result, req.downloadHandler.text);
-            }
-        };
+            requestData.Callback(request.result, requestData.CallbackData, request.downloadHandler.text);
+            m_RequestDic.Remove(request);
+        }
     }
     #endregion
 
     #region Post请求
-    public void Post(string url, Dictionary<string, object> dic = null, HttpCallback callback = null)
+    public void Post(string url, Dictionary<string, object> dic = null, HttpCallback callback = null, object callbackData = null)
     {
         if(dic == null)
         {
@@ -90,16 +128,23 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
         string dicJson = JsonMapper.ToJson(dic);
         WWWForm form = new WWWForm();
         form.AddField("", dicJson);
-        UnityWebRequest req = UnityWebRequest.Post(url, form);
-        DebugLogger.LogFormat("发送POST请求\n\turl:{0}\n\t参数:{1}", req.url, dicJson);
-        req.SendWebRequest().completed += (AsyncOperation asyncOperation) =>
+        UnityWebRequest request = UnityWebRequest.Post(url, form);
+        DebugLogger.LogFormat("发送POST请求\n\tID:{0}\n\turl:{1}\n\t参数:{2}", m_HttpRequestLocalID, url, dicJson);
+        m_RequestDic.Add(request, new RequestCallbackRequiredData(m_HttpRequestLocalID++, callback, callbackData));
+        request.SendWebRequest().completed += PostCallback;
+    }
+
+    private void PostCallback(AsyncOperation ao)
+    {
+        UnityWebRequestAsyncOperation requestAO = (UnityWebRequestAsyncOperation)ao;
+        UnityWebRequest request = requestAO.webRequest;
+        RequestCallbackRequiredData requestData = m_RequestDic[request];
+        DebugLogger.LogFormat("POST请求响应\n\trequest ID:{0}\n\turl:{1}\n\tresult:{2}\n\tresponseCode:{3}\n\terror:{4}\n\ttext:{5}", requestData.LocalID, request.url, request.result, request.responseCode, request.error, request.downloadHandler.text);
+        if (requestData.Callback != null)
         {
-            DebugLogger.LogFormat("POST请求响应\n\turl:{0}\n\tresult:{1}\n\tresponseCode:{2}\n\terror:{3}\n\ttext:{4}", req.url, req.result, req.responseCode, req.error, req.downloadHandler.text);
-            if (callback != null)
-            {
-                callback(req.result, req.downloadHandler.text);
-            }
-        };
+            requestData.Callback(request.result, requestData.CallbackData, request.downloadHandler.text);
+            m_RequestDic.Remove(request);
+        }
     }
     #endregion
 }

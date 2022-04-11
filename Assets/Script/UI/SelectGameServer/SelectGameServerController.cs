@@ -12,6 +12,8 @@ public class SelectGameServerController : MonoBehaviour
     [SerializeField]
     private SelectGameServerWindow m_SelectGameServerWindow;
 
+    private int m_CurGameServerPageIndex = -1;
+
     void Start()
     {
         ReqGameServerPage();
@@ -29,16 +31,21 @@ public class SelectGameServerController : MonoBehaviour
 
     public void OnClickGameServerPageItem(int pageIndex)
     {
-        GameServerModel.Instance.ReqGameServer(pageIndex, (UnityWebRequest.Result result, MFReturnValue<List<RetGameServerEntity>> ret) => {
-            if (result == UnityWebRequest.Result.Success && !ret.HasError)
-            {
-                m_SelectGameServerWindow.UpdateGameServerList(ret.Value);
-            }
-        });
+        m_CurGameServerPageIndex = pageIndex;
+        m_SelectGameServerWindow.ClearGameServerList();
+        GameServerModel.Instance.ReqGameServer(pageIndex, ReqGameServerCallback);
     }
 
-    void Update()
+    private void ReqGameServerCallback(UnityWebRequest.Result result, int pageIndex, MFReturnValue<List<RetGameServerEntity>> ret)
     {
-        
+        if (result == UnityWebRequest.Result.Success && !ret.HasError && pageIndex == m_CurGameServerPageIndex)
+        {
+            m_SelectGameServerWindow.UpdateGameServerList(ret.Value);
+        }
+    }
+
+    public void OnClickGameServerItem(int gameServerId)
+    {
+        DebugLogger.Log("点击了" + gameServerId + "游戏服");
     }
 }
