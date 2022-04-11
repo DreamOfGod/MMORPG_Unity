@@ -26,7 +26,7 @@ public class LogonSceneUIView : MonoBehaviour
                     }
                     else
                     {
-                        WindowBase.OpenWindowZoomInShow(WindowPath.GameServerEnter, transform);
+                        WindowBase.OpenWindowZoomInShow(WindowPath.EnterGameServer, transform);
                     }
                 }
                 else

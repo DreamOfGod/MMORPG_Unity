@@ -17,7 +17,7 @@ public class LogonWindow : WindowBase
 
     public void CloseSelfAndOpenGameServerEnter()
     {
-        OnWindowCloseFinish = () => { OpenWindowMoveFromLeftToRightShow(WindowPath.GameServerEnter, transform.parent); };
+        OnWindowCloseFinish = () => { OpenWindowMoveFromLeftToRightShow(WindowPath.EnterGameServer, transform.parent); };
         MoveFromRightToLeftClose();
     }
 
