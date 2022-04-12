@@ -17,7 +17,7 @@ public class GameServerModel: Singleton<GameServerModel>
     #region 请求游戏服页签
     public void ReqGameServerPage(ModelCallback<List<RetGameServerPageEntity>> callback = null)
     {
-        NetWorkHttp.Instance.Get(NetWorkHttp.AccountServerURL + "api/GameServer", ReqGameServerPageCallback, callback);
+        NetWorkHttp.Instance.Get(NetWorkHttp.AccountServerURL + "gameServer", ReqGameServerPageCallback, callback);
     }
 
     private void ReqGameServerPageCallback(UnityWebRequest.Result result, object callbackData, string text)
@@ -51,7 +51,7 @@ public class GameServerModel: Singleton<GameServerModel>
 
     public void ReqGameServer(int pageIndex, WithPageIndexCallback callback = null)
     {
-        NetWorkHttp.Instance.Get(NetWorkHttp.AccountServerURL + "api/GameServer?pageIndex=" + pageIndex, ReqGameServerCallback, new ReqGameServerCallbackData() { PageIndex = pageIndex, Callback = callback});
+        NetWorkHttp.Instance.Get(NetWorkHttp.AccountServerURL + "gameServer?pageIndex=" + pageIndex, ReqGameServerCallback, new ReqGameServerCallbackData() { PageIndex = pageIndex, Callback = callback});
     }
 
     private void ReqGameServerCallback(UnityWebRequest.Result result, object callbackData, string text)

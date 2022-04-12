@@ -4,7 +4,6 @@
 //备    注：
 //===============================================
 using LitJson;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -19,13 +18,13 @@ public class AccountModel: Singleton<AccountModel>
 
     public void Register(string username, string pwd, ModelCallback<int> callback = null)
     {
-        Dictionary<string, object> dic = new Dictionary<string, object>();
-        dic["Username"] = username;
-        dic["Pwd"] = pwd;
-        dic["ChannelId"] = 0;
-        dic["DeviceModel"] = DeviceUtil.DeviceModel;
+        WWWForm form = new WWWForm();
+        form.AddField("Username", username);
+        form.AddField("Pwd", pwd);
+        form.AddField("ChannelId", "0");
+        form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        NetWorkHttp.Instance.Post(NetWorkHttp.AccountServerURL + "api/Register", dic, RegisterCallback, new RegisterCallbackData() { Username = username, Callback = callback});
+        NetWorkHttp.Instance.Post(NetWorkHttp.AccountServerURL + "register", form, RegisterCallback, new RegisterCallbackData() { Username = username, Callback = callback});
     }
 
     private void RegisterCallback(UnityWebRequest.Result result, object callbackData, string text)
@@ -69,13 +68,13 @@ public class AccountModel: Singleton<AccountModel>
     /// <param name="callback"></param>
     public void Logon(string username, string pwd, ModelCallback<int> callback = null)
     {
-        Dictionary<string, object> dic = new Dictionary<string, object>();
-        dic["Username"] = username;
-        dic["Pwd"] = pwd;
-        dic["ChannelId"] = 0;
-        dic["DeviceModel"] = DeviceUtil.DeviceModel;
+        WWWForm form = new WWWForm();
+        form.AddField("Username", username);
+        form.AddField("Pwd", pwd);
+        form.AddField("ChannelId", "0");
+        form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        NetWorkHttp.Instance.Post(NetWorkHttp.AccountServerURL + "api/Logon", dic, LogonCallback, new LogonCallbackData() { Username = username, Pwd = pwd, Callback = callback });
+        NetWorkHttp.Instance.Post(NetWorkHttp.AccountServerURL + "logon", form, LogonCallback, new LogonCallbackData() { Username = username, Pwd = pwd, Callback = callback });
     }
 
     private void LogonCallback(UnityWebRequest.Result result, object callbackData, string text)
@@ -110,14 +109,14 @@ public class AccountModel: Singleton<AccountModel>
     /// </summary>
     public void QuickLogon(ModelCallback<int> callback = null)
     {
-        Dictionary<string, object> dic = new Dictionary<string, object>();
         string username = PlayerPrefs.GetString(PlayerPrefsKey.Username);
-        dic["Username"] = username;
-        dic["Pwd"] = PlayerPrefs.GetString(PlayerPrefsKey.Password);
-        dic["ChannelId"] = 0;
-        dic["DeviceModel"] = DeviceUtil.DeviceModel;
+        WWWForm form = new WWWForm();
+        form.AddField("Username", username);
+        form.AddField("Pwd", PlayerPrefs.GetString(PlayerPrefsKey.Password));
+        form.AddField("ChannelId", "0");
+        form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        NetWorkHttp.Instance.Post(NetWorkHttp.AccountServerURL + "api/Logon", dic, QuickLogonCallback, new LogonCallbackData() { Username = username, Callback = callback });
+        NetWorkHttp.Instance.Post(NetWorkHttp.AccountServerURL + "logon", form, QuickLogonCallback, new LogonCallbackData() { Username = username, Callback = callback });
     }
 
     private void QuickLogonCallback(UnityWebRequest.Result result, object callbackData, string text)
