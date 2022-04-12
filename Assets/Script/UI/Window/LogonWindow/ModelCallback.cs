@@ -5,4 +5,4 @@
 //===============================================
 using UnityEngine.Networking;
 
-public delegate void ModelCallback<RetValType>(UnityWebRequest.Result result, MFReturnValue<RetValType> ret = null);
+public delegate void ModelCallback<RespValType>(UnityWebRequest.Result result, ResponseValue<RespValType> ret = null);

@@ -3,7 +3,6 @@
 //创建时间：2022-04-10 23:39:46
 //备    注：
 //===============================================
-using LitJson;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -13,10 +12,10 @@ public class AccountModel: Singleton<AccountModel>
     private struct RegisterCallbackData
     {
         public string Username;
-        public ModelCallback<int> Callback;
+        public ModelCallback<AccountEntity> Callback;
     }
 
-    public void Register(string username, string pwd, ModelCallback<int> callback = null)
+    public void Register(string username, string pwd, ModelCallback<AccountEntity> callback = null)
     {
         WWWForm form = new WWWForm();
         form.AddField("Username", username);
@@ -24,22 +23,21 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        NetWorkHttp.Instance.Post(NetWorkHttp.AccountServerURL + "register", form, RegisterCallback, new RegisterCallbackData() { Username = username, Callback = callback});
+        NetWorkHttp.Instance.Post<AccountEntity>(NetWorkHttp.AccountServerURL + "register", form, RegisterCallback, new RegisterCallbackData() { Username = username, Callback = callback});
     }
 
-    private void RegisterCallback(UnityWebRequest.Result result, object callbackData, string text)
+    private void RegisterCallback(UnityWebRequest.Result result, object callbackData, ResponseValue<AccountEntity> responseValue)
     {
         RegisterCallbackData registerCallbackData = (RegisterCallbackData)callbackData;
         if (result == UnityWebRequest.Result.Success)
         {
-            MFReturnValue<int> ret = JsonMapper.ToObject<MFReturnValue<int>>(text);
-            if (!ret.HasError)
+            if (responseValue.Code == 0)
             {
-                Statistics.Register(ret.Value, registerCallbackData.Username);
+                Statistics.Register(responseValue.Value.Id, registerCallbackData.Username);
             }
             if (registerCallbackData.Callback != null)
             {
-                registerCallbackData.Callback(result, ret);
+                registerCallbackData.Callback(result, responseValue);
             }
         }
         else
@@ -57,7 +55,7 @@ public class AccountModel: Singleton<AccountModel>
     {
         public string Username;
         public string Pwd;
-        public ModelCallback<int> Callback;
+        public ModelCallback<AccountEntity> Callback;
     }
 
     /// <summary>
@@ -66,7 +64,7 @@ public class AccountModel: Singleton<AccountModel>
     /// <param name="username"></param>
     /// <param name="pwd"></param>
     /// <param name="callback"></param>
-    public void Logon(string username, string pwd, ModelCallback<int> callback = null)
+    public void Logon(string username, string pwd, ModelCallback<AccountEntity> callback = null)
     {
         WWWForm form = new WWWForm();
         form.AddField("Username", username);
@@ -74,25 +72,24 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        NetWorkHttp.Instance.Post(NetWorkHttp.AccountServerURL + "logon", form, LogonCallback, new LogonCallbackData() { Username = username, Pwd = pwd, Callback = callback });
+        NetWorkHttp.Instance.Post<AccountEntity>(NetWorkHttp.AccountServerURL + "logon", form, LogonCallback, new LogonCallbackData() { Username = username, Pwd = pwd, Callback = callback });
     }
 
-    private void LogonCallback(UnityWebRequest.Result result, object callbackData, string text)
+    private void LogonCallback(UnityWebRequest.Result result, object callbackData, ResponseValue<AccountEntity> responseValue)
     {
         LogonCallbackData logonCallbackData = (LogonCallbackData)callbackData;
         if (result == UnityWebRequest.Result.Success)
         {
-            MFReturnValue<int> ret = JsonMapper.ToObject<MFReturnValue<int>>(text);
-            if (!ret.HasError)
+            if (responseValue.Code == 0)
             {
-                PlayerPrefs.SetInt(PlayerPrefsKey.AccountID, ret.Value);
+                PlayerPrefs.SetInt(PlayerPrefsKey.AccountID, responseValue.Value.Id);
                 PlayerPrefs.SetString(PlayerPrefsKey.Username, logonCallbackData.Username);
                 PlayerPrefs.SetString(PlayerPrefsKey.Password, logonCallbackData.Pwd);
-                Statistics.Logon(ret.Value, logonCallbackData.Username);
+                Statistics.Logon(responseValue.Value.Id, logonCallbackData.Username);
             }
             if (logonCallbackData.Callback != null)
             {
-                logonCallbackData.Callback(result, ret);
+                logonCallbackData.Callback(result, responseValue);
             }
         }
         else
@@ -107,7 +104,7 @@ public class AccountModel: Singleton<AccountModel>
     /// <summary>
     /// 快速登录
     /// </summary>
-    public void QuickLogon(ModelCallback<int> callback = null)
+    public void QuickLogon(ModelCallback<AccountEntity> callback = null)
     {
         string username = PlayerPrefs.GetString(PlayerPrefsKey.Username);
         WWWForm form = new WWWForm();
@@ -116,22 +113,21 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        NetWorkHttp.Instance.Post(NetWorkHttp.AccountServerURL + "logon", form, QuickLogonCallback, new LogonCallbackData() { Username = username, Callback = callback });
+        NetWorkHttp.Instance.Post<AccountEntity>(NetWorkHttp.AccountServerURL + "logon", form, QuickLogonCallback, new LogonCallbackData() { Username = username, Callback = callback });
     }
 
-    private void QuickLogonCallback(UnityWebRequest.Result result, object callbackData, string text)
+    private void QuickLogonCallback(UnityWebRequest.Result result, object callbackData, ResponseValue<AccountEntity> responseValue)
     {
         LogonCallbackData logonCallbackData = (LogonCallbackData)callbackData;
         if (result == UnityWebRequest.Result.Success)
         {
-            MFReturnValue<int> ret = JsonMapper.ToObject<MFReturnValue<int>>(text);
-            if (!ret.HasError)
+            if (responseValue.Code == 0)
             {
-                Statistics.Logon(ret.Value, logonCallbackData.Username);
+                Statistics.Logon(responseValue.Value.Id, logonCallbackData.Username);
             }
             if (logonCallbackData.Callback != null)
             {
-                logonCallbackData.Callback(result, ret);
+                logonCallbackData.Callback(result, responseValue);
             }
         }
         else if (logonCallbackData.Callback != null)

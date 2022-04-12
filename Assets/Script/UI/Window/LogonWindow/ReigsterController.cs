@@ -51,7 +51,7 @@ public class ReigsterController : MonoBehaviour
             return;
         }
         m_IsRegistering = true;
-        AccountModel.Instance.Register(username, pwd, (UnityWebRequest.Result result, MFReturnValue<int> ret) => {
+        AccountModel.Instance.Register(username, pwd, (UnityWebRequest.Result result, ResponseValue<AccountEntity> responseValue) => {
             if (this == null || gameObject == null)
             {
                 return;
@@ -59,13 +59,14 @@ public class ReigsterController : MonoBehaviour
             m_IsRegistering = false;
             if (result == UnityWebRequest.Result.Success)
             {
-                if (ret.HasError)
+                switch(responseValue.Code)
                 {
-                    m_ReigsterView.ShowRegisterTip("账号已存在");
-                }
-                else
-                {
-                    m_ReigsterView.ShowRegisterTip("注册成功", m_ReigsterView.CloseSelfAndOpenLogon);
+                    case 0:
+                        m_ReigsterView.ShowRegisterTip("注册成功", m_ReigsterView.CloseSelfAndOpenLogon); break;
+                    case 1:
+                        m_ReigsterView.ShowRegisterTip("账号已存在"); break;
+                    default:
+                        m_ReigsterView.ShowRegisterTip(responseValue.Error); break;
                 }
             }
             else

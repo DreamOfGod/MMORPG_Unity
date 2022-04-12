@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 
 public class GameServerModel: Singleton<GameServerModel>
 {
-    public delegate void WithPageIndexCallback(UnityWebRequest.Result result, int pageIndex, MFReturnValue<List<RetGameServerEntity>> ret = null);
+    public delegate void WithPageIndexCallback(UnityWebRequest.Result result, int pageIndex, ResponseValue<List<RetGameServerEntity>> ret = null);
 
     private List<RetGameServerPageEntity> m_RetGameServerPageList;
     private List<RetGameServerEntity> m_RetGameServerList;
@@ -17,22 +17,21 @@ public class GameServerModel: Singleton<GameServerModel>
     #region 请求游戏服页签
     public void ReqGameServerPage(ModelCallback<List<RetGameServerPageEntity>> callback = null)
     {
-        NetWorkHttp.Instance.Get(NetWorkHttp.AccountServerURL + "gameServer", ReqGameServerPageCallback, callback);
+        NetWorkHttp.Instance.Get<List<RetGameServerPageEntity>>(NetWorkHttp.AccountServerURL + "game_server", ReqGameServerPageCallback, callback);
     }
 
-    private void ReqGameServerPageCallback(UnityWebRequest.Result result, object callbackData, string text)
+    private void ReqGameServerPageCallback(UnityWebRequest.Result result, object callbackData, ResponseValue<List<RetGameServerPageEntity>> responseValue)
     {
         ModelCallback<List<RetGameServerPageEntity>> callback = (ModelCallback<List<RetGameServerPageEntity>>)callbackData;
         if (result == UnityWebRequest.Result.Success)
         {
-            MFReturnValue<List<RetGameServerPageEntity>> ret = JsonMapper.ToObject<MFReturnValue<List<RetGameServerPageEntity>>>(text);
-            if (!ret.HasError)
+            if (responseValue.Code == 0)
             {
-                m_RetGameServerPageList = ret.Value;
+                m_RetGameServerPageList = responseValue.Value;
             }
             if (callback != null)
             {
-                callback(result, ret);
+                callback(result, responseValue);
             }
         }
         else if (callback != null)
@@ -51,22 +50,21 @@ public class GameServerModel: Singleton<GameServerModel>
 
     public void ReqGameServer(int pageIndex, WithPageIndexCallback callback = null)
     {
-        NetWorkHttp.Instance.Get(NetWorkHttp.AccountServerURL + "gameServer?pageIndex=" + pageIndex, ReqGameServerCallback, new ReqGameServerCallbackData() { PageIndex = pageIndex, Callback = callback});
+        NetWorkHttp.Instance.Get<List<RetGameServerEntity>>(NetWorkHttp.AccountServerURL + "game_server?pageIndex=" + pageIndex, ReqGameServerCallback, new ReqGameServerCallbackData() { PageIndex = pageIndex, Callback = callback});
     }
 
-    private void ReqGameServerCallback(UnityWebRequest.Result result, object callbackData, string text)
+    private void ReqGameServerCallback(UnityWebRequest.Result result, object callbackData, ResponseValue<List<RetGameServerEntity>> responseValue)
     {
         ReqGameServerCallbackData reqGameServerCallbackData = (ReqGameServerCallbackData)callbackData;
         if (result == UnityWebRequest.Result.Success)
         {
-            MFReturnValue<List<RetGameServerEntity>> ret = JsonMapper.ToObject<MFReturnValue<List<RetGameServerEntity>>>(text);
-            if (!ret.HasError)
+            if (responseValue.Code == 0)
             {
-                m_RetGameServerList = ret.Value;
+                m_RetGameServerList = responseValue.Value;
             }
             if (reqGameServerCallbackData.Callback != null)
             {
-                reqGameServerCallbackData.Callback(result, reqGameServerCallbackData.PageIndex, ret);
+                reqGameServerCallbackData.Callback(result, reqGameServerCallbackData.PageIndex, responseValue);
             }
         }
         else if (reqGameServerCallbackData.Callback != null)

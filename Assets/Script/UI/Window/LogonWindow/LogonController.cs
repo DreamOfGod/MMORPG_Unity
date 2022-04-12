@@ -45,7 +45,7 @@ public class LogonController : MonoBehaviour
             return;
         }
         m_IsLogoning = true;
-        AccountModel.Instance.Logon(username, pwd, (UnityWebRequest.Result result, MFReturnValue<int> ret) =>
+        AccountModel.Instance.Logon(username, pwd, (UnityWebRequest.Result result, ResponseValue<AccountEntity> responseValue) =>
         {
             if (this == null || gameObject == null)
             {
@@ -54,13 +54,14 @@ public class LogonController : MonoBehaviour
             m_IsLogoning = false;
             if (result == UnityWebRequest.Result.Success)
             {
-                if (ret.HasError)
+                switch(responseValue.Code)
                 {
-                    m_LogonView.ShowLogonTip("账号或密码错误");
-                }
-                else
-                {
-                    m_LogonView.CloseSelfAndOpenGameServerEnter();
+                    case 0:
+                        m_LogonView.CloseSelfAndOpenGameServerEnter(); break;
+                    case 1:
+                        m_LogonView.ShowLogonTip("账号或密码错误"); break;
+                    default:
+                        m_LogonView.ShowLogonTip(responseValue.Error); break;
                 }
             }
             else

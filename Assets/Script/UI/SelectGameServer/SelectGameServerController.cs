@@ -21,10 +21,10 @@ public class SelectGameServerController : MonoBehaviour
 
     private void ReqGameServerPage()
     {
-        GameServerModel.Instance.ReqGameServerPage((UnityWebRequest.Result result, MFReturnValue<List<RetGameServerPageEntity>> ret) => {
-            if (result == UnityWebRequest.Result.Success && !ret.HasError)
+        GameServerModel.Instance.ReqGameServerPage((UnityWebRequest.Result result, ResponseValue<List<RetGameServerPageEntity>> responseValue) => {
+            if (result == UnityWebRequest.Result.Success && responseValue.Code == 0)
             {
-                m_SelectGameServerWindow.AddGameServerPageItem(ret.Value);
+                m_SelectGameServerWindow.AddGameServerPageItem(responseValue.Value);
             }
         });
     }
@@ -36,11 +36,11 @@ public class SelectGameServerController : MonoBehaviour
         GameServerModel.Instance.ReqGameServer(pageIndex, ReqGameServerCallback);
     }
 
-    private void ReqGameServerCallback(UnityWebRequest.Result result, int pageIndex, MFReturnValue<List<RetGameServerEntity>> ret)
+    private void ReqGameServerCallback(UnityWebRequest.Result result, int pageIndex, ResponseValue<List<RetGameServerEntity>> responseValue)
     {
-        if (result == UnityWebRequest.Result.Success && !ret.HasError && pageIndex == m_CurGameServerPageIndex)
+        if (result == UnityWebRequest.Result.Success && responseValue.Code == 0 && pageIndex == m_CurGameServerPageIndex)
         {
-            m_SelectGameServerWindow.UpdateGameServerList(ret.Value);
+            m_SelectGameServerWindow.UpdateGameServerList(responseValue.Value);
         }
     }
 

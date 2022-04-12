@@ -25,11 +25,11 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
     #endregion
 
     #region Http请求回调类型
-    public delegate void HttpCallback(UnityWebRequest.Result result, object callbackData, string text);
+    public delegate void HttpCallback<RespValType>(UnityWebRequest.Result result, object callbackData, ResponseValue<RespValType> responseValue);
     #endregion
 
     #region 请求异步回调需要的数据
-    private struct RequestCallbackRequiredData
+    private struct RequestCallbackRequiredData<RespValType>
     {
         /// <summary>
         /// 请求的本地ID
@@ -38,13 +38,13 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
         /// <summary>
         /// 请求的回调
         /// </summary>
-        public HttpCallback Callback;
+        public HttpCallback<RespValType> Callback;
         /// <summary>
         /// 执行请求的回调时原样传递的数据
         /// </summary>
         public object CallbackData;
 
-        public RequestCallbackRequiredData(int id, HttpCallback callback, object callbackData)
+        public RequestCallbackRequiredData(int id, HttpCallback<RespValType> callback, object callbackData)
         {
             LocalID = id; Callback = callback; CallbackData = callbackData;
         }
@@ -52,7 +52,7 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
     #endregion
 
     #region 请求对象的字典
-    private Dictionary<UnityWebRequest, RequestCallbackRequiredData> m_RequestDic = new Dictionary<UnityWebRequest, RequestCallbackRequiredData>();
+    private Dictionary<UnityWebRequest, object> m_RequestDic = new Dictionary<UnityWebRequest, object>();
     #endregion
 
     #region 计算字符串MD5，并转成十六进制字符串
@@ -89,30 +89,31 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
         }
         StringBuilder sb = new StringBuilder();
         sb.AppendFormat("DeviceIdentifier={0}&", SystemInfo.deviceUniqueIdentifier);
-        sb.AppendFormat("Time={0}&", ServerTimeUtil.Instance.ServerTime);
-        sb.AppendFormat("Sign={0}", MD5Hex(string.Format("{0}:{1}", SystemInfo.deviceUniqueIdentifier, ServerTimeUtil.Instance.ServerTime)));
+        sb.AppendFormat("Time={0}&", TimeModel.Instance.ServerTime);
+        sb.AppendFormat("Sign={0}", MD5Hex(string.Format("{0}:{1}", SystemInfo.deviceUniqueIdentifier, TimeModel.Instance.ServerTime)));
         return url + sb.ToString();
     }
 
-    public void Get(string url, HttpCallback callback = null, object callbackData = null)
+    public void Get<RespValType>(string url, HttpCallback<RespValType> callback = null, object callbackData = null)
     {
         url = AddSign(url);
         UnityWebRequest request = UnityWebRequest.Get(url);
         DebugLogger.LogFormat("发送GET请求\n\trequest ID:{0}\n\turl:{1}", m_HttpRequestLocalID, url);
-        m_RequestDic.Add(request, new RequestCallbackRequiredData(m_HttpRequestLocalID++, callback, callbackData));
-        request.SendWebRequest().completed += GetCallback;
+        m_RequestDic.Add(request, new RequestCallbackRequiredData<RespValType>(m_HttpRequestLocalID++, callback, callbackData));
+        request.SendWebRequest().completed += GetCallback<RespValType>;
     }
 
-    private void GetCallback(AsyncOperation ao)
+    private void GetCallback<RespValType>(AsyncOperation ao)
     {
         UnityWebRequestAsyncOperation requestAO = (UnityWebRequestAsyncOperation)ao;
         UnityWebRequest request = requestAO.webRequest;
-        RequestCallbackRequiredData requestData = m_RequestDic[request];
+        RequestCallbackRequiredData<RespValType> requestData = (RequestCallbackRequiredData<RespValType>)m_RequestDic[request];
         m_RequestDic.Remove(request);
         DebugLogger.LogFormat("GET请求响应\n\trequest ID:{0}\n\turl:{1}\n\tresult:{2}\n\tresponseCode:{3}\n\terror:{4}\n\ttext:{5}", requestData.LocalID, request.url, request.result, request.responseCode, request.error, request.downloadHandler.text);
         if (requestData.Callback != null)
         {
-            requestData.Callback(request.result, requestData.CallbackData, request.downloadHandler.text);
+            ResponseValue<RespValType> responseValue = JsonMapper.ToObject<ResponseValue<RespValType>>(request.downloadHandler.text);
+            requestData.Callback(request.result, requestData.CallbackData, responseValue);
         }
     }
     #endregion
@@ -125,48 +126,36 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
     private void AddSign(Dictionary<string, object> dic)
     {
         dic.Add("DeviceIdentifier", SystemInfo.deviceUniqueIdentifier);
-        dic.Add("Time", ServerTimeUtil.Instance.ServerTime);
-        dic.Add("Sign", MD5Hex(string.Format("{0}:{1}", SystemInfo.deviceUniqueIdentifier, ServerTimeUtil.Instance.ServerTime)));
+        dic.Add("Time", TimeModel.Instance.ServerTime);
+        dic.Add("Sign", MD5Hex(string.Format("{0}:{1}", SystemInfo.deviceUniqueIdentifier, TimeModel.Instance.ServerTime)));
     }
 
-    public void Post(string url, WWWForm form = null, HttpCallback callback = null, object callbackData = null)
+    public void Post<RespValType>(string url, WWWForm form = null, HttpCallback<RespValType> callback = null, object callbackData = null)
     {
-        //if(dic == null)
-        //{
-        //    dic = new Dictionary<string, object>();
-        //}
-        //AddSign(dic);
-
-        //string dicJson = JsonMapper.ToJson(dic);
-        //WWWForm form = new WWWForm();
-        ////form.AddField("", dicJson);
-        //foreach(var pair in dic)
-        //{
-        //    form.AddField(pair.Key, pair.Value);
-        //}
         if(form == null)
         {
             form = new WWWForm();
         }
         form.AddField("DeviceIdentifier", SystemInfo.deviceUniqueIdentifier);
-        form.AddField("Time", ServerTimeUtil.Instance.ServerTime.ToString());
-        form.AddField("Sign", MD5Hex(string.Format("{0}:{1}", SystemInfo.deviceUniqueIdentifier, ServerTimeUtil.Instance.ServerTime)));
+        form.AddField("Time", TimeModel.Instance.ServerTime.ToString());
+        form.AddField("Sign", MD5Hex(string.Format("{0}:{1}", SystemInfo.deviceUniqueIdentifier, TimeModel.Instance.ServerTime)));
         UnityWebRequest request = UnityWebRequest.Post(url, form);
         DebugLogger.LogFormat("发送POST请求\n\trequest ID:{0}\n\turl:{1}\n\t参数:{2}", m_HttpRequestLocalID, url, form);
-        m_RequestDic.Add(request, new RequestCallbackRequiredData(m_HttpRequestLocalID++, callback, callbackData));
-        request.SendWebRequest().completed += PostCallback;
+        m_RequestDic.Add(request, new RequestCallbackRequiredData<RespValType>(m_HttpRequestLocalID++, callback, callbackData));
+        request.SendWebRequest().completed += PostCallback<RespValType>;
     }
 
-    private void PostCallback(AsyncOperation ao)
+    private void PostCallback<RespValType>(AsyncOperation ao)
     {
         UnityWebRequestAsyncOperation requestAO = (UnityWebRequestAsyncOperation)ao;
         UnityWebRequest request = requestAO.webRequest;
-        RequestCallbackRequiredData requestData = m_RequestDic[request];
+        RequestCallbackRequiredData<RespValType> requestData = (RequestCallbackRequiredData<RespValType>)m_RequestDic[request];
         m_RequestDic.Remove(request);
         DebugLogger.LogFormat("POST请求响应\n\trequest ID:{0}\n\turl:{1}\n\tresult:{2}\n\tresponseCode:{3}\n\terror:{4}\n\ttext:{5}", requestData.LocalID, request.url, request.result, request.responseCode, request.error, request.downloadHandler.text);
         if (requestData.Callback != null)
         {
-            requestData.Callback(request.result, requestData.CallbackData, request.downloadHandler.text);
+            ResponseValue<RespValType> responseValue = JsonMapper.ToObject<ResponseValue<RespValType>>(request.downloadHandler.text);
+            requestData.Callback(request.result, requestData.CallbackData, responseValue);
         }
     }
     #endregion

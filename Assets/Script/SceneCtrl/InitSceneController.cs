@@ -25,7 +25,7 @@ public class InitSceneController : MonoBehaviour
     void ReqServerTime()
     {
         ++m_ReqServerTimeCnt;
-        ServerTimeUtil.Instance.ReqServerTime(ReqServerTimeCallback);
+        TimeModel.Instance.ReqServerTime(ReqServerTimeCallback);
     }
 
     void ReqServerTimeCallback(UnityWebRequest.Result result)
