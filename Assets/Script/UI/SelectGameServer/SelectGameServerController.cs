@@ -3,9 +3,7 @@
 //创建时间：2022-04-11 16:24:11
 //备    注：
 //===============================================
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class SelectGameServerController : MonoBehaviour
 {
@@ -16,31 +14,26 @@ public class SelectGameServerController : MonoBehaviour
 
     void Start()
     {
-        ReqGameServerPage();
+        ReqGameServerPageTaskAsync();
     }
 
-    private void ReqGameServerPage()
+    private async void ReqGameServerPageTaskAsync()
     {
-        GameServerModel.Instance.ReqGameServerPage((UnityWebRequest.Result result, ResponseValue<List<RetGameServerPageEntity>> responseValue) => {
-            if (result == UnityWebRequest.Result.Success && responseValue.Code == 0)
-            {
-                m_SelectGameServerWindow.AddGameServerPageItem(responseValue.Value);
-            }
-        });
+        var requestResult = await GameServerModel.Instance.ReqGameServerPageTaskAsync();
+        if (requestResult.IsSuccess && requestResult.ResponseValue.Code == 0)
+        {
+            m_SelectGameServerWindow.AddGameServerPageItem(requestResult.ResponseValue.Value);
+        }
     }
 
-    public void OnClickGameServerPageItem(int pageIndex)
+    public async void OnClickGameServerPageItemTaskAsync(int pageIndex)
     {
         m_CurGameServerPageIndex = pageIndex;
         m_SelectGameServerWindow.ClearGameServerList();
-        GameServerModel.Instance.ReqGameServer(pageIndex, ReqGameServerCallback);
-    }
-
-    private void ReqGameServerCallback(UnityWebRequest.Result result, int pageIndex, ResponseValue<List<RetGameServerEntity>> responseValue)
-    {
-        if (result == UnityWebRequest.Result.Success && responseValue.Code == 0 && pageIndex == m_CurGameServerPageIndex)
+        var requestResult = await GameServerModel.Instance.ReqGameServerTaskAsync(pageIndex);
+        if (requestResult.IsSuccess && requestResult.ResponseValue.Code == 0 && pageIndex == m_CurGameServerPageIndex)
         {
-            m_SelectGameServerWindow.UpdateGameServerList(responseValue.Value);
+            m_SelectGameServerWindow.UpdateGameServerList(requestResult.ResponseValue.Value);
         }
     }
 

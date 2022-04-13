@@ -5,7 +5,6 @@
 //===============================================
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
 
 /// <summary>
 /// 初始场景控制器
@@ -19,30 +18,26 @@ public class InitSceneController : MonoBehaviour
 
     void Start()
     {
-        ReqServerTime();
+        ReqServerTimeTaskAsync();
     }
 
-    void ReqServerTime()
+    async void ReqServerTimeTaskAsync()
     {
         ++m_ReqServerTimeCnt;
-        TimeModel.Instance.ReqServerTime(ReqServerTimeCallback);
-    }
-
-    void ReqServerTimeCallback(UnityWebRequest.Result result)
-    {
-        if (result == UnityWebRequest.Result.Success)
+        var requestResult = await TimeModel.Instance.ReqServerTime();
+        if(requestResult.IsSuccess)
         {
             StartCoroutine(LoadLogonScene());
         }
         else if (m_ReqServerTimeCnt < 5)
         {
-            ReqServerTime();
+            ReqServerTimeTaskAsync();
         }
         else
         {
             Debug.LogErrorFormat("请求服务器时间失败{0}次", m_ReqServerTimeCnt);
             m_ReqServerTimeCnt = 0;
-            m_InitSceneUIView.ShowNetErrorMsg(ReqServerTime);
+            m_InitSceneUIView.ShowNetErrorMsg(ReqServerTimeTaskAsync);
         }
     }
 

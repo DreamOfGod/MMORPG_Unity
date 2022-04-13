@@ -26,7 +26,7 @@ public class LogonController : MonoBehaviour
         m_LogonView.CloseSelfAndOpenRegister();
     }
 
-    public void Logon()
+    public async void LogonTaskAsync()
     {
         string username = m_InputUsername.text;
         if(string.IsNullOrEmpty(username))
@@ -45,29 +45,27 @@ public class LogonController : MonoBehaviour
             return;
         }
         m_IsLogoning = true;
-        AccountModel.Instance.Logon(username, pwd, (UnityWebRequest.Result result, ResponseValue<AccountEntity> responseValue) =>
+        var requestResult = await AccountModel.Instance.LogonTaskAsync(username, pwd);
+        if (this == null || gameObject == null)
         {
-            if (this == null || gameObject == null)
+            return;
+        }
+        m_IsLogoning = false;
+        if (requestResult.IsSuccess)
+        {
+            switch (requestResult.ResponseValue.Code)
             {
-                return;
+                case 0:
+                    m_LogonView.CloseSelfAndOpenGameServerEnter(); break;
+                case 1:
+                    m_LogonView.ShowLogonTip("账号或密码错误"); break;
+                default:
+                    m_LogonView.ShowLogonTip(requestResult.ResponseValue.Error); break;
             }
-            m_IsLogoning = false;
-            if (result == UnityWebRequest.Result.Success)
-            {
-                switch(responseValue.Code)
-                {
-                    case 0:
-                        m_LogonView.CloseSelfAndOpenGameServerEnter(); break;
-                    case 1:
-                        m_LogonView.ShowLogonTip("账号或密码错误"); break;
-                    default:
-                        m_LogonView.ShowLogonTip(responseValue.Error); break;
-                }
-            }
-            else
-            {
-                m_LogonView.ShowLogonTip(result.ToString());
-            }
-        });
+        }
+        else
+        {
+            m_LogonView.ShowLogonTip(requestResult.Result.ToString());
+        }
     }
 }

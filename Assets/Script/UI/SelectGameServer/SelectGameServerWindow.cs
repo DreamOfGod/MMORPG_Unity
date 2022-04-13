@@ -39,7 +39,7 @@ public class SelectGameServerWindow : WindowBase
             float y = -m_GameServerPageListTopBottomPadding - (itemHeight + m_GameServerPageItemGap) * i - itemHeight / 2;
             item.transform.localPosition = new Vector3(0, y, 0);
             GameServerPageItem itemScript = item.GetComponent<GameServerPageItem>();
-            itemScript.Init(list[list.Count - 1 - i], m_SelectGameServerController.OnClickGameServerPageItem);
+            itemScript.Init(list[list.Count - 1 - i], m_SelectGameServerController.OnClickGameServerPageItemTaskAsync);
         }
     }
 

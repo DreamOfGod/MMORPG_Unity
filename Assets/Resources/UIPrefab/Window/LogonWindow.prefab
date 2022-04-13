@@ -1411,7 +1411,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7810584682912193158}
         m_TargetAssemblyTypeName: LogonController, Assembly-CSharp
-        m_MethodName: Logon
+        m_MethodName: LogonTaskAsync
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

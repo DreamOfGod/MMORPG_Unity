@@ -64,3 +64,4 @@ E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Framework\Mmcoy.Fra
 E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Framework\Mmcoy.Framework\obj\Debug\Mmcoy.Framework.csproj.CopyComplete
 E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Framework\Mmcoy.Framework\obj\Debug\Mmcoy.Framework.dll
 E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Framework\Mmcoy.Framework\obj\Debug\Mmcoy.Framework.pdb
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\youyou_Framework\Mmcoy.Framework\obj\Debug\Mmcoy.Framework.csproj.AssemblyReference.cache

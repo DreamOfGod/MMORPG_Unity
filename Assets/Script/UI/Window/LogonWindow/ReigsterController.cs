@@ -32,7 +32,7 @@ public class ReigsterController : MonoBehaviour
         m_ReigsterView.CloseSelfAndOpenLogon();
     }
 
-    public void Register()
+    public async void RegisterTaskAsync()
     {
         string username = m_InputUsername.text;
         if (string.IsNullOrEmpty(username))
@@ -51,28 +51,27 @@ public class ReigsterController : MonoBehaviour
             return;
         }
         m_IsRegistering = true;
-        AccountModel.Instance.Register(username, pwd, (UnityWebRequest.Result result, ResponseValue<AccountEntity> responseValue) => {
-            if (this == null || gameObject == null)
+        var requestResult = await AccountModel.Instance.RegisterTaskAsync(username, pwd);
+        if (this == null || gameObject == null)
+        {
+            return;
+        }
+        m_IsRegistering = false;
+        if (requestResult.IsSuccess)
+        {
+            switch(requestResult.ResponseValue.Code)
             {
-                return;
+                case 0:
+                    m_ReigsterView.ShowRegisterTip("注册成功", m_ReigsterView.CloseSelfAndOpenLogon); break;
+                case 1:
+                    m_ReigsterView.ShowRegisterTip("账号已存在"); break;
+                default:
+                    m_ReigsterView.ShowRegisterTip(requestResult.ResponseValue.Error); break;
             }
-            m_IsRegistering = false;
-            if (result == UnityWebRequest.Result.Success)
-            {
-                switch(responseValue.Code)
-                {
-                    case 0:
-                        m_ReigsterView.ShowRegisterTip("注册成功", m_ReigsterView.CloseSelfAndOpenLogon); break;
-                    case 1:
-                        m_ReigsterView.ShowRegisterTip("账号已存在"); break;
-                    default:
-                        m_ReigsterView.ShowRegisterTip(responseValue.Error); break;
-                }
-            }
-            else
-            {
-                m_ReigsterView.ShowRegisterTip(result.ToString());
-            }
-        });
+        }
+        else
+        {
+            m_ReigsterView.ShowRegisterTip(requestResult.Result.ToString());
+        }
     }
 }

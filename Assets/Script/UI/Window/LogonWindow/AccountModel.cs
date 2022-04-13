@@ -3,19 +3,13 @@
 //创建时间：2022-04-10 23:39:46
 //备    注：
 //===============================================
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class AccountModel: Singleton<AccountModel>
 {
     #region 注册
-    private struct RegisterCallbackData
-    {
-        public string Username;
-        public ModelCallback<AccountEntity> Callback;
-    }
-
-    public void Register(string username, string pwd, ModelCallback<AccountEntity> callback = null)
+    public async Task<RequestResult<AccountEntity>> RegisterTaskAsync(string username, string pwd)
     {
         WWWForm form = new WWWForm();
         form.AddField("Username", username);
@@ -23,48 +17,17 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        NetWorkHttp.Instance.Post<AccountEntity>(NetWorkHttp.AccountServerURL + "register", form, RegisterCallback, new RegisterCallbackData() { Username = username, Callback = callback});
-    }
-
-    private void RegisterCallback(UnityWebRequest.Result result, object callbackData, ResponseValue<AccountEntity> responseValue)
-    {
-        RegisterCallbackData registerCallbackData = (RegisterCallbackData)callbackData;
-        if (result == UnityWebRequest.Result.Success)
+        var requestResult = await NetWorkHttp.Instance.PostTaskAsync<AccountEntity>(NetWorkHttp.AccountServerURL + "register", form);
+        if (requestResult.IsSuccess && requestResult.ResponseValue.Code == 0)
         {
-            if (responseValue.Code == 0)
-            {
-                Statistics.Register(responseValue.Value.Id, registerCallbackData.Username);
-            }
-            if (registerCallbackData.Callback != null)
-            {
-                registerCallbackData.Callback(result, responseValue);
-            }
+            Statistics.Register(requestResult.ResponseValue.Value.Id, username);
         }
-        else
-        {
-            if (registerCallbackData.Callback != null)
-            {
-                registerCallbackData.Callback(result);
-            }
-        }
+        return requestResult;
     }
     #endregion
 
     #region 登录
-    private struct LogonCallbackData
-    {
-        public string Username;
-        public string Pwd;
-        public ModelCallback<AccountEntity> Callback;
-    }
-
-    /// <summary>
-    /// 登录
-    /// </summary>
-    /// <param name="username"></param>
-    /// <param name="pwd"></param>
-    /// <param name="callback"></param>
-    public void Logon(string username, string pwd, ModelCallback<AccountEntity> callback = null)
+    public async Task<RequestResult<AccountEntity>> LogonTaskAsync(string username, string pwd)
     {
         WWWForm form = new WWWForm();
         form.AddField("Username", username);
@@ -72,39 +35,26 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        NetWorkHttp.Instance.Post<AccountEntity>(NetWorkHttp.AccountServerURL + "logon", form, LogonCallback, new LogonCallbackData() { Username = username, Pwd = pwd, Callback = callback });
-    }
-
-    private void LogonCallback(UnityWebRequest.Result result, object callbackData, ResponseValue<AccountEntity> responseValue)
-    {
-        LogonCallbackData logonCallbackData = (LogonCallbackData)callbackData;
-        if (result == UnityWebRequest.Result.Success)
+        var requestResult = await NetWorkHttp.Instance.PostTaskAsync<AccountEntity>(NetWorkHttp.AccountServerURL + "logon", form);
+        if (requestResult.IsSuccess)
         {
+            var responseValue = requestResult.ResponseValue;
+            var entity = responseValue.Value;
             if (responseValue.Code == 0)
             {
-                PlayerPrefs.SetInt(PlayerPrefsKey.AccountID, responseValue.Value.Id);
-                PlayerPrefs.SetString(PlayerPrefsKey.Username, logonCallbackData.Username);
-                PlayerPrefs.SetString(PlayerPrefsKey.Password, logonCallbackData.Pwd);
-                Statistics.Logon(responseValue.Value.Id, logonCallbackData.Username);
-            }
-            if (logonCallbackData.Callback != null)
-            {
-                logonCallbackData.Callback(result, responseValue);
+                PlayerPrefs.SetInt(PlayerPrefsKey.AccountID, entity.Id);
+                PlayerPrefs.SetString(PlayerPrefsKey.Username, entity.Username);
+                PlayerPrefs.SetString(PlayerPrefsKey.Password, entity.Pwd);
+                Statistics.Logon(entity.Id, entity.Username);
             }
         }
-        else
-        {
-            if (logonCallbackData.Callback != null)
-            {
-                logonCallbackData.Callback(result);
-            }
-        }
+        return requestResult;
     }
 
     /// <summary>
     /// 快速登录
     /// </summary>
-    public void QuickLogon(ModelCallback<AccountEntity> callback = null)
+    public async Task<RequestResult<AccountEntity>> QuickLogonTaskAsync()
     {
         string username = PlayerPrefs.GetString(PlayerPrefsKey.Username);
         WWWForm form = new WWWForm();
@@ -113,27 +63,12 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        NetWorkHttp.Instance.Post<AccountEntity>(NetWorkHttp.AccountServerURL + "logon", form, QuickLogonCallback, new LogonCallbackData() { Username = username, Callback = callback });
-    }
-
-    private void QuickLogonCallback(UnityWebRequest.Result result, object callbackData, ResponseValue<AccountEntity> responseValue)
-    {
-        LogonCallbackData logonCallbackData = (LogonCallbackData)callbackData;
-        if (result == UnityWebRequest.Result.Success)
+        var requestResult = await NetWorkHttp.Instance.PostTaskAsync<AccountEntity>(NetWorkHttp.AccountServerURL + "register", form);
+        if (requestResult.IsSuccess && requestResult.ResponseValue.Code == 0)
         {
-            if (responseValue.Code == 0)
-            {
-                Statistics.Logon(responseValue.Value.Id, logonCallbackData.Username);
-            }
-            if (logonCallbackData.Callback != null)
-            {
-                logonCallbackData.Callback(result, responseValue);
-            }
+            Statistics.Logon(requestResult.ResponseValue.Value.Id, requestResult.ResponseValue.Value.Username);
         }
-        else if (logonCallbackData.Callback != null)
-        {
-            logonCallbackData.Callback(result);
-        }
+        return requestResult;
     }
     #endregion
 }

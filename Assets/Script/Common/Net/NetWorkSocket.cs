@@ -56,7 +56,7 @@ public class NetWorkSocket: Singleton<NetWorkSocket>
     }
 
     /// <summary>
-    /// 接收数据的回调
+    /// 接收数据的回调，在其它线程中执行
     /// </summary>
     /// <param name="asyncResult"></param>
     private void ReceiveCallback(IAsyncResult asyncResult)
@@ -222,7 +222,7 @@ public class NetWorkSocket: Singleton<NetWorkSocket>
     }
 
     /// <summary>
-    /// 发送消息的回调
+    /// 发送消息的回调，在其它线程中执行
     /// </summary>
     /// <param name="asyncResult"></param>
     private void SendCallback(IAsyncResult asyncResult)
