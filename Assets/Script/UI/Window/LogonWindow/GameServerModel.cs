@@ -14,7 +14,7 @@ public class GameServerModel: Singleton<GameServerModel>
     #region 请求游戏服页签
     public async Task<RequestResult<List<RetGameServerPageEntity>>> ReqGameServerPageTaskAsync()
     {
-        var requestResult = await NetWorkHttp.Instance.GetTaskAsync<List<RetGameServerPageEntity>>(NetWorkHttp.AccountServerURL + "game_server");
+        var requestResult = await NetWorkHttp.Instance.GetAsync<List<RetGameServerPageEntity>>(NetWorkHttp.AccountServerURL + "game_server");
         if (requestResult.IsSuccess && requestResult.ResponseValue.Code == 0)
         {
             m_RetGameServerPageList = requestResult.ResponseValue.Value;
@@ -26,7 +26,7 @@ public class GameServerModel: Singleton<GameServerModel>
     #region 请求游戏服信息
     public async Task<RequestResult<List<RetGameServerEntity>>> ReqGameServerTaskAsync(int pageIndex)
     {
-        var requestResult = await NetWorkHttp.Instance.GetTaskAsync<List<RetGameServerEntity>>(NetWorkHttp.AccountServerURL + "game_server?pageIndex=" + pageIndex);
+        var requestResult = await NetWorkHttp.Instance.GetAsync<List<RetGameServerEntity>>(NetWorkHttp.AccountServerURL + "game_server?pageIndex=" + pageIndex);
         if (requestResult.IsSuccess && requestResult.ResponseValue.Code == 0)
         {
             m_RetGameServerList = requestResult.ResponseValue.Value;

@@ -87,16 +87,18 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
     #region 基于任务的异步Get
     /// <summary>
     /// 基于任务的异步Get
+    /// 默认情况下，我们的异步方法将在主unity线程上运行，因为Unity提供了一个默认的SynchronizationContext，
+    /// 称为UnitySynchronizationContext，它自动收集在每个帧中排队的所有异步代码，并继续在主要unity线程上运行它们
     /// </summary>
     /// <typeparam name="RespValType">响应的值的类型</typeparam>
     /// <param name="url">url</param>
     /// <returns>请求结果</returns>
-    public async Task<RequestResult<RespValType>> GetTaskAsync<RespValType>(string url)
+    public async Task<RequestResult<RespValType>> GetAsync<RespValType>(string url)
     {
         url = AddSign(url);
         var request = UnityWebRequest.Get(url);
         int requestID = m_HttpRequestLocalID++;
-        DebugLogger.LogFormat("发送GET请求\n\trequest ID:{0}\n\turl:{1}", requestID, url);
+        DebugLogger.LogFormat("发送GET请求\n\trequest ID:{0}\n\turl:{1}}", requestID, url);
         await request.SendWebRequest();
         DebugLogger.LogFormat("GET请求响应\n\trequest ID:{0}\n\turl:{1}\n\tresult:{2}\n\tresponseCode:{3}\n\terror:{4}\n\ttext:{5}", requestID, request.url, request.result, request.responseCode, request.error, request.downloadHandler.text);
         var requestResult = new RequestResult<RespValType>();
@@ -117,7 +119,7 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
     /// <param name="url">url</param>
     /// <param name="form">表单</param>
     /// <returns>请求结果</returns>
-    public async Task<RequestResult<RespValType>> PostTaskAsync<RespValType>(string url, WWWForm form = null)
+    public async Task<RequestResult<RespValType>> PostAsync<RespValType>(string url, WWWForm form = null)
     {
         if(form == null)
         {
@@ -126,7 +128,7 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
         AddSign(form);
         var request = UnityWebRequest.Post(url, form);
         int requestID = m_HttpRequestLocalID++;
-        DebugLogger.LogFormat("发送POST请求\n\trequest ID:{0}\n\turl:{1}\n\t参数:{2}", requestID, url, form);
+        DebugLogger.LogFormat("发送POST请求\n\trequest ID:{0}\n\turl:{1}\n\t参数:{2}\n\t线程ID:{3}", requestID, url, form);
         await request.SendWebRequest();
         DebugLogger.LogFormat("POST请求响应\n\trequest ID:{0}\n\turl:{1}\n\tresult:{2}\n\tresponseCode:{3}\n\terror:{4}\n\ttext:{5}", requestID, request.url, request.result, request.responseCode, request.error, request.downloadHandler.text);
         var requestResult = new RequestResult<RespValType>();

@@ -25,7 +25,7 @@ public class TimeModel: Singleton<TimeModel>
 
     public async Task<RequestResult<long>> ReqServerTime()
     {
-        var requestResult = await NetWorkHttp.Instance.GetTaskAsync<long>(NetWorkHttp.AccountServerURL + "time");
+        var requestResult = await NetWorkHttp.Instance.GetAsync<long>(NetWorkHttp.AccountServerURL + "time");
         if(requestResult.IsSuccess)
         {
             m_ServerInitialTime = requestResult.ResponseValue.Value - (long)RealTime.time * 1000;

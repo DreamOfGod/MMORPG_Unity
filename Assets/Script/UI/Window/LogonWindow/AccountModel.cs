@@ -17,7 +17,7 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        var requestResult = await NetWorkHttp.Instance.PostTaskAsync<AccountEntity>(NetWorkHttp.AccountServerURL + "register", form);
+        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountEntity>(NetWorkHttp.AccountServerURL + "register", form);
         if (requestResult.IsSuccess && requestResult.ResponseValue.Code == 0)
         {
             Statistics.Register(requestResult.ResponseValue.Value.Id, username);
@@ -35,7 +35,7 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        var requestResult = await NetWorkHttp.Instance.PostTaskAsync<AccountEntity>(NetWorkHttp.AccountServerURL + "logon", form);
+        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountEntity>(NetWorkHttp.AccountServerURL + "logon", form);
         if (requestResult.IsSuccess)
         {
             var responseValue = requestResult.ResponseValue;
@@ -63,7 +63,7 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        var requestResult = await NetWorkHttp.Instance.PostTaskAsync<AccountEntity>(NetWorkHttp.AccountServerURL + "register", form);
+        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountEntity>(NetWorkHttp.AccountServerURL + "register", form);
         if (requestResult.IsSuccess && requestResult.ResponseValue.Code == 0)
         {
             Statistics.Logon(requestResult.ResponseValue.Value.Id, requestResult.ResponseValue.Value.Username);
