@@ -1,0 +1,29 @@
+1、async方法内await前后的执行线程并不相同。
+
+第一个await前面的语句与async方法的调用方在同一线程。遇到第一个await后，用一个工作线程来执行等待的任务，任务执行完后，继续在工作线程执行await后面的语句，直到遇到下一个await，重复同样的过程。
+
+在Unity中，默认情况下，自定义的async方法都在主线程中执行，Unity会保证这一点。默认情况下，异步方法将在主unity线程上运行，因为Unity提供了一个默认的SynchronizationContext，称为UnitySynchronizationContext，它自动收集在每个帧中排队的所有异步代码，并继续在主要unity线程上运行它们。
+
+2、任务Task中抛出的异常会存储在Task.Exception.InnerExceptions属性中，InnerExceptions中的异常可能会有多个，因为任务中可能抛出多个异常，比如Task.WhenAll(...)返回的任务。
+
+Task中抛出的异常只有在await这个任务的地方才会重新抛出，并且只抛出Task.Exception.InnerExceptions中的第一个异常。如果Task可能抛出多个异常，应该检查Task.Exception.InnerExceptions属性。只有await才能有机会处理Task中可能抛出的异常。
+
+返回值类型为void的async方法无法等待，因此根本无法处理异步方法中的异常。如果要能够处理异步方法中的异常，只能是非void返回值类型
+
+3、如果有多个异步操作，应该尽可能同时开启任务，再去等待结果，而不是一次只开启并等待一个任务，等结果返回再去开启其它任务，这样效率较低
+
+同时开启多个异步任务后，可以使用Task.WhenAll和Task.WhenAny来等待全部任务或任何一个任务完成
+
+4、TaskCompletionSource是任务结束的源头，通过它可以将源自于它的所有任务结束掉。TaskCompletionSource.Task将返回新的任务对象，这些任务只有在调用TaskCompletionSource.SetResult后才会结束。使用TaskCompletionSource可以更自由地控制任务的结束。
+
+使用TaskCompletionSource可以对基于事件的异步方法返回的类型进行扩展，添加GetAwaiter扩展方法，使其变为可等待类型，可以使用await等待。例如：
+public static TaskAwaiter<object> GetAwaiter(this AsyncOperation ao)
+{
+    var tcs = new TaskCompletionSource<object>();
+    ao.completed += (obj) => { tcs.SetResult(null); };
+    return tcs.Task.GetAwaiter();
+}
+
+CancellationTokenSource是取消标记的源头，通过它可以使源自于它的所有取消标记产生作用，取消掉正在进行中的任务。CancellationTokenSource.Token将返回一个新的取消标记，调用CancellationTokenSource.Cancel或CancelAfter可以使这些取消标记发挥作用，如果任务尚未完成的时候取消了，在await任务的地方会抛出TaskCanceledException异常
+
+5、

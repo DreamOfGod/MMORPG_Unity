@@ -19,7 +19,7 @@ public class GameServerPageItem : MonoBehaviour
     {
         m_PageIndex = entity.PageIndex;
         m_OnClick = onClick;
-        m_GameServerPageName.text = string.Format("{0} -- {1} 服", entity.BeginId, entity.EndId);
+        m_GameServerPageName.text = $"{ entity.BeginId } -- { entity.EndId } 服";
     }
 
     public void OnBtnClick()

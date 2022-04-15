@@ -6,7 +6,6 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
-using UnityEngine;
 
 /// <summary>
 /// Socket通信管理
@@ -44,14 +43,14 @@ public class NetWorkSocket: Singleton<NetWorkSocket>
         try
         {
             m_Socket.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
-            DebugLogger.LogFormat("连接{0}:{1}成功", ip, port);
+            DebugLogger.Log($"连接{ ip }:{ port }成功");
 
             //异步接收数据
             m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
         }
         catch(Exception ex)
         {
-            DebugLogger.LogFormat("连接{0}:{1}失败，error：{2}", ip, port, ex.Message);
+            DebugLogger.Log($"连接{ ip }:{ port }失败，error：{ ex.Message }");
         }
     }
 
@@ -70,7 +69,7 @@ public class NetWorkSocket: Singleton<NetWorkSocket>
         catch (Exception ex)
         {
             //连接异常
-            DebugLogger.LogFormat("与{0}的连接异常，error：{1}", m_Socket.RemoteEndPoint.ToString(), ex.Message);
+            DebugLogger.Log($"与{ m_Socket.RemoteEndPoint }的连接异常，error：{ ex.Message }");
             return;
         }
 
@@ -160,7 +159,7 @@ public class NetWorkSocket: Singleton<NetWorkSocket>
         else
         {
             //客户端断开连接
-            DebugLogger.LogFormat("服务器{0}断开连接",  m_Socket.RemoteEndPoint.ToString());
+            DebugLogger.Log($"服务器{ m_Socket.RemoteEndPoint }断开连接");
         }
     }
 

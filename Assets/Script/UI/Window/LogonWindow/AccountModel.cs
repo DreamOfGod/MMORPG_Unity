@@ -11,16 +11,17 @@ public class AccountModel: Singleton<AccountModel>
     #region 注册
     public async Task<RequestResult<AccountEntity>> RegisterTaskAsync(string username, string pwd)
     {
-        WWWForm form = new WWWForm();
+        var form = new WWWForm();
         form.AddField("Username", username);
         form.AddField("Pwd", pwd);
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountEntity>(NetWorkHttp.AccountServerURL + "register", form);
-        if (requestResult.IsSuccess && requestResult.ResponseValue.Code == 0)
+        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountEntity>($"{ NetWorkHttp.AccountServerURL }register", form);
+        if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
         {
-            Statistics.Register(requestResult.ResponseValue.Value.Id, username);
+            var entity = requestResult.ResponseData.Data;
+            Statistics.Register(entity.Id, username);
         }
         return requestResult;
     }
@@ -29,19 +30,18 @@ public class AccountModel: Singleton<AccountModel>
     #region 登录
     public async Task<RequestResult<AccountEntity>> LogonTaskAsync(string username, string pwd)
     {
-        WWWForm form = new WWWForm();
+        var form = new WWWForm();
         form.AddField("Username", username);
         form.AddField("Pwd", pwd);
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountEntity>(NetWorkHttp.AccountServerURL + "logon", form);
+        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountEntity>($"{ NetWorkHttp.AccountServerURL }logon", form);
         if (requestResult.IsSuccess)
         {
-            var responseValue = requestResult.ResponseValue;
-            var entity = responseValue.Value;
-            if (responseValue.Code == 0)
+            if (requestResult.ResponseData.Code == 0)
             {
+                var entity = requestResult.ResponseData.Data;
                 PlayerPrefs.SetInt(PlayerPrefsKey.AccountID, entity.Id);
                 PlayerPrefs.SetString(PlayerPrefsKey.Username, entity.Username);
                 PlayerPrefs.SetString(PlayerPrefsKey.Password, entity.Pwd);
@@ -56,17 +56,18 @@ public class AccountModel: Singleton<AccountModel>
     /// </summary>
     public async Task<RequestResult<AccountEntity>> QuickLogonTaskAsync()
     {
-        string username = PlayerPrefs.GetString(PlayerPrefsKey.Username);
-        WWWForm form = new WWWForm();
+        var username = PlayerPrefs.GetString(PlayerPrefsKey.Username);
+        var form = new WWWForm();
         form.AddField("Username", username);
         form.AddField("Pwd", PlayerPrefs.GetString(PlayerPrefsKey.Password));
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountEntity>(NetWorkHttp.AccountServerURL + "register", form);
-        if (requestResult.IsSuccess && requestResult.ResponseValue.Code == 0)
+        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountEntity>($"{ NetWorkHttp.AccountServerURL }register", form);
+        if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
         {
-            Statistics.Logon(requestResult.ResponseValue.Value.Id, requestResult.ResponseValue.Value.Username);
+            var entity = requestResult.ResponseData.Data;
+            Statistics.Logon(entity.Id, entity.Username);
         }
         return requestResult;
     }

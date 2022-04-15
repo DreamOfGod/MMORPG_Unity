@@ -42,7 +42,7 @@ public class RoleHeadBarCtrl : MonoBehaviour
 
     public void Hurt(int hurtVal, float HPPercent)
     {
-        m_HUDText.Add(string.Format("-{0}", hurtVal), Color.red, 0.1f);
+        m_HUDText.Add($"-{ hurtVal }", Color.red, 0.1f);
         m_HPProgress.value = HPPercent;
 
     }

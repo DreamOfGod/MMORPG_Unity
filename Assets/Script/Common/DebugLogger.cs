@@ -7,6 +7,7 @@
 using UnityEngine;
 /// <summary>
 /// 调式模式日志
+/// 需要格式化字符串的使用模板字符串
 /// </summary>
 public class DebugLogger
 {
@@ -17,24 +18,10 @@ public class DebugLogger
 #endif
     }
 
-    public static void LogFormat(string format, params object[] args)
-    {
-#if DEBUG_LOG
-        Debug.LogFormat(format, args);
-#endif
-    }
-
     public static void LogError(object message)
     {
 #if DEBUG_LOG
         Debug.LogError(message);
-#endif
-    }
-
-    public static void LogErrorFormat(string format, params object[] args)
-    {
-#if DEBUG_LOG
-        Debug.LogErrorFormat(format, args);
 #endif
     }
 }

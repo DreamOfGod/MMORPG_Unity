@@ -20,9 +20,9 @@ public class SelectGameServerController : MonoBehaviour
     private async void ReqGameServerPageTaskAsync()
     {
         var requestResult = await GameServerModel.Instance.ReqGameServerPageTaskAsync();
-        if (requestResult.IsSuccess && requestResult.ResponseValue.Code == 0)
+        if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
         {
-            m_SelectGameServerWindow.AddGameServerPageItem(requestResult.ResponseValue.Value);
+            m_SelectGameServerWindow.AddGameServerPageItem(requestResult.ResponseData.Data);
         }
     }
 
@@ -31,9 +31,9 @@ public class SelectGameServerController : MonoBehaviour
         m_CurGameServerPageIndex = pageIndex;
         m_SelectGameServerWindow.ClearGameServerList();
         var requestResult = await GameServerModel.Instance.ReqGameServerTaskAsync(pageIndex);
-        if (requestResult.IsSuccess && requestResult.ResponseValue.Code == 0 && pageIndex == m_CurGameServerPageIndex)
+        if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0 && pageIndex == m_CurGameServerPageIndex)
         {
-            m_SelectGameServerWindow.UpdateGameServerList(requestResult.ResponseValue.Value);
+            m_SelectGameServerWindow.UpdateGameServerList(requestResult.ResponseData.Data);
         }
     }
 

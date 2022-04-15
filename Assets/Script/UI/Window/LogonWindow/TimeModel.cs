@@ -28,8 +28,8 @@ public class TimeModel: Singleton<TimeModel>
         var requestResult = await NetWorkHttp.Instance.GetAsync<long>(NetWorkHttp.AccountServerURL + "time");
         if(requestResult.IsSuccess)
         {
-            m_ServerInitialTime = requestResult.ResponseValue.Value - (long)RealTime.time * 1000;
-            DebugLogger.LogFormat("服务器初始时间戳：{0}ms", m_ServerInitialTime);
+            m_ServerInitialTime = requestResult.ResponseData.Data - (long)RealTime.time * 1000;
+            DebugLogger.Log($"服务器初始时间戳：{ m_ServerInitialTime }ms");
         }
         return requestResult;
     }

@@ -64,10 +64,11 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
             url += '&';
         }
         StringBuilder sb = new StringBuilder();
-        sb.AppendFormat("DeviceIdentifier={0}&", SystemInfo.deviceUniqueIdentifier);
-        sb.AppendFormat("Time={0}&", TimeModel.Instance.ServerTime);
-        sb.AppendFormat("Sign={0}", MD5Hex(string.Format("{0}:{1}", SystemInfo.deviceUniqueIdentifier, TimeModel.Instance.ServerTime)));
-        return url + sb.ToString();
+        sb.Append($"DeviceIdentifier={ SystemInfo.deviceUniqueIdentifier }&");
+        sb.Append($"Time={ TimeModel.Instance.ServerTime }&");
+        string md5HexStr = MD5Hex($"{ SystemInfo.deviceUniqueIdentifier }:{ TimeModel.Instance.ServerTime }");
+        sb.Append($"Sign={ md5HexStr }");
+        return $"{ url }{ sb }";
     }
     #endregion
 
@@ -80,32 +81,50 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
     {
         form.AddField("DeviceIdentifier", SystemInfo.deviceUniqueIdentifier);
         form.AddField("Time", TimeModel.Instance.ServerTime.ToString());
-        form.AddField("Sign", MD5Hex(string.Format("{0}:{1}", SystemInfo.deviceUniqueIdentifier, TimeModel.Instance.ServerTime)));
+        form.AddField("Sign", MD5Hex($"{ SystemInfo.deviceUniqueIdentifier }:{ TimeModel.Instance.ServerTime }"));
     }
     #endregion
 
     #region 基于任务的异步Get
     /// <summary>
     /// 基于任务的异步Get
-    /// 默认情况下，我们的异步方法将在主unity线程上运行，因为Unity提供了一个默认的SynchronizationContext，
-    /// 称为UnitySynchronizationContext，它自动收集在每个帧中排队的所有异步代码，并继续在主要unity线程上运行它们
+    /// 默认情况下，异步方法将在主unity线程上运行，因为Unity提供了一个默认的SynchronizationContext，称为UnitySynchronizationContext，它自动收集在每个帧中排队的所有异步代码，并继续在主要unity线程上运行它们
     /// </summary>
-    /// <typeparam name="RespValType">响应的值的类型</typeparam>
+    /// <typeparam name="RespDataType">响应的数据的类型</typeparam>
     /// <param name="url">url</param>
     /// <returns>请求结果</returns>
-    public async Task<RequestResult<RespValType>> GetAsync<RespValType>(string url)
+    public async Task<RequestResult<RespDataType>> GetAsync<RespDataType>(string url)
     {
         url = AddSign(url);
         var request = UnityWebRequest.Get(url);
         int requestID = m_HttpRequestLocalID++;
-        DebugLogger.LogFormat("发送GET请求\n\trequest ID:{0}\n\turl:{1}}", requestID, url);
+
+        string logString =
+$@"发送GET请求
+    request ID:{ requestID }
+    url:{ url }
+";
+        DebugLogger.Log(logString);
+
         await request.SendWebRequest();
-        DebugLogger.LogFormat("GET请求响应\n\trequest ID:{0}\n\turl:{1}\n\tresult:{2}\n\tresponseCode:{3}\n\terror:{4}\n\ttext:{5}", requestID, request.url, request.result, request.responseCode, request.error, request.downloadHandler.text);
-        var requestResult = new RequestResult<RespValType>();
+
+        logString =
+$@"GET请求响应
+    request ID:{ requestID }
+    url:{ request.url }
+    result:{ request.result }
+    responseCode:{ request.responseCode }
+    error:{ request.error }
+    text:{ request.downloadHandler.text }
+";
+
+        DebugLogger.Log(logString);
+
+        var requestResult = new RequestResult<RespDataType>();
         requestResult.Result = request.result;
         if (request.result == UnityWebRequest.Result.Success)
         {
-            requestResult.ResponseValue = JsonMapper.ToObject<ResponseValue<RespValType>>(request.downloadHandler.text);
+            requestResult.ResponseData = JsonMapper.ToObject<ResponseData<RespDataType>>(request.downloadHandler.text);
         }
         return requestResult;
     }
@@ -115,11 +134,11 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
     /// <summary>
     /// 基于任务的异步Post
     /// </summary>
-    /// <typeparam name="RespValType">响应的值类型</typeparam>
+    /// <typeparam name="RespDataType">响应的数据的类型</typeparam>
     /// <param name="url">url</param>
     /// <param name="form">表单</param>
     /// <returns>请求结果</returns>
-    public async Task<RequestResult<RespValType>> PostAsync<RespValType>(string url, WWWForm form = null)
+    public async Task<RequestResult<RespDataType>> PostAsync<RespDataType>(string url, WWWForm form = null)
     {
         if(form == null)
         {
@@ -128,14 +147,33 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
         AddSign(form);
         var request = UnityWebRequest.Post(url, form);
         int requestID = m_HttpRequestLocalID++;
-        DebugLogger.LogFormat("发送POST请求\n\trequest ID:{0}\n\turl:{1}\n\t参数:{2}\n\t线程ID:{3}", requestID, url, form);
+        string logString =
+$@"发送POST请求
+    request ID:{ requestID }
+    url:{ url }
+    参数:{2}
+    线程ID:{ form }
+";
+        DebugLogger.Log(logString);
+
         await request.SendWebRequest();
-        DebugLogger.LogFormat("POST请求响应\n\trequest ID:{0}\n\turl:{1}\n\tresult:{2}\n\tresponseCode:{3}\n\terror:{4}\n\ttext:{5}", requestID, request.url, request.result, request.responseCode, request.error, request.downloadHandler.text);
-        var requestResult = new RequestResult<RespValType>();
+
+        logString =
+$@"POST请求响应
+    request ID:{ requestID }
+    url:{ request.url }
+    result:{ request.result }
+    responseCode:{ request.responseCode }
+    error:{ request.error }
+    text:{ request.downloadHandler.text }
+";
+        DebugLogger.Log(logString);
+
+        var requestResult = new RequestResult<RespDataType>();
         requestResult.Result = request.result;
         if(request.result == UnityWebRequest.Result.Success)
         {
-            requestResult.ResponseValue = JsonMapper.ToObject<ResponseValue<RespValType>>(request.downloadHandler.text);
+            requestResult.ResponseData = JsonMapper.ToObject<ResponseData<RespDataType>>(request.downloadHandler.text);
         }
         return requestResult;
     }

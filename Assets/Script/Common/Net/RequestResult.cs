@@ -6,19 +6,19 @@
 using UnityEngine.Networking;
 
 /// <summary>
-/// 请求结果
+/// Http请求结果
 /// </summary>
 /// <typeparam name="RespValType">响应值中的值类型</typeparam>
-public class RequestResult<RespValType>
+public struct RequestResult<RespDataType>
 {
     /// <summary>
     /// 结果
     /// </summary>
     public UnityWebRequest.Result Result;
     /// <summary>
-    /// 响应值
+    /// 响应数据
     /// </summary>
-    public ResponseValue<RespValType> ResponseValue;
+    public ResponseData<RespDataType> ResponseData;
 
     /// <summary>
     /// 是否成功
@@ -31,11 +31,9 @@ public class RequestResult<RespValType>
         }
     }
 
-    public RequestResult() { }
-
-    public RequestResult(UnityWebRequest.Result result, ResponseValue<RespValType> responseValue = null)
+    public RequestResult(UnityWebRequest.Result result, ResponseData<RespDataType> responseData)
     {
         Result = result;
-        ResponseValue = responseValue;
+        ResponseData = responseData;
     }
 }

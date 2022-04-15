@@ -8,12 +8,4 @@ using UnityEngine;
 
 public class LogonSceneController : MonoBehaviour
 {
-    private void Update()
-    {
-        if(Input.GetKeyUp(KeyCode.O))
-        {
-            TimeModel.Instance.ReqServerTime();
-            DebugLogger.LogFormat("当前线程ID:{0}", Thread.CurrentThread.ManagedThreadId);
-        }
-    }
 }

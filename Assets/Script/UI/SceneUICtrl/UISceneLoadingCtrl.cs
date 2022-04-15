@@ -22,7 +22,7 @@ public class UISceneLoadingCtrl : MonoBehaviour
     {
         float progress = percent * 0.01f;
         m_Progress.value = progress;
-        m_LblProgress.text = string.Format("{0}%", percent);
+        m_LblProgress.text = $"{ percent }%";
         m_TransProgressLight.localPosition = new Vector3(-390 + 890 * progress, 0, 0);
     }
 }

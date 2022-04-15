@@ -4,7 +4,6 @@
 //备    注：
 //===============================================
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 /// <summary>
@@ -34,13 +33,13 @@ public class ReigsterController : MonoBehaviour
 
     public async void RegisterTaskAsync()
     {
-        string username = m_InputUsername.text;
+        var username = m_InputUsername.text;
         if (string.IsNullOrEmpty(username))
         {
             m_ReigsterView.ShowRegisterTip("请输入账号");
             return;
         }
-        string pwd = m_InputPwd.text;
+        var pwd = m_InputPwd.text;
         if (string.IsNullOrEmpty(pwd))
         {
             m_ReigsterView.ShowRegisterTip("请输入密码");
@@ -59,14 +58,14 @@ public class ReigsterController : MonoBehaviour
         m_IsRegistering = false;
         if (requestResult.IsSuccess)
         {
-            switch(requestResult.ResponseValue.Code)
+            switch(requestResult.ResponseData.Code)
             {
                 case 0:
                     m_ReigsterView.ShowRegisterTip("注册成功", m_ReigsterView.CloseSelfAndOpenLogon); break;
                 case 1:
                     m_ReigsterView.ShowRegisterTip("账号已存在"); break;
                 default:
-                    m_ReigsterView.ShowRegisterTip(requestResult.ResponseValue.Error); break;
+                    m_ReigsterView.ShowRegisterTip(requestResult.ResponseData.Error); break;
             }
         }
         else
