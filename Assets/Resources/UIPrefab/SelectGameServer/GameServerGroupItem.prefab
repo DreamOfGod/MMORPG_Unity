@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 5066339840792588921}
   - component: {fileID: 6625556072539134418}
   - component: {fileID: 5550477585984935395}
-  - component: {fileID: 6687476208434916628}
+  - component: {fileID: 5669087264982521900}
   m_Layer: 5
-  m_Name: GameServerPageItem
+  m_Name: GameServerGroupItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,8 +122,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6687476208434916628}
-        m_TargetAssemblyTypeName: GameServerPageItem, Assembly-CSharp
+      - m_Target: {fileID: 5669087264982521900}
+        m_TargetAssemblyTypeName: GameServerGroupItem, Assembly-CSharp
         m_MethodName: OnBtnClick
         m_Mode: 1
         m_Arguments:
@@ -134,7 +134,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6687476208434916628
+--- !u!114 &5669087264982521900
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ca0a4b352724554196d06d6a542e59d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GameServerPageName: {fileID: 6908800945687286064}
+  m_GameServerGroupName: {fileID: 6908800945687286064}
 --- !u!1 &4060983693517153839
 GameObject:
   m_ObjectHideFlags: 0

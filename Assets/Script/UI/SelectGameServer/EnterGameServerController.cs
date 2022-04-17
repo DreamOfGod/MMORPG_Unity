@@ -7,13 +7,19 @@ using UnityEngine;
 
 public class EnterGameServerController : MonoBehaviour
 {
-    public void SelectGameServer()
+    [SerializeField]
+    private EnterGameServerWindow m_EnterGameServerWindow;
+    public void OnClickSelectGameServer()
     {
-        WindowBase.OpenWindowZoomInShow(WindowPath.SelectGameServer, transform.parent);
+        WindowBase window = WindowBase.OpenWindowZoomInShow(WindowPath.SelectGameServer, transform.parent);
+        SelectGameServerController selectGameServerController = window.GetComponent<SelectGameServerController>();
+        selectGameServerController.Init(m_EnterGameServerWindow);
     }
 
-    public void EnterGameServer()
+    public void OnCllickEnterGameServer()
     {
 
     }
+
+
 }

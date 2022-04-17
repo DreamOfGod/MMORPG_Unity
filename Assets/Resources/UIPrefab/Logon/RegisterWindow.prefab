@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ddc1b130b9d16646b1961ca18a68c36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ReigsterView: {fileID: 5700389513848951084}
+  m_ReigsterWindow: {fileID: 5700389513848951084}
   m_InputUsername: {fileID: 688965789691402283}
   m_InputPwd: {fileID: 688965788804719691}
   m_InputYaoQingMa: {fileID: 688965790265797310}

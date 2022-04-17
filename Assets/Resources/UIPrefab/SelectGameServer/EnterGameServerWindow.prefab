@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 966042639}
   - component: {fileID: 966042638}
   m_Layer: 5
-  m_Name: TextDefaultGameServer
+  m_Name: TextCurSelectGameServer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -285,7 +285,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 199988049975711713}
         m_TargetAssemblyTypeName: EnterGameServerController, Assembly-CSharp
-        m_MethodName: SelectGameServer
+        m_MethodName: OnClickSelectGameServer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -464,6 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be48c5aa267bc1f4ba0b91298be9efc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_EnterGameServerWindow: {fileID: 8160904490222054721}
 --- !u!114 &8160904490222054721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,7 +480,7 @@ MonoBehaviour:
   WindowAnimationTarget: {fileID: 566400397}
   WindowAnimationDuration: 0.2
   WindowAnimationEase: 1
-  m_TextDefaultGameServer: {fileID: 966042638}
+  m_TextCurSelectGameServer: {fileID: 966042638}
 --- !u!1 &5228471308889535357
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +604,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 199988049975711713}
         m_TargetAssemblyTypeName: EnterGameServerController, Assembly-CSharp
-        m_MethodName: EnterGameServer
+        m_MethodName: OnCllickEnterGameServer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

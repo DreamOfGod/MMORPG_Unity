@@ -3,6 +3,7 @@
 //创建时间：2022-04-11 16:24:11
 //备    注：
 //===============================================
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class SelectGameServerController : MonoBehaviour
@@ -10,35 +11,41 @@ public class SelectGameServerController : MonoBehaviour
     [SerializeField]
     private SelectGameServerWindow m_SelectGameServerWindow;
 
-    private int m_CurGameServerPageIndex = -1;
+    public SelectGameServerWindow SelectGameServerWindow { get => m_SelectGameServerWindow; }
+
+    [HideInInspector]
+    public int CurGameServerGroupFirstId = -1;
+    private EnterGameServerWindow m_EnterGameServerWindow;
+    public EnterGameServerWindow EnterGameServerWindow { get => m_EnterGameServerWindow; }
+
+    public void Init(EnterGameServerWindow enterGameServerWindow)
+    {
+        m_EnterGameServerWindow = enterGameServerWindow;
+    }
 
     void Start()
     {
-        ReqGameServerPageTaskAsync();
+        //m_SelectGameServerWindow.InitSelectedGameServer();
+        ReqGameServerGroupAndRecommendGameServerAsync();
     }
 
-    private async void ReqGameServerPageTaskAsync()
+    private async void ReqGameServerGroupAndRecommendGameServerAsync()
     {
-        var requestResult = await GameServerModel.Instance.ReqGameServerPageTaskAsync();
-        if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
+        var gameServerGroupTask = GameServerModel.Instance.ReqGameServerGroupAsync();
+        var recommendGameServerTask = GameServerModel.Instance.ReqRecommendGameServerListAsync();
+        await Task.WhenAll(gameServerGroupTask, recommendGameServerTask);
+        if(this == null || gameObject == null)
         {
-            m_SelectGameServerWindow.AddGameServerPageItem(requestResult.ResponseData.Data);
+            return;
         }
-    }
-
-    public async void OnClickGameServerPageItemTaskAsync(int pageIndex)
-    {
-        m_CurGameServerPageIndex = pageIndex;
-        m_SelectGameServerWindow.ClearGameServerList();
-        var requestResult = await GameServerModel.Instance.ReqGameServerTaskAsync(pageIndex);
-        if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0 && pageIndex == m_CurGameServerPageIndex)
+        var gameServerGroupResult = gameServerGroupTask.Result;
+        var recommendGameServerResult = recommendGameServerTask.Result;
+        if(!gameServerGroupResult.IsSuccess || gameServerGroupResult.ResponseData.Code != 0
+            || !recommendGameServerResult.IsSuccess || recommendGameServerResult.ResponseData.Code != 0)
         {
-            m_SelectGameServerWindow.UpdateGameServerList(requestResult.ResponseData.Data);
+            return;
         }
-    }
-
-    public void OnClickGameServerItem(int gameServerId)
-    {
-        DebugLogger.Log("点击了" + gameServerId + "游戏服");
+        m_SelectGameServerWindow.AddGameServerGroupItem(gameServerGroupResult.ResponseData.Data);
+        m_SelectGameServerWindow.UpdateGameServerList(recommendGameServerResult.ResponseData.Data);
     }
 }

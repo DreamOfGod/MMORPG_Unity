@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4d70f6c960b5f4eb3cdcc29f1e829f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LogonView: {fileID: 3279438185191959850}
+  m_LogonWindow: {fileID: 3279438185191959850}
   m_InputUsername: {fileID: 2956707129815096360}
   m_InputPwd: {fileID: 2956707129519027654}
 --- !u!1 &2956707129332250950

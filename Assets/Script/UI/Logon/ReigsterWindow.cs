@@ -1,10 +1,12 @@
 //===============================================
 //作    者：
-//创建时间：2022-02-23 16:44:48
+//创建时间：2022-04-08 14:21:11
 //备    注：
 //===============================================
-using UnityEngine;
 
-public class LogonSceneController : MonoBehaviour
+/// <summary>
+/// 注册窗口
+/// </summary>
+public class ReigsterWindow : WindowBase
 {
 }

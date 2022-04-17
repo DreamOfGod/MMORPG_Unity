@@ -9,7 +9,12 @@ using UnityEngine.UI;
 public class EnterGameServerWindow : WindowBase
 {
     [SerializeField]
-    private Text m_TextDefaultGameServer;
+    private Text m_TextCurSelectGameServer;
+
+    public void SetCurSelectGameServer(GameServerBean gameServer)
+    {
+        m_TextCurSelectGameServer.text = gameServer.Name;
+    }
 
     private void Update()
     {

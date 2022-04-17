@@ -65,8 +65,8 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
         }
         StringBuilder sb = new StringBuilder();
         sb.Append($"DeviceIdentifier={ SystemInfo.deviceUniqueIdentifier }&");
-        sb.Append($"Time={ TimeModel.Instance.ServerTime }&");
-        string md5HexStr = MD5Hex($"{ SystemInfo.deviceUniqueIdentifier }:{ TimeModel.Instance.ServerTime }");
+        sb.Append($"Time={ TimeModel.Instance.ServerTimeMillionsecond }&");
+        string md5HexStr = MD5Hex($"{ SystemInfo.deviceUniqueIdentifier }:{ TimeModel.Instance.ServerTimeMillionsecond }");
         sb.Append($"Sign={ md5HexStr }");
         return $"{ url }{ sb }";
     }
@@ -80,8 +80,8 @@ public class NetWorkHttp : Singleton<NetWorkHttp>
     private void AddSign(WWWForm form)
     {
         form.AddField("DeviceIdentifier", SystemInfo.deviceUniqueIdentifier);
-        form.AddField("Time", TimeModel.Instance.ServerTime.ToString());
-        form.AddField("Sign", MD5Hex($"{ SystemInfo.deviceUniqueIdentifier }:{ TimeModel.Instance.ServerTime }"));
+        form.AddField("Time", TimeModel.Instance.ServerTimeMillionsecond.ToString());
+        form.AddField("Sign", MD5Hex($"{ SystemInfo.deviceUniqueIdentifier }:{ TimeModel.Instance.ServerTimeMillionsecond }"));
     }
     #endregion
 
@@ -140,7 +140,7 @@ $@"GET请求响应
     /// <returns>请求结果</returns>
     public async Task<RequestResult<RespDataType>> PostAsync<RespDataType>(string url, WWWForm form = null)
     {
-        if(form == null)
+        if (form == null)
         {
             form = new WWWForm();
         }
@@ -151,8 +151,7 @@ $@"GET请求响应
 $@"发送POST请求
     request ID:{ requestID }
     url:{ url }
-    参数:{2}
-    线程ID:{ form }
+    参数:{ form }
 ";
         DebugLogger.Log(logString);
 

@@ -3,9 +3,6 @@
 //创建时间：2022-04-11 21:23:10
 //备    注：
 //===============================================
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,22 +12,23 @@ public class GameServerItem : MonoBehaviour
     private Text m_GameServerName;
     [SerializeField]
     private Image m_Status;
+    [SerializeField]
+    private Sprite[] m_SpriteStatusArray;
 
-    private int m_GameServerId;
-    private Action<int> m_OnClick;
+    private GameServerBean m_Data;
+    private SelectGameServerController m_SelectGameServerController;
 
-    public void Init(RetGameServerEntity entity, Action<int> onClick)
+    public void Init(GameServerBean data, SelectGameServerController selectGameServerController)
     {
-        m_GameServerId = entity.Id;
-        m_GameServerName.text = entity.Name;
-        m_OnClick = onClick;
+        m_Data = data;
+        m_SelectGameServerController = selectGameServerController;
+        m_GameServerName.text = data.Name;
+        m_Status.overrideSprite = m_SpriteStatusArray[data.RunStatus];
     }
 
     public void OnBtnClick()
     {
-        if(m_OnClick != null)
-        {
-            m_OnClick(m_GameServerId);
-        }
+        m_SelectGameServerController.EnterGameServerWindow.SetCurSelectGameServer(m_Data);
+        m_SelectGameServerController.SelectGameServerWindow.ZoomOutClose();
     }
 }
