@@ -20,7 +20,7 @@ public class LogonController : MonoBehaviour
 
     private bool m_IsLogoning = false;
     private bool m_IsToRegister = false;
-    public void ToRegister()
+    public void OnClickToRegister()
     {
         if(m_IsLogoning || m_IsToRegister)
         {
@@ -31,7 +31,7 @@ public class LogonController : MonoBehaviour
         m_LogonWindow.MoveFromRightToLeftClose();
     }
 
-    public async void LogonTaskAsync()
+    public async void OnClickLogon()
     {
         if(m_IsToRegister)
         {
@@ -54,27 +54,41 @@ public class LogonController : MonoBehaviour
             return;
         }
         m_IsLogoning = true;
-        var requestResult = await AccountModel.Instance.LogonTaskAsync(username, pwd);
+        var logonResult = await AccountModel.Instance.LogonAsync(username, pwd);
         if (this == null || gameObject == null)
         {
             return;
         }
         m_IsLogoning = false;
-        if (requestResult.IsSuccess)
+        if (logonResult.IsSuccess)
         {
-            switch (requestResult.ResponseData.Code)
+            switch (logonResult.ResponseData.Code)
             {
                 case 0:
-                    m_LogonWindow.OnWindowCloseFinish = () => { WindowBase.OpenWindowMoveFromLeftToRightShow(WindowPath.EnterGameServer, transform.parent); };
+                    GameServerBean lastLogonServer = AccountModel.Instance.LastLogonServer;
+                    if(lastLogonServer == null)
+                    {
+                        var recommendGameServerListResult = await GameServerModel.Instance.ReqRecommendGameServerListAsync();
+                        if(!recommendGameServerListResult.IsSuccess || recommendGameServerListResult.ResponseData.Code != 0)
+                        {
+                            return;
+                        }
+                        lastLogonServer = recommendGameServerListResult.ResponseData.Data[0];
+                    }
+                    m_LogonWindow.OnWindowCloseFinish = () => {
+                        WindowBase window = WindowBase.OpenWindowMoveFromLeftToRightShow(WindowPath.EnterGameServer, transform.parent);
+                        EnterGameServerController enterGameServerController = window.GetComponent<EnterGameServerController>();
+                        enterGameServerController.SetCurSelectGameServer(lastLogonServer);
+                    };
                     m_LogonWindow.MoveFromRightToLeftClose();
                     break;
                 case 1: MessageWindow.Show(transform.parent, "登录提示", "账号或密码错误", true, false); break;
-                default: MessageWindow.Show(transform.parent, "登录提示", requestResult.ResponseData.Error, true, false); break;
+                default: MessageWindow.Show(transform.parent, "登录提示", logonResult.ResponseData.Error, true, false); break;
             }
         }
         else
         {
-            MessageWindow.Show(transform.parent, "登录提示", requestResult.Result.ToString(), true, false);
+            MessageWindow.Show(transform.parent, "登录提示", logonResult.Result.ToString(), true, false);
         }
     }
 }

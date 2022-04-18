@@ -11,9 +11,9 @@ public class EnterGameServerWindow : WindowBase
     [SerializeField]
     private Text m_TextCurSelectGameServer;
 
-    public void SetCurSelectGameServer(GameServerBean gameServer)
+    public void SetCurSelectGameServer(string name)
     {
-        m_TextCurSelectGameServer.text = gameServer.Name;
+        m_TextCurSelectGameServer.text = name;
     }
 
     private void Update()

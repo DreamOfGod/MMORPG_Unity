@@ -24,7 +24,7 @@ public class ReigsterController : MonoBehaviour
     private bool m_IsToLogon = false;
     private bool m_RegisterSuccess = false;
 
-    public void ToLogon()
+    public void OnClickToLogon()
     {
         if(m_IsRegistering || m_RegisterSuccess || m_IsToLogon)
         {
@@ -40,7 +40,7 @@ public class ReigsterController : MonoBehaviour
         m_ReigsterWindow.MoveFromRightToLeftClose();
     }
 
-    public async void RegisterTaskAsync()
+    public async void OnClickRegister()
     {
         if(m_IsToLogon || m_RegisterSuccess)
         {

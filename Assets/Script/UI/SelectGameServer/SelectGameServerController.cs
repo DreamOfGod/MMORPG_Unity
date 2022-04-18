@@ -15,12 +15,12 @@ public class SelectGameServerController : MonoBehaviour
 
     [HideInInspector]
     public int CurGameServerGroupFirstId = -1;
-    private EnterGameServerWindow m_EnterGameServerWindow;
-    public EnterGameServerWindow EnterGameServerWindow { get => m_EnterGameServerWindow; }
+    private EnterGameServerController m_EnterGameServerController;
+    public EnterGameServerController EnterGameServerController { get => m_EnterGameServerController; }
 
-    public void Init(EnterGameServerWindow enterGameServerWindow)
+    public void Init(EnterGameServerController enterGameServerController)
     {
-        m_EnterGameServerWindow = enterGameServerWindow;
+        m_EnterGameServerController = enterGameServerController;
     }
 
     void Start()

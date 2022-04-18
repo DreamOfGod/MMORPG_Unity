@@ -28,7 +28,7 @@ public class GameServerItem : MonoBehaviour
 
     public void OnBtnClick()
     {
-        m_SelectGameServerController.EnterGameServerWindow.SetCurSelectGameServer(m_Data);
+        m_SelectGameServerController.EnterGameServerController.SetCurSelectGameServer(m_Data);
         m_SelectGameServerController.SelectGameServerWindow.ZoomOutClose();
     }
 }

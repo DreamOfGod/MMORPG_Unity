@@ -3,7 +3,7 @@
 //创建时间：2022-03-16 15:27:55
 //备    注：
 //===============================================
-using LitJson;
+using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -124,7 +124,7 @@ $@"GET请求响应
         requestResult.Result = request.result;
         if (request.result == UnityWebRequest.Result.Success)
         {
-            requestResult.ResponseData = JsonMapper.ToObject<ResponseData<RespDataType>>(request.downloadHandler.text);
+            requestResult.ResponseData = JsonConvert.DeserializeObject<ResponseData<RespDataType>>(request.downloadHandler.text);
         }
         return requestResult;
     }
@@ -172,7 +172,7 @@ $@"POST请求响应
         requestResult.Result = request.result;
         if(request.result == UnityWebRequest.Result.Success)
         {
-            requestResult.ResponseData = JsonMapper.ToObject<ResponseData<RespDataType>>(request.downloadHandler.text);
+            requestResult.ResponseData = JsonConvert.DeserializeObject<ResponseData<RespDataType>>(request.downloadHandler.text);
         }
         return requestResult;
     }

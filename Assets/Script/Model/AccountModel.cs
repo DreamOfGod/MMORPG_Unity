@@ -8,6 +8,14 @@ using UnityEngine;
 
 public class AccountModel: Singleton<AccountModel>
 {
+    private AccountBean m_CurAccount;
+
+    public GameServerBean LastLogonServer
+    {
+        get => m_CurAccount.LastLogonGameServer;
+        set { m_CurAccount.LastLogonGameServer = value; }
+    }
+
     #region 注册
     public async Task<RequestResult<int>> RegisterAsync(string username, string pwd)
     {
@@ -28,7 +36,7 @@ public class AccountModel: Singleton<AccountModel>
     #endregion
 
     #region 登录
-    public async Task<RequestResult<int>> LogonTaskAsync(string username, string pwd)
+    public async Task<RequestResult<AccountBean>> LogonAsync(string username, string pwd)
     {
         var form = new WWWForm();
         form.AddField("Username", username);
@@ -36,14 +44,14 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        var requestResult = await NetWorkHttp.Instance.PostAsync<int>($"{ NetWorkHttp.AccountServerURL }logon", form);
+        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountBean>($"{ NetWorkHttp.AccountServerURL }logon", form);
         if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
         {
-            var id = requestResult.ResponseData.Data;
-            PlayerPrefs.SetInt(PlayerPrefsKey.AccountID, id);
+            m_CurAccount = requestResult.ResponseData.Data;
+            PlayerPrefs.SetInt(PlayerPrefsKey.AccountID, m_CurAccount.Id);
             PlayerPrefs.SetString(PlayerPrefsKey.Username, username);
             PlayerPrefs.SetString(PlayerPrefsKey.Password, pwd);
-            Statistics.Logon(id, username);
+            Statistics.Logon(m_CurAccount.Id, username);
         }
         return requestResult;
     }
@@ -51,7 +59,7 @@ public class AccountModel: Singleton<AccountModel>
     /// <summary>
     /// 快速登录
     /// </summary>
-    public async Task<RequestResult<int>> QuickLogonTaskAsync()
+    public async Task<RequestResult<AccountBean>> QuickLogonAsync()
     {
         var username = PlayerPrefs.GetString(PlayerPrefsKey.Username);
         var form = new WWWForm();
@@ -60,11 +68,11 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        var requestResult = await NetWorkHttp.Instance.PostAsync<int>($"{ NetWorkHttp.AccountServerURL }register", form);
+        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountBean>($"{ NetWorkHttp.AccountServerURL }register", form);
         if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
         {
-            var id = requestResult.ResponseData.Data;
-            Statistics.Logon(id, username);
+            m_CurAccount = requestResult.ResponseData.Data;
+            Statistics.Logon(m_CurAccount.Id, username);
         }
         return requestResult;
     }

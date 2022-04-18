@@ -1411,7 +1411,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7810584682912193158}
         m_TargetAssemblyTypeName: LogonController, Assembly-CSharp
-        m_MethodName: LogonTaskAsync
+        m_MethodName: OnClickLogon
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1434,7 +1434,7 @@ GameObject:
   - component: {fileID: 2956707130517749233}
   - component: {fileID: 2956707130517749234}
   m_Layer: 5
-  m_Name: BtnRegister
+  m_Name: BtnToRegister
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1544,7 +1544,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7810584682912193158}
         m_TargetAssemblyTypeName: LogonController, Assembly-CSharp
-        m_MethodName: ToRegister
+        m_MethodName: OnClickToRegister
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
