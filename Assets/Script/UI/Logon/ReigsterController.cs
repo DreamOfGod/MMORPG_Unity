@@ -78,13 +78,7 @@ public class ReigsterController : MonoBehaviour
                     MessageWindow.Show(transform.parent, "注册提示", "注册成功", true, false, onClickOK: OpenLogon); break;
                 case 1:
                     MessageWindow.Show(transform.parent, "注册提示", "账号已存在", true, false); break;
-                default:
-                    MessageWindow.Show(transform.parent, "注册提示", requestResult.ResponseData.Error, true, false); break;
             }
-        }
-        else
-        {
-            MessageWindow.Show(transform.parent, "注册提示", requestResult.Result.ToString(), true, false);
         }
     }
 }

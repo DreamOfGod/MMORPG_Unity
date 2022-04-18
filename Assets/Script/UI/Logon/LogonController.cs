@@ -83,12 +83,7 @@ public class LogonController : MonoBehaviour
                     m_LogonWindow.MoveFromRightToLeftClose();
                     break;
                 case 1: MessageWindow.Show(transform.parent, "登录提示", "账号或密码错误", true, false); break;
-                default: MessageWindow.Show(transform.parent, "登录提示", logonResult.ResponseData.Error, true, false); break;
             }
-        }
-        else
-        {
-            MessageWindow.Show(transform.parent, "登录提示", logonResult.Result.ToString(), true, false);
         }
     }
 }

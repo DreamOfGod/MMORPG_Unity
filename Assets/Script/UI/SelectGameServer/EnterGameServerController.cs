@@ -38,16 +38,10 @@ public class EnterGameServerController : MonoBehaviour
             return;
         }
         m_IsReqEnterServer = false;
-        if(!requestResult.IsSuccess)
+        if(!requestResult.IsSuccess || requestResult.ResponseData.Code != 0)
         {
             return;
         }
-        switch(requestResult.ResponseData.Code)
-        {
-            case 0:
-                MessageWindow.Show(transform.parent, "提示", "Success", true, false);
-                break;
-            case 1: MessageWindow.Show(transform.parent, "提示", requestResult.ResponseData.Error, true, false); break;
-        }
+        MessageWindow.Show(transform.parent, "提示", "Success", true, false);
     }
 }

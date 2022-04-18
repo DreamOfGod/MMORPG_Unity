@@ -38,7 +38,7 @@ public class GameServerModel: Singleton<GameServerModel>
 
     public async Task<RequestResult<object>> ReqEnterGameServer(GameServerBean gameServer)
     {
-        string url = $"{ NetWorkHttp.AccountServerURL }enter_game_server?gameServerId={ gameServer.Id }";
+        string url = $"{ NetWorkHttp.AccountServerURL }enter_game_server?gameServerId={ 1000 }";
         var requestResult = await NetWorkHttp.Instance.GetAsync<object>(url);
         if(requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
         {
