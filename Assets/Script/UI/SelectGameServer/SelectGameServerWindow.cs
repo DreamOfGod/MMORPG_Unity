@@ -5,11 +5,10 @@
 //===============================================
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SelectGameServerWindow : WindowBase
 {
-    [SerializeField]
-    private SelectGameServerController m_SelectGameServerController;
     [SerializeField]
     private GameObject m_GameServerGroupItemPrefab;
     [SerializeField]
@@ -21,7 +20,11 @@ public class SelectGameServerWindow : WindowBase
     [SerializeField]
     private RectTransform m_GameServerParent;
     [SerializeField]
-    private GameServerItem m_SelectedGameServer;
+    private Image m_CurSelectServerStatus;
+    [SerializeField]
+    private Text m_CurSelectServerName;
+    [SerializeField]
+    private Sprite[] m_ServerStatusSpriteArray;
 
     private const int m_GameServerGroupListYGap = 4;
     private const int m_GameServerGroupListTopBottomPadding = 0;
@@ -31,7 +34,7 @@ public class SelectGameServerWindow : WindowBase
     private const int m_GameServerListLeftPadding = 12;
     private const int m_GameServerListTopBottomPadding = 0;
 
-    public void AddGameServerGroupItem(List<GameServerGroupBean> list)
+    public void AddGameServerGroupItem(List<GameServerGroupBean> list, SelectGameServerController selectGameServerController)
     {
         float itemHeight = m_GameServerGroupItemPrefab.GetComponent<RectTransform>().rect.height;
         float parentHeight = itemHeight * (list.Count + 1) + list.Count * m_GameServerGroupListYGap + m_GameServerGroupListTopBottomPadding * 2;
@@ -43,7 +46,7 @@ public class SelectGameServerWindow : WindowBase
         float y = -m_GameServerGroupListTopBottomPadding - itemHeight / 2;
         item.transform.localPosition = new Vector3(0, y, 0);
         RecommendGameServerGroupItem recommendGameServerGroupItemScript = item.GetComponent<RecommendGameServerGroupItem>();
-        recommendGameServerGroupItemScript.Init(m_SelectGameServerController);
+        recommendGameServerGroupItemScript.Init(selectGameServerController);
 
         //其它区服组
         for (int i = 1; i <= list.Count; ++i)
@@ -53,7 +56,7 @@ public class SelectGameServerWindow : WindowBase
             y = -m_GameServerGroupListTopBottomPadding - (itemHeight + m_GameServerGroupListYGap) * i - itemHeight / 2;
             item.transform.localPosition = new Vector3(0, y, 0);
             GameServerGroupItem gameServerGroupItemScript = item.GetComponent<GameServerGroupItem>();
-            gameServerGroupItemScript.Init(list[list.Count - i], m_SelectGameServerController);
+            gameServerGroupItemScript.Init(list[list.Count - i], selectGameServerController);
         }
     }
 
@@ -62,7 +65,7 @@ public class SelectGameServerWindow : WindowBase
         m_GameServerParent.DestroyChildren();
     }
 
-    public void UpdateGameServerList(List<GameServerBean> list)
+    public void UpdateGameServerList(List<GameServerBean> list, SelectGameServerController selectGameServerController)
     {
         Rect itemRect = m_GameServerItemPrefab.GetComponent<RectTransform>().rect;
         float parentHeight = (itemRect.height + m_GameServerListYGap) * (list.Count / 2 + list.Count % 2) + m_GameServerListTopBottomPadding * 2;
@@ -75,12 +78,13 @@ public class SelectGameServerWindow : WindowBase
             float y = -m_GameServerListTopBottomPadding - (itemRect.height + m_GameServerListYGap) * (i / 2) - (itemRect.height / 2);
             item.transform.localPosition = new Vector3(x, y, 0);
             GameServerItem itemScript = item.GetComponent<GameServerItem>();
-            itemScript.Init(list[i], m_SelectGameServerController);
+            itemScript.Init(list[i], selectGameServerController);
         }
     }
 
-    public void InitSelectedGameServer(GameServerBean gameServer)
+    public void SetSelectedGameServer(GameServerBean gameServer)
     {
-        m_SelectedGameServer.Init(gameServer, m_SelectGameServerController);
+        m_CurSelectServerName.text = gameServer.Name;
+        m_CurSelectServerStatus.overrideSprite = m_ServerStatusSpriteArray[gameServer.RunStatus];
     }
 }

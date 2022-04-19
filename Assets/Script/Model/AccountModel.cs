@@ -6,8 +6,24 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class AccountModel: Singleton<AccountModel>
+public class AccountModel
 {
+    #region 单例
+    private AccountModel() { }
+    private static AccountModel m_Instance;
+    public static AccountModel Instance
+    {
+        get
+        {
+            if (m_Instance == null)
+            {
+                m_Instance = new AccountModel();
+            }
+            return m_Instance;
+        }
+    }
+    #endregion
+
     private AccountBean m_CurAccount;
 
     public GameServerBean LastLogonServer
@@ -25,7 +41,7 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        var requestResult = await NetWorkHttp.Instance.PostAsync<int>($"{ NetWorkHttp.AccountServerURL }register", form);
+        var requestResult = await HttpHelper.Instance.PostAsync<int>($"{ HttpHelper.AccountServerURL }register", form);
         if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
         {
             var id = requestResult.ResponseData.Data;
@@ -44,7 +60,7 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountBean>($"{ NetWorkHttp.AccountServerURL }logon", form);
+        var requestResult = await HttpHelper.Instance.PostAsync<AccountBean>($"{ HttpHelper.AccountServerURL }logon", form);
         if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
         {
             m_CurAccount = requestResult.ResponseData.Data;
@@ -68,7 +84,7 @@ public class AccountModel: Singleton<AccountModel>
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        var requestResult = await NetWorkHttp.Instance.PostAsync<AccountBean>($"{ NetWorkHttp.AccountServerURL }register", form);
+        var requestResult = await HttpHelper.Instance.PostAsync<AccountBean>($"{ HttpHelper.AccountServerURL }register", form);
         if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
         {
             m_CurAccount = requestResult.ResponseData.Data;

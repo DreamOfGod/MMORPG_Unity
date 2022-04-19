@@ -5,8 +5,24 @@
 //===============================================
 using System.Collections.Generic;
 
-public class EventDispatcher : Singleton<EventDispatcher>
+public class EventDispatcher
 {
+    #region 单例
+    private EventDispatcher() { }
+    private static EventDispatcher m_Instance;
+    public static EventDispatcher Instance
+    {
+        get
+        {
+            if(m_Instance == null)
+            {
+                m_Instance = new EventDispatcher();
+            }
+            return m_Instance;
+        }
+    }
+    #endregion
+
     public delegate void EventHanlder(byte[] buffer);
 
     private Dictionary<ushort, HashSet<EventHanlder>> m_HandlerDic = new Dictionary<ushort, HashSet<EventHanlder>>();

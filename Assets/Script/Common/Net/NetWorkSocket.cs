@@ -10,8 +10,24 @@ using System.Net.Sockets;
 /// <summary>
 /// Socket通信管理
 /// </summary>
-public class NetWorkSocket: Singleton<NetWorkSocket>
+public class NetWorkSocket
 {
+    #region 单例
+    private NetWorkSocket() { }
+    private static NetWorkSocket m_Instance;
+    public static NetWorkSocket Instance
+    {
+        get
+        {
+            if (m_Instance == null)
+            {
+                m_Instance = new NetWorkSocket();
+            }
+            return m_Instance;
+        }
+    }
+    #endregion
+
     private Socket m_Socket;
 
     /// <summary>

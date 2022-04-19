@@ -11,6 +11,8 @@ public class EnterGameServerController : MonoBehaviour
     private EnterGameServerWindow m_EnterGameServerWindow;
 
     private GameServerBean m_CurSelectGameServer;
+    public GameServerBean CurSelectGameServer { get => m_CurSelectGameServer; }
+    private bool m_IsOpenSelectGameServerWindow = false;
     private bool m_IsReqEnterServer = false;
 
     public void SetCurSelectGameServer(GameServerBean curSelectGameServer)
@@ -20,8 +22,19 @@ public class EnterGameServerController : MonoBehaviour
     }
     public void OnClickSelectGameServer()
     {
-        WindowBase window = WindowBase.OpenWindowZoomInShow(WindowPath.SelectGameServer, transform.parent);
-        SelectGameServerController selectGameServerController = window.GetComponent<SelectGameServerController>();
+        if(m_IsOpenSelectGameServerWindow)
+        {
+            return;
+        }
+        m_IsOpenSelectGameServerWindow = true;
+        GameObject obj = WindowBase.InstantiateWindow(WindowPath.SelectGameServer, transform.parent);
+        SelectGameServerWindow selectGameServerWindow = obj.GetComponent<SelectGameServerWindow>();
+        selectGameServerWindow.OnWindowShowFinish = () =>
+        {
+            m_IsOpenSelectGameServerWindow = false;
+        };
+        selectGameServerWindow.ZoomInShow();
+        SelectGameServerController selectGameServerController = obj.GetComponent<SelectGameServerController>();
         selectGameServerController.Init(this);
     }
 

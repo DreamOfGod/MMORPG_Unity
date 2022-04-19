@@ -28,6 +28,11 @@ public class GameServerItem : MonoBehaviour
 
     public void OnBtnClick()
     {
+        if(m_SelectGameServerController.IsClose)
+        {
+            return;
+        }
+        m_SelectGameServerController.SetCloseStatus();
         m_SelectGameServerController.EnterGameServerController.SetCurSelectGameServer(m_Data);
         m_SelectGameServerController.SelectGameServerWindow.ZoomOutClose();
     }

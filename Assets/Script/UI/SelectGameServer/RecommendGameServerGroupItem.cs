@@ -8,6 +8,7 @@ using UnityEngine;
 public class RecommendGameServerGroupItem : MonoBehaviour
 {
     private SelectGameServerController m_SelectGameServerController;
+    private bool m_IsReqList = false;
 
     public void Init(SelectGameServerController selectGameServerController)
     {
@@ -16,23 +17,23 @@ public class RecommendGameServerGroupItem : MonoBehaviour
 
     public async void OnBtnClick()
     {
-        if (m_SelectGameServerController.CurGameServerGroupFirstId == -1)
+        if(m_IsReqList)
         {
             return;
         }
-        m_SelectGameServerController.CurGameServerGroupFirstId = -1;
+        m_IsReqList = true;
+        int seqNo = m_SelectGameServerController.GetServerListReqSeqNum();
         m_SelectGameServerController.SelectGameServerWindow.ClearGameServerList();
         var requestResult = await GameServerModel.Instance.ReqRecommendGameServerListAsync();
         if (this == null || gameObject == null)
         {
             return;
         }
-        if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
+        m_IsReqList = false;
+        if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0 && m_SelectGameServerController.LatestServerListReqSeqNum == seqNo)
         {
-            if (m_SelectGameServerController.CurGameServerGroupFirstId == -1)
-            {
-                m_SelectGameServerController.SelectGameServerWindow.UpdateGameServerList(requestResult.ResponseData.Data);
-            }
+            //只更新最新的请求的响应
+            m_SelectGameServerController.SelectGameServerWindow.UpdateGameServerList(requestResult.ResponseData.Data, m_SelectGameServerController);
         }
     }
 }

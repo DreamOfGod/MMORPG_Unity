@@ -6,8 +6,24 @@
 using System;
 using System.Threading.Tasks;
 
-public class TimeModel: Singleton<TimeModel>
+public class TimeModel
 {
+    #region 单例
+    private TimeModel() { }
+    private static TimeModel m_Instance;
+    public static TimeModel Instance
+    {
+        get
+        {
+            if (m_Instance == null)
+            {
+                m_Instance = new TimeModel();
+            }
+            return m_Instance;
+        }
+    }
+    #endregion
+
     /// <summary>
     /// 服务器初始时间戳，单位ms
     /// </summary>
@@ -37,7 +53,7 @@ public class TimeModel: Singleton<TimeModel>
 
     public async Task<RequestResult<long>> ReqServerTime()
     {
-        var requestResult = await NetWorkHttp.Instance.GetAsync<long>($"{ NetWorkHttp.AccountServerURL }time");
+        var requestResult = await HttpHelper.Instance.GetAsync<long>($"{ HttpHelper.AccountServerURL }time");
         if(requestResult.IsSuccess)
         {
             m_ServerInitialTime = requestResult.ResponseData.Data - (long)RealTime.time * 1000;
