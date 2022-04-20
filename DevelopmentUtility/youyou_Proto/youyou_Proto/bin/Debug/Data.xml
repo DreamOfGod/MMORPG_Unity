@@ -392,16 +392,4 @@
       <Attr AttID="636549196636669526" AttType="int" AttEnName="GoodsServerId" AttCnName="装备服务器端编号" AttIsLoop="false" AttToLoop="" AttToBool="IsSuccess" AttToBoolResult="true" AttToCus="" />
     </Proto>
   </Menu>
-  <Menu MenuId="637832101261789137" MenuName="Test" HasChild="true">
-    <Proto ProtoID="637835542896175889" ProtoCode="5001" ProtoEnName="Test" ProtoCnName="测试协议" ProtoDesc="测试协议">
-      <Attr AttID="637835547456367966" AttType="bool" AttEnName="IsSuccess" AttCnName="是否成功" AttIsLoop="false" AttToLoop="" AttToBool="" AttToBoolResult="false" AttToCus="" />
-      <Attr AttID="637835547456367967" AttType="int" AttEnName="ErrorCode" AttCnName="错误编号" AttIsLoop="false" AttToLoop="" AttToBool="IsSuccess" AttToBoolResult="false" AttToCus="" />
-      <Attr AttID="637835547456367968" AttType="string" AttEnName="Name" AttCnName="名称" AttIsLoop="false" AttToLoop="" AttToBool="IsSuccess" AttToBoolResult="true" AttToCus="" />
-      <Attr AttID="637835547456367969" AttType="int" AttEnName="Count" AttCnName="数量" AttIsLoop="true" AttToLoop="" AttToBool="" AttToBoolResult="false" AttToCus="" />
-      <Attr AttID="637835547456367970" AttType="int" AttEnName="ItemId" AttCnName="物品ID" AttIsLoop="false" AttToLoop="Count" AttToBool="" AttToBoolResult="false" AttToCus="" />
-      <Attr AttID="637835547456367971" AttType="Role" AttEnName="Role" AttCnName="角色" AttIsLoop="false" AttToLoop="Count" AttToBool="" AttToBoolResult="false" AttToCus="" />
-      <Attr AttID="637835547456367972" AttType="int" AttEnName="RoleId" AttCnName="角色ID" AttIsLoop="false" AttToLoop="" AttToBool="" AttToBoolResult="false" AttToCus="Role" />
-      <Attr AttID="637835547456367973" AttType="string" AttEnName="RoleName" AttCnName="角色名称" AttIsLoop="false" AttToLoop="" AttToBool="" AttToBoolResult="false" AttToCus="Role" />
-    </Proto>
-  </Menu>
 </Root>

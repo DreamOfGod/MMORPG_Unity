@@ -23,7 +23,6 @@ public class RecommendGameServerGroupItem : MonoBehaviour
         }
         m_IsReqList = true;
         int seqNo = m_SelectGameServerController.GetServerListReqSeqNum();
-        m_SelectGameServerController.SelectGameServerWindow.ClearGameServerList();
         var requestResult = await GameServerModel.Instance.ReqRecommendGameServerListAsync();
         if (this == null || gameObject == null)
         {

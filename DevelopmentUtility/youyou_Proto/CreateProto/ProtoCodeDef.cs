@@ -1,6 +1,6 @@
 //===================================================
 //作    者：
-//创建时间：2022-03-22 14:16:18
+//创建时间：2022-04-20 15:53:36
 //备    注：
 //===================================================
 using System.Collections;
@@ -294,10 +294,5 @@ public class ProtoCodeDef
     /// 服务器返回穿戴消息
     /// </summary>
     public const ushort Goods_EquipPutReturn = 16013;
-
-    /// <summary>
-    /// 测试协议
-    /// </summary>
-    public const ushort Test = 5001;
 
 }

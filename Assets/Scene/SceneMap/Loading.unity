@@ -248,11 +248,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f069996b80206104ea8cf2f4236f609f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Container_Center: {fileID: 0}
-  Container_TL: {fileID: 0}
-  Container_TR: {fileID: 0}
-  Container_BL: {fileID: 0}
-  Container_BR: {fileID: 0}
   m_Progress: {fileID: 1920591451}
   m_LblProgress: {fileID: 1455830458}
   m_TransProgressLight: {fileID: 1940051130}
@@ -497,7 +492,7 @@ GameObject:
   - component: {fileID: 779049954}
   - component: {fileID: 779049953}
   m_Layer: 0
-  m_Name: SceneLoadingCtrl
+  m_Name: LoadingSceneController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

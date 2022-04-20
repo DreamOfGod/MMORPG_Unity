@@ -22,7 +22,7 @@ public class AssetBundleDAL
         foreach(XElement item in itemList)
         {
             AssetBundleEntity entity = new AssetBundleEntity();
-            entity.Key = "key" + key++;
+            entity.Key = $"key{ key++ }";
             entity.Name = item.Attribute("Name").Value;
             entity.Tag = item.Attribute("Tag").Value;
             entity.Version = item.Attribute("Version").Value.ToInt();
@@ -31,7 +31,7 @@ public class AssetBundleDAL
 
             IEnumerable<XElement> pathList = item.Elements("Path");
             foreach(XElement path in pathList) {
-                entity.PathList.Add(string.Format("Assets/{0}", path.Attribute("Value").Value));
+                entity.PathList.Add(string.Format($"Assets/{ path.Attribute("Value").Value }"));
             }
 
             entityList.Add(entity);

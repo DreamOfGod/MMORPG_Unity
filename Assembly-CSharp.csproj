@@ -60,6 +60,7 @@
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\System\InvDatabase.cs" />
     <Compile Include="Assets\Script\Role\RoleCtrl\MainPlayerCtrl\MainPlayerStateRun.cs" />
     <Compile Include="Assets\Script\Data\Protocol\WorldMap_RoleEnterProto.cs" />
+    <Compile Include="Assets\Script\Common\GameObjectPool.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIAnchor.cs" />
     <Compile Include="Assets\Script\Common\Core\zlib_NET_104\InfTree.cs" />
     <Compile Include="Assets\Script\Data\Protocol\WorldMap_OtherRoleLeaveProto.cs" />
@@ -153,7 +154,7 @@
     <Compile Include="Assets\Script\Data\Protocol\System_GameServerConfigReturnProto.cs" />
     <Compile Include="Assets\Script\UI\SceneUI\InitSceneUI\InitSceneUIView.cs" />
     <Compile Include="Assets\Script\Data\Protocol\GameLevel_FailReturnProto.cs" />
-    <Compile Include="Assets\Script\SceneCtrl\SceneLoadingCtrl.cs" />
+    <Compile Include="Assets\Script\SceneCtrl\LoadingSceneController.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenHeight.cs" />
     <Compile Include="Assets\Script\Role\RoleCtrl\MainPlayerCtrl\MainPlayerCtrl.cs" />
     <Compile Include="Assets\Script\Data\Protocol\WorldMap_PosProto.cs" />
@@ -309,9 +310,9 @@
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\PanWithMouse.cs" />
     <Compile Include="Assets\Script\Common\MMO_MemoryStream.cs" />
     <Compile Include="Assets\FingerGestures\Toolbox\TBFingerUp.cs" />
+    <Compile Include="Assets\Script\Data\Bean\GameServer\GameServerGroupBean.cs" />
     <Compile Include="Assets\FingerGestures\Toolbox\TBComponent.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\MinMaxRangeAttribute.cs" />
-    <Compile Include="Assets\Script\Data\Bean\GameServer\GameServerGroupBean.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\EnvelopContent.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\SpinWithMouse.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\UIToggledObjects.cs" />
@@ -362,7 +363,6 @@
     <Compile Include="Assets\Script\Role\RoleCtrl\StateBase.cs" />
     <Compile Include="Assets\Script\Role\RoleCtrl\MonsterCtrl\MonsterStateAttack.cs" />
     <Compile Include="Assets\NGUI\Scripts\Interaction\TypewriterEffect.cs" />
-    <Compile Include="Assets\Script\Data\Protocol\TestProto.cs" />
     <Compile Include="Assets\Script\Common\Core\zlib_NET_104\Adler32.cs" />
     <Compile Include="Assets\NGUI\Scripts\Internal\NGUIDebug.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIOrthoCamera.cs" />

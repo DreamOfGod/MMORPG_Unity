@@ -34,6 +34,19 @@ public class SelectGameServerWindow : WindowBase
     private const int m_GameServerListLeftPadding = 12;
     private const int m_GameServerListTopBottomPadding = 0;
 
+    private GameObjectPool m_GameServerItemPool;
+    private List<GameObject> m_AvailableGameServreItemList = new List<GameObject>();
+
+    public void Awake()
+    {
+        m_GameServerItemPool = new GameObjectPool(m_GameServerItemPrefab, 10);
+    }
+
+    public void OnDestroy()
+    {
+        m_GameServerItemPool.Destroy();
+    }
+
     public void AddGameServerGroupItem(List<GameServerGroupBean> list, SelectGameServerController selectGameServerController)
     {
         float itemHeight = m_GameServerGroupItemPrefab.GetComponent<RectTransform>().rect.height;
@@ -60,25 +73,34 @@ public class SelectGameServerWindow : WindowBase
         }
     }
 
-    public void ClearGameServerList()
-    {
-        m_GameServerParent.DestroyChildren();
-    }
-
-    public void UpdateGameServerList(List<GameServerBean> list, SelectGameServerController selectGameServerController)
+    public void UpdateGameServerList(List<GameServerBean> list, SelectGameServerController selectGameServerController) 
     {
         Rect itemRect = m_GameServerItemPrefab.GetComponent<RectTransform>().rect;
         float parentHeight = (itemRect.height + m_GameServerListYGap) * (list.Count / 2 + list.Count % 2) + m_GameServerListTopBottomPadding * 2;
         m_GameServerParent.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, parentHeight);
-        for (int i = 0; i < list.Count; ++i)
+        int i = 0, min = Mathf.Min(list.Count, m_AvailableGameServreItemList.Count);
+        while (i < min)
         {
-            GameObject item = Instantiate(m_GameServerItemPrefab);
-            item.transform.SetParent(m_GameServerParent, false);
+            GameObject item = m_AvailableGameServreItemList[i];
+            GameServerItem itemScript = item.GetComponent<GameServerItem>();
+            itemScript.Init(list[i], selectGameServerController);
+            ++i;
+        }
+        while(i < list.Count)
+        {
+            GameObject item = m_GameServerItemPool.Get(m_GameServerParent);
+            m_AvailableGameServreItemList.Add(item);
             float x = m_GameServerListLeftPadding + (itemRect.width + m_GameServerListXGap) * (i % 2) + (itemRect.width / 2);
             float y = -m_GameServerListTopBottomPadding - (itemRect.height + m_GameServerListYGap) * (i / 2) - (itemRect.height / 2);
             item.transform.localPosition = new Vector3(x, y, 0);
             GameServerItem itemScript = item.GetComponent<GameServerItem>();
             itemScript.Init(list[i], selectGameServerController);
+            ++i;
+        }
+        while(i < m_AvailableGameServreItemList.Count)
+        {
+            m_GameServerItemPool.Put(m_AvailableGameServreItemList[m_AvailableGameServreItemList.Count - 1]);
+            m_AvailableGameServreItemList.RemoveAt(m_AvailableGameServreItemList.Count - 1);
         }
     }
 

@@ -6,8 +6,8 @@
 			<Path Value="Resources\RolePrefab\Monster\Role_Monster_1.prefab" />
 		</Item>
 
-		<Item Name="CityScene" Tag="Scene" Version="1" Size="0" ToPath="Scene/">
-			<Path Value="Scene\SceneMap\GameScene_HuPaoCun.unity" />
+		<Item Name="SelectRoleScene" Tag="Scene" Version="1" Size="0" ToPath="Scene/">
+			<Path Value="Scene\SceneMap\SelectRole.unity" />
 		</Item>
 	</AssetBundle>
 </Root>

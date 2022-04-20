@@ -42,7 +42,7 @@ public class SelectGameServerController : MonoBehaviour
     private async void ReqGameServerGroupAndRecommendGameServerAsync()
     {
         var gameServerGroupTask = GameServerModel.Instance.ReqGameServerGroupAsync();
-        var recommendGameServerTask = GameServerModel.Instance.ReqRecommendGameServerListAsync();
+        var recommendGameServerTask = GameServerModel.Instance.ReqRecommendGameServerListAsync ();
         await Task.WhenAll(gameServerGroupTask, recommendGameServerTask);
         if(this == null || gameObject == null)
         {

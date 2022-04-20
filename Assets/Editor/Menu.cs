@@ -24,9 +24,9 @@ public class Menu
     }
 
     /// <summary>
-    /// MyTools/AssetBundleCreate菜单：显示创建AssetBundle资源的窗口
+    /// MyTools/CreateAssetBundle菜单：显示创建资源包的窗口
     /// </summary>
-    [MenuItem("MyTools/AssetBundleCreate")]
+    [MenuItem("MyTools/CreateAssetBundle")]
     public static void AssetBundleCreate()
     {
         AssetBundleWindow win = EditorWindow.GetWindow<AssetBundleWindow>();

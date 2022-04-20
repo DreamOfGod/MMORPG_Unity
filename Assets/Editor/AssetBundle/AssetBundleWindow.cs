@@ -39,7 +39,7 @@ public class AssetBundleWindow : EditorWindow
     {
         //Application.dataPath是游戏数据路径，取决于运行的平台。在编辑器环境中是项目的Assets目录。
         //在编辑器环境中可以读写该路径下的内容，在其它环境中不要读写
-        string xmlPath = Application.dataPath + @"\Editor\AssetBundle\AssetBundleConfig.xml";
+        string xmlPath = @$"{ Application.dataPath }\Editor\AssetBundle\AssetBundleConfig.xml";
         m_List = AssetBundleDAL.GetList(xmlPath);
 
         m_Dic = new Dictionary<string, bool>();
@@ -63,16 +63,18 @@ public class AssetBundleWindow : EditorWindow
         #region 按钮行
         GUILayout.BeginHorizontal("box");
 
-        tagIndex = EditorGUILayout.Popup(tagIndex, arrTag, GUILayout.Width(100));
-        if(GUILayout.Button("选定Tag", GUILayout.Width(100)))
+        int selectTag = EditorGUILayout.Popup(tagIndex, arrTag, GUILayout.Width(100));
+        if(selectTag != tagIndex)
         {
-            EditorApplication.delayCall = OnSelectTagCallback;
+            tagIndex = selectTag;
+            UpdateListSelectToggle();
         }
 
-        buildTargetIndex = EditorGUILayout.Popup(buildTargetIndex, arrBuildTarget, GUILayout.Width(100));
-        if (GUILayout.Button("选定Target", GUILayout.Width(100)))
+        int selectBuildTarget = EditorGUILayout.Popup(buildTargetIndex, arrBuildTarget, GUILayout.Width(100));
+        if(selectBuildTarget != buildTargetIndex)
         {
-            EditorApplication.delayCall = OnSelectTargetCallback;
+            buildTargetIndex = selectBuildTarget;
+            UpdateSelectBuildTarget();
         }
 
         if (GUILayout.Button("打AssetBundle包", GUILayout.Width(200)))
@@ -132,7 +134,7 @@ public class AssetBundleWindow : EditorWindow
     /// </summary>
     private void OnClearAssetBundleCallback()
     {
-        string path = Application.dataPath + "/../AssetBundles/" + arrBuildTarget[buildTargetIndex];
+        string path = @$"{ Application.dataPath }/../AssetBundles/{ arrBuildTarget[buildTargetIndex] }";
         if(Directory.Exists(path))
         {
             Directory.Delete(path, true);
@@ -157,7 +159,7 @@ public class AssetBundleWindow : EditorWindow
 
         for(int i = 0; i < listNeedBuild.Count; ++i)
         {
-            Debug.LogFormat("正在打包{0}/{1}", i + 1, listNeedBuild.Count);
+            Debug.Log($"正在打包{ i + 1 }/{ listNeedBuild.Count }");
             BuildAssetBundle(listNeedBuild[i]);
         }
 
@@ -176,7 +178,7 @@ public class AssetBundleWindow : EditorWindow
 
         arrBuild[0] = build;
 
-        string toPath = Application.dataPath + "/../AssetBundles/" + arrBuildTarget[buildTargetIndex] + "/" + entity.ToPath;
+        string toPath = $@"{ Application.dataPath }/../AssetBundles/{ arrBuildTarget[buildTargetIndex] }/{ entity.ToPath }";
 
         if(!Directory.Exists(toPath))
         {
@@ -187,9 +189,9 @@ public class AssetBundleWindow : EditorWindow
     }
 
     /// <summary>
-    /// 选定Tag回调
+    /// 更新列表选择单选框
     /// </summary>
-    private void OnSelectTagCallback()
+    private void UpdateListSelectToggle()
     {
         switch (tagIndex)
         {
@@ -215,13 +217,13 @@ public class AssetBundleWindow : EditorWindow
                 }
                 break;
         }
-        Debug.LogFormat("当前选择的Tag：{0}", arrTag[tagIndex]);
+        Debug.LogFormat($"当前选择的Tag：{ arrTag[tagIndex] }");
     }
 
     /// <summary>
-    /// 选定Target回调
+    /// 更新选择的构建目标平台
     /// </summary>
-    private void OnSelectTargetCallback()
+    private void UpdateSelectBuildTarget()
     {
         switch (buildTargetIndex)
         {
@@ -235,6 +237,6 @@ public class AssetBundleWindow : EditorWindow
                 target = BuildTarget.iOS;
                 break;
         }
-        Debug.LogFormat("当前选择的BuildTarget：{0}", arrBuildTarget[buildTargetIndex]);
+        Debug.LogFormat($"当前选择的BuildTarget：{ arrBuildTarget[buildTargetIndex] }");
     }
 }

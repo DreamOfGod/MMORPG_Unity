@@ -50,11 +50,11 @@ public class EnterGameServerController : MonoBehaviour
         {
             return;
         }
-        m_IsReqEnterServer = false;
         if(!requestResult.IsSuccess || requestResult.ResponseData.Code != 0)
         {
+            m_IsReqEnterServer = false;
             return;
         }
-        MessageWindow.Show(transform.parent, "提示", "Success", true, false);
+        LoadingSceneController.LoadSceneFromAssetBundle($"{ LocalAssetBundlePath.Value }/Scene/SelectRoleScene.unity3d", SceneName.SelectRole);
     }
 }

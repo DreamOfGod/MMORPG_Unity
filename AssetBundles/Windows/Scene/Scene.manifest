@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 855902917
+CRC: 1919857211
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: cityscene.unity3d
+      Name: selectrolescene.unity3d
       Dependencies: {}

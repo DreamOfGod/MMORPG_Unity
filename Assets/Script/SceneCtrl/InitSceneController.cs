@@ -44,7 +44,7 @@ public class InitSceneController : MonoBehaviour
     private IEnumerator LoadLogonScene()
     {
         yield return new WaitForSeconds(2f);
-        SceneLoadingCtrl.LoadScene(SceneName.Logon);
+        LoadingSceneController.LoadScene(SceneName.Logon);
 
     }
 }

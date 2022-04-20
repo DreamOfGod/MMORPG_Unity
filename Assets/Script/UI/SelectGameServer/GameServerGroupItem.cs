@@ -31,7 +31,6 @@ public class GameServerGroupItem : MonoBehaviour
         }
         m_IsReqList = true;
         int seqNo = m_SelectGameServerController.GetServerListReqSeqNum();
-        m_SelectGameServerController.SelectGameServerWindow.ClearGameServerList();
         var requestResult = await GameServerModel.Instance.ReqGameServerListAsync(m_Data.FirstId, m_Data.LastId);
         if (this == null || gameObject == null)
         {
