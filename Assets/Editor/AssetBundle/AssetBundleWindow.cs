@@ -63,13 +63,14 @@ public class AssetBundleWindow : EditorWindow
         #region 按钮行
         GUILayout.BeginHorizontal("box");
 
+        GUILayout.Label("选择Tag：", GUILayout.Width(60));
         int selectTag = EditorGUILayout.Popup(tagIndex, arrTag, GUILayout.Width(100));
         if(selectTag != tagIndex)
         {
             tagIndex = selectTag;
             UpdateListSelectToggle();
         }
-
+        GUILayout.Label("选择目标平台：", GUILayout.Width(90));
         int selectBuildTarget = EditorGUILayout.Popup(buildTargetIndex, arrBuildTarget, GUILayout.Width(100));
         if(selectBuildTarget != buildTargetIndex)
         {

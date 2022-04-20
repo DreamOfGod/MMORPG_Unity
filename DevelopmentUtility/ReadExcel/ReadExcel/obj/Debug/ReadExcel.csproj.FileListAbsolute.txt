@@ -33,3 +33,15 @@ D:\视频\悠游课堂MMORPG\悠游课堂学习资料_中高级\悠游课堂学�
 D:\视频\悠游课堂MMORPG\悠游课堂学习资料_中高级\悠游课堂学习资料_中高级\ReadExcel\ReadExcel\obj\Debug\ReadExcel.csproj.CopyComplete
 D:\视频\悠游课堂MMORPG\悠游课堂学习资料_中高级\悠游课堂学习资料_中高级\ReadExcel\ReadExcel\obj\Debug\ReadExcel.exe
 D:\视频\悠游课堂MMORPG\悠游课堂学习资料_中高级\悠游课堂学习资料_中高级\ReadExcel\ReadExcel\obj\Debug\ReadExcel.pdb
+E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\bin\Debug\ReadExcel.exe.config
+E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\bin\Debug\ReadExcel.exe
+E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\bin\Debug\ReadExcel.pdb
+E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.csproj.AssemblyReference.cache
+E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.csproj.ResolveComReference.cache
+E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.ExcelToByte.resources
+E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.Properties.Resources.resources
+E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.csproj.GenerateResource.cache
+E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.csproj.CoreCompileInputs.cache
+E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.csproj.CopyComplete
+E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.exe
+E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.pdb

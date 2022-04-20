@@ -477,7 +477,7 @@ namespace ReadExcel
                 Microsoft.Office.Interop.Excel.Workbook objWB = default(Microsoft.Office.Interop.Excel.Workbook);
                 string strFirstSheetName = null;
 
-                obj = (Microsoft.Office.Interop.Excel.Application)Microsoft.VisualBasic.Interaction.CreateObject("Excel.Application", string.Empty);
+                obj = (Microsoft.Office.Interop.Excel.Application)Microsoft.VisualBasic.Interaction.CreateObject("EXCEL.Application", string.Empty);
                 objWB = obj.Workbooks.Open(filepath, Type.Missing, Type.Missing,
                     Type.Missing, Type.Missing, Type.Missing, Type.Missing,
                     Type.Missing, Type.Missing, Type.Missing, Type.Missing,
@@ -491,7 +491,7 @@ namespace ReadExcel
                 obj = null;
                 return strFirstSheetName;
             }
-            catch
+            catch(Exception ex)
             {
                 return null;
             }

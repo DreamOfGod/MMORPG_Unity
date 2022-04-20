@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 5146999795198174991}
   - component: {fileID: 4431332320484718577}
   m_Layer: 7
-  m_Name: Role_MainPlayer
+  m_Name: Role_MainPlayer_Cike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
