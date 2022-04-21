@@ -1,17 +1,17 @@
 require "Download/XLuaLogic/Data/Create/ProductEntity"
 
 --数据访问
-ProductDBModel = { }
+ProductConfig = { }
 
-local this = ProductDBModel;
+local this = ProductConfig;
 
 local productTable = { }; --定义表格
 
-function ProductDBModel.New()
+function ProductConfig.New()
     return this;
 end
 
-function ProductDBModel.Init()
+function ProductConfig.Init()
 
     --这里从C#代码中获取一个数组
 
@@ -26,11 +26,11 @@ function ProductDBModel.Init()
 
 end
 
-function ProductDBModel.GetList()
+function ProductConfig.GetList()
     return productTable;
 end
 
-function ProductDBModel.GetEntity(id)
+function ProductConfig.GetEntity(id)
     local ret = nil;
     for i = 1, #productTable, 1 do
         if (productTable[i].Id == id) then

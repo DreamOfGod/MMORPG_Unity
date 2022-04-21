@@ -55,6 +55,6 @@ public class EnterGameServerController : MonoBehaviour
             m_IsReqEnterServer = false;
             return;
         }
-        LoadingSceneController.LoadSceneFromAssetBundle($"{ LocalAssetBundlePath.Value }/Scene/SelectRoleScene.unity3d", SceneName.SelectRole);
+        LoadingSceneController.LoadSceneFromAssetBundle(AssetBundlePath.SelectRoleScene, SceneName.SelectRole);
     }
 }

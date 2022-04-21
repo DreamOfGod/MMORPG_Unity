@@ -35,18 +35,6 @@ public class CitySceneCtrl : MonoBehaviour
 
     void Awake()
     {
-#if UNITY_EDITOR
-        DebugLogger.Log("UNITY_EDITOR");
-#endif
-
-#if ANDROID
-    DebugLogger.Log("ANDROID");
-#endif
-
-#if DEBUG_MODE
-        DebugLogger.Log("Debug Mode");
-#endif
-        DebugLogger.Log("-------------");
         LoadMainPlayer();
     }
 
@@ -55,7 +43,7 @@ public class CitySceneCtrl : MonoBehaviour
     /// </summary>
     private void LoadMainPlayer() 
     {
-        string fullPath = LocalAssetBundlePath.Value + "Role/role.assetbundle";
+        string fullPath = $"{ AssetBundlePath.RoleRootPath }Role_MainPlayer_Cike{ AssetBundlePath.OtherExpandedName }";
         AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(fullPath);
         request.completed += (AsyncOperation ao) => {
             GameObject obj = request.assetBundle.LoadAsset<GameObject>("Role_MainPlayer");

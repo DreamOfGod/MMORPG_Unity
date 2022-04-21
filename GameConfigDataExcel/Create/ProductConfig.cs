@@ -1,12 +1,7 @@
-//===============================================
-//作    者：
-//创建时间：2022-03-15 16:31:35
-//备    注：
-//===============================================
 
 //===================================================
 //作    者：
-//创建时间：2022-03-15 16:30:23
+//创建时间：2022-04-21 11:10:14
 //备    注：此代码为工具生成 请勿手工修改
 //===================================================
 using System.Collections;
@@ -16,8 +11,24 @@ using System;
 /// <summary>
 /// Product数据管理
 /// </summary>
-public partial class ProductDBModel : AbstractDBModel<ProductDBModel, ProductEntity>
+public partial class ProductConfig : AbstractConfig<ProductEntity>
 {
+   #region 单例
+   private ProductConfig() { }
+   private static ProductConfig m_Instance;
+   public static ProductConfig Instance
+   {
+       get
+       {
+           if(m_Instance == null)
+           {
+                m_Instance = new ProductConfig();
+           }
+           return m_Instance;
+        }
+    }
+   #endregion
+
     /// <summary>
     /// 文件名称
     /// </summary>

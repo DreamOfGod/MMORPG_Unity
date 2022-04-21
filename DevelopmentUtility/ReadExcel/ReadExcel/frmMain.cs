@@ -320,8 +320,25 @@ namespace ReadExcel
             sbr.Append("/// <summary>\r\n");
             sbr.AppendFormat("/// {0}数据管理\r\n", fileName);
             sbr.Append("/// </summary>\r\n");
-            sbr.AppendFormat("public partial class {0}DBModel : AbstractDBModel<{0}DBModel, {0}Entity>\r\n", fileName);
+            sbr.AppendFormat("public partial class {0}Config : AbstractConfig<{0}Entity>\r\n", fileName);
             sbr.Append("{\r\n");
+
+            sbr.Append("   #region 单例\r\n");
+            sbr.Append($"   private { fileName }Config() {{ }}\r\n");
+            sbr.Append($"   private static { fileName }Config m_Instance;\r\n");
+            sbr.Append($"   public static { fileName }Config Instance\r\n");
+            sbr.Append("   {\r\n");
+            sbr.Append("       get\r\n");
+            sbr.Append("       {\r\n");
+            sbr.Append("           if(m_Instance == null)\r\n");
+            sbr.Append("           {\r\n");
+            sbr.Append($"                m_Instance = new { fileName }Config();\r\n");
+            sbr.Append("           }\r\n");
+            sbr.Append("           return m_Instance;\r\n");
+            sbr.Append("        }\r\n");
+            sbr.Append("    }\r\n");
+            sbr.Append("   #endregion\r\n\r\n");
+
             sbr.Append("    /// <summary>\r\n");
             sbr.Append("    /// 文件名称\r\n");
             sbr.Append("    /// </summary>\r\n");
@@ -344,7 +361,7 @@ namespace ReadExcel
             sbr.Append("    }\r\n");
             sbr.Append("}\r\n");
 
-            using (FileStream fs = new FileStream(string.Format("{0}Create/{1}DBModel.cs", filePath, fileName), FileMode.Create))
+            using (FileStream fs = new FileStream(string.Format("{0}Create/{1}Config.cs", filePath, fileName), FileMode.Create))
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
@@ -352,24 +369,24 @@ namespace ReadExcel
                 }
             }
 
-            //===============生成lua的DBModel
+            //===============生成lua的Config
             sbr.Clear();
             sbr.Append("");
 
             sbr.AppendFormat("require \"Download/XLuaLogic/Data/Create/{0}Entity\"\r\n", fileName);
             sbr.Append("\r\n");
             sbr.Append("--数据访问\r\n");
-            sbr.AppendFormat("{0}DBModel = {{ }}\r\n", fileName);
+            sbr.AppendFormat("{0}Config = {{ }}\r\n", fileName);
             sbr.Append("\r\n");
-            sbr.AppendFormat("local this = {0}DBModel;\r\n", fileName);
+            sbr.AppendFormat("local this = {0}Config;\r\n", fileName);
             sbr.Append("\r\n");
             sbr.AppendFormat("local {0}Table = {{ }}; --定义表格\r\n", fileName.ToLower());
             sbr.Append("\r\n");
-            sbr.AppendFormat("function {0}DBModel.New()\r\n", fileName);
+            sbr.AppendFormat("function {0}Config.New()\r\n", fileName);
             sbr.Append("    return this;\r\n");
             sbr.Append("end\r\n");
             sbr.Append("\r\n");
-            sbr.AppendFormat("function {0}DBModel.Init()\r\n", fileName);
+            sbr.AppendFormat("function {0}Config.Init()\r\n", fileName);
             sbr.Append("\r\n");
             sbr.Append("    --这里从C#代码中获取一个数组\r\n");
             sbr.Append("\r\n");
@@ -412,12 +429,12 @@ namespace ReadExcel
             sbr.Append("\r\n");
             sbr.Append("end\r\n");
             sbr.Append("\r\n");
-            sbr.AppendFormat("function {0}DBModel.GetList()\r\n", fileName);
+            sbr.AppendFormat("function {0}Config.GetList()\r\n", fileName);
             sbr.AppendFormat("    return {0}Table;\r\n", fileName.ToLower());
             sbr.Append("end");
             sbr.Append("\r\n");
             sbr.Append("\r\n");
-            sbr.AppendFormat("function {0}DBModel.GetEntity(id)\r\n", fileName);
+            sbr.AppendFormat("function {0}Config.GetEntity(id)\r\n", fileName);
             sbr.AppendFormat("    local ret = nil;\r\n");
             sbr.AppendFormat("    for i = 1, #{0}Table, 1 do\r\n", fileName.ToLower());
             sbr.AppendFormat("        if ({0}Table[i].Id == id) then\r\n", fileName.ToLower());
@@ -428,7 +445,7 @@ namespace ReadExcel
             sbr.AppendFormat("    return ret;\r\n");
             sbr.AppendFormat("end");
 
-            using (FileStream fs = new FileStream(string.Format("{0}CreateLua/{1}DBModel.lua", filePath, fileName), FileMode.Create))
+            using (FileStream fs = new FileStream(string.Format("{0}CreateLua/{1}Config.lua", filePath, fileName), FileMode.Create))
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {

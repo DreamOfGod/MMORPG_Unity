@@ -6,12 +6,10 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// 抽象数据管理基类
+/// 配置类抽象基类
 /// </summary>
-/// <typeparam name="TChild">子类类型</typeparam>
 /// <typeparam name="TEntity">实体类型</typeparam>
-public abstract class AbstractDBModel<TChild, TEntity>
-    where TChild: new()
+public abstract class AbstractConfig<TEntity>
     where TEntity: AbstractEntity
 {
     /// <summary>
@@ -24,7 +22,11 @@ public abstract class AbstractDBModel<TChild, TEntity>
     /// </summary>
     protected Dictionary<int, TEntity> m_Dic;
 
-    public AbstractDBModel()
+    public List<TEntity> List { get => m_List; }
+
+    public Dictionary<int, TEntity> Dic { get => m_Dic; }
+
+    public AbstractConfig()
     {
         m_List = new List<TEntity>();
         m_Dic = new Dictionary<int, TEntity>();
@@ -36,7 +38,7 @@ public abstract class AbstractDBModel<TChild, TEntity>
     /// </summary>
     protected void LoadData()
     {
-        using(GameDataTableParser parser = new GameDataTableParser(string.Format(@"D:\Code\UnityProjects\MMORPG_Unity\GameConfigData\", FileName)))
+        using(GameDataTableParser parser = new GameDataTableParser(string.Format(@$"D:\Code\UnityProjects\MMORPG_Unity\GameConfigData\{ FileName }")))
         {
             while(!parser.Eof)
             {

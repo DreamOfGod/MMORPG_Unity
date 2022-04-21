@@ -1,7 +1,12 @@
+//===============================================
+//作    者：
+//创建时间：2022-04-21 11:10:32
+//备    注：
+//===============================================
 
 //===================================================
 //作    者：
-//创建时间：2022-03-15 16:30:23
+//创建时间：2022-04-21 11:10:09
 //备    注：此代码为工具生成 请勿手工修改
 //===================================================
 using System.Collections;
@@ -11,8 +16,24 @@ using System;
 /// <summary>
 /// Job数据管理
 /// </summary>
-public partial class JobDBModel : AbstractDBModel<JobDBModel, JobEntity>
+public partial class JobConfig : AbstractConfig<JobEntity>
 {
+   #region 单例
+   private JobConfig() { }
+   private static JobConfig m_Instance;
+   public static JobConfig Instance
+   {
+       get
+       {
+           if(m_Instance == null)
+           {
+                m_Instance = new JobConfig();
+           }
+           return m_Instance;
+        }
+    }
+   #endregion
+
     /// <summary>
     /// 文件名称
     /// </summary>

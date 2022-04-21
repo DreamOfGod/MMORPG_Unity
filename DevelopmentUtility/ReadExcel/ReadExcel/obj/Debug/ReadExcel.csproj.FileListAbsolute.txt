@@ -45,3 +45,15 @@ E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\De
 E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.csproj.CopyComplete
 E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.exe
 E:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.pdb
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\bin\Debug\ReadExcel.exe.config
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\bin\Debug\ReadExcel.exe
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\bin\Debug\ReadExcel.pdb
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.csproj.AssemblyReference.cache
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.csproj.ResolveComReference.cache
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.ExcelToByte.resources
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.Properties.Resources.resources
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.csproj.GenerateResource.cache
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.csproj.CoreCompileInputs.cache
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.csproj.CopyComplete
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.exe
+D:\Code\UnityProjects\MMORPG_Unity\DevelopmentUtility\ReadExcel\ReadExcel\obj\Debug\ReadExcel.pdb

@@ -19,10 +19,10 @@ public static class AsyncOperationExtensionMethod
     /// </summary>
     /// <param name="ao"></param>
     /// <returns></returns>
-    public static TaskAwaiter<object> GetAwaiter(this AsyncOperation ao)
+    public static TaskAwaiter<AsyncOperation> GetAwaiter(this AsyncOperation ao)
     {
-        var tcs = new TaskCompletionSource<object>();
-        ao.completed += (obj) => { tcs.SetResult(null); };
+        var tcs = new TaskCompletionSource<AsyncOperation>();
+        ao.completed += (obj) => { tcs.SetResult(ao); };
         return tcs.Task.GetAwaiter();
     }
 }

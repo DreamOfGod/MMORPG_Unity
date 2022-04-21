@@ -24,53 +24,12 @@ public class SortingLayerName
     public const string Window = "Window";//窗口
 }
 
-/// <summary>
-/// 场景UI根节点名称
-/// </summary>
-public class SceneUIName
-{
-    public const string LogOn = "UI Root_LogOnScene";//登陆场景UI
-}
-
-/// <summary>
-/// 窗口名称
-/// </summary>
-public class WindowName
-{
-    public const string LogOn = "PanLogOn";//登陆
-    public const string Register = "PanReg";//注册
-}
-
-/// <summary>
-/// UI容器类型
-/// </summary>
-public enum WindowUIContainerType
-{
-    //居中、左上、右上、左下、右下
-    Center, TopLeft, TopRight, BottomLeft, BottomRight
-}
-
-/// <summary>
-/// 窗口打开方式
-/// </summary>
-public enum WindowShowStyle
-{
-    //默认、缩放、从上往下、从下往上、从左往右、从右往左
-    Normal, Scale, FromTop, FromDown, FromLeft, FromRight
-}
-
 public class SceneName
 {
     public const string Loading = "Loading";
     public const string Logon = "LogOn";
     public const string SelectRole = "SelectRole";
     public const string City = "GameScene_HuPaoCun";
-}
-
-public class RegisterLogonKey
-{
-    public const string MMO_NICKNAME = "MMO_NICKNAME";
-    public const string MMO_PWD = "MMO_PWD";
 }
 
 public class AnimStateConditionName
@@ -81,19 +40,4 @@ public class AnimStateConditionName
     public const string ToHurt = "ToHurt";
     public const string ToDie = "ToDie";
     public const string ToPhyAttack = "ToPhyAttack";
-}
-
-public class LocalAssetBundlePath
-{
-#if UNITY_EDITOR
-    #if UNITY_STANDALONE_WIN
-        public static readonly string Value = Application.dataPath + "/../AssetBundles/Windows/";
-    #elif UNITY_ANDROID
-        public static readonly string Value = Application.dataPath + "/../AssetBundles/Android/";
-    #elif UNITY_IPHONE
-        public static readonly string Value = Application.dataPath + "/../AssetBundles/IOS/";
-    #endif
-#elif UNITY_ANDROID || UNITY_IPHONE || UNITY_STANDALONE_WIN
-        public static readonly string Value = Application.persistentDataPath + "/";
-#endif
 }

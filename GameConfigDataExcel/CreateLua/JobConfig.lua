@@ -1,17 +1,17 @@
 require "Download/XLuaLogic/Data/Create/JobEntity"
 
 --数据访问
-JobDBModel = { }
+JobConfig = { }
 
-local this = JobDBModel;
+local this = JobConfig;
 
 local jobTable = { }; --定义表格
 
-function JobDBModel.New()
+function JobConfig.New()
     return this;
 end
 
-function JobDBModel.Init()
+function JobConfig.Init()
 
     --这里从C#代码中获取一个数组
 
@@ -26,11 +26,11 @@ function JobDBModel.Init()
 
 end
 
-function JobDBModel.GetList()
+function JobConfig.GetList()
     return jobTable;
 end
 
-function JobDBModel.GetEntity(id)
+function JobConfig.GetEntity(id)
     local ret = nil;
     for i = 1, #jobTable, 1 do
         if (jobTable[i].Id == id) then
