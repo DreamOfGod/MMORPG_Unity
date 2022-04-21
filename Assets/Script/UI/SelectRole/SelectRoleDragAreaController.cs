@@ -7,6 +7,9 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// 必须实现IDragHandler，否则开始拖拽和结束拖拽的回调不会触发
+/// </summary>
 public class SelectRoleDragAreaController : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHandler
 {
     private float m_BeginDragPosX;
@@ -21,10 +24,7 @@ public class SelectRoleDragAreaController : MonoBehaviour, IBeginDragHandler, ID
         m_BeginDragPosX = eventData.position.x;
     }
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        
-    }
+    public void OnDrag(PointerEventData eventData) { }
 
     public void OnEndDrag(PointerEventData eventData)
     {

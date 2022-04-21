@@ -1,0 +1,12 @@
+1、场景中必须有一个GameObject挂有事件系统组件EventSystem和输入模块组件（如：StandaloneInputModule）才能生效。两种组件必须位于同一个GameObject上
+
+2、实现自定义的事件需要：
+（1）自定义接口实现IEventSystemHandler，添加事件发生时需要调用的回调
+（2）在组件上实现自定义的接口，重写接口的方法
+（3）需要派发事件时，使用ExecuteEvents.Execute<自定义接口>(target, null, (x,y)=>x.自定义接口中的方法())
+
+3、系统定义的事件也是在组件上实现系统提供的相应接口即可
+
+4、有些系统事件需要射线扫描，如：开始拖动事件IBeginDragHandler，以确定事件应该派发到哪个GameObject。这时应在GameObject上添加射线投射组件才能被检测到。
+射线投射组件有GraphicsRaycaster、Physics2DRaycaster、PhysicsRaycaster。
+其中GraphicsRaycaster依赖Canvas组件，且需要在同一GameObject上添加Image或Text等组件，并勾选Image或Text组件的RaycastTarget属性，该物体才能被事件系统的射线扫描检测到。

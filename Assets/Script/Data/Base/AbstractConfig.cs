@@ -4,6 +4,7 @@
 //备    注：
 //===============================================
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// 配置类抽象基类
@@ -38,7 +39,7 @@ public abstract class AbstractConfig<TEntity>
     /// </summary>
     protected void LoadData()
     {
-        using(GameDataTableParser parser = new GameDataTableParser(string.Format(@$"D:\Code\UnityProjects\MMORPG_Unity\GameConfigData\{ FileName }")))
+        using(GameDataTableParser parser = new GameDataTableParser(string.Format(@$"{ Application.dataPath }\..\GameConfigData\{ FileName }")))
         {
             while(!parser.Eof)
             {

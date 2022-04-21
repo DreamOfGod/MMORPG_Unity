@@ -182,8 +182,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 10836833}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.000015258789}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -8837,9 +8837,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 911012222}
+  - component: {fileID: 911012225}
   - component: {fileID: 911012224}
   - component: {fileID: 911012223}
-  - component: {fileID: 911012225}
   - component: {fileID: 911012227}
   - component: {fileID: 911012226}
   m_Layer: 5

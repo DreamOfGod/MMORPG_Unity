@@ -51,7 +51,6 @@ public class SelelctRoleSceneController : MonoBehaviour
 
     private void OnEndHorizontalDrag(UIDirection dir)
     {
-        DebugLogger.Log("OnEndHorizontalDrag" + dir);
         if(dir == UIDirection.LEFT)
         {
             m_SelectRoleSceneView.RotateCamera(UIDirection.RIGHT);
