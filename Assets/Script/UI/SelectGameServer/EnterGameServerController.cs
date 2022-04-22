@@ -55,6 +55,19 @@ public class EnterGameServerController : MonoBehaviour
             m_IsReqEnterServer = false;
             return;
         }
-        LoadingSceneController.LoadSceneFromAssetBundle(AssetBundlePath.SelectRoleScene, SceneName.SelectRole);
+        ConnectGameServer();
+    }
+
+    private void ConnectGameServer()
+    {
+        bool isSuccess = SocketHelper.Instance.Connect(m_CurSelectGameServer.Ip, m_CurSelectGameServer.Port);
+        if(isSuccess)
+        {
+            LoadingSceneController.LoadSceneFromAssetBundle(AssetBundlePath.SelectRoleScene, SceneName.SelectRole);
+        }
+        else
+        {
+            MessageWindow.Show(transform, "提示", "连接游戏服务器失败，请重试", true, false, ConnectGameServer);
+        }
     }
 }

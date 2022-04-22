@@ -20,9 +20,15 @@ public class ReigsterController : MonoBehaviour
     [SerializeField]
     private InputField m_InputYaoQingMa;
 
+    private LogonSceneController m_LogonSceneController;
     private bool m_IsRegistering = false;
     private bool m_IsToLogon = false;
     private bool m_RegisterSuccess = false;
+
+    public void Init(LogonSceneController logonSceneController)
+    {
+        m_LogonSceneController = logonSceneController;
+    }
 
     public void OnClickToLogon()
     {
@@ -36,7 +42,11 @@ public class ReigsterController : MonoBehaviour
 
     private void OpenLogon()
     {
-        m_ReigsterWindow.OnWindowCloseFinish = () => { WindowBase.OpenWindowMoveFromLeftToRightShow(WindowPath.Logon, transform.parent); };
+        m_ReigsterWindow.OnWindowCloseFinish = () => 
+        {
+            WindowBase window = WindowBase.OpenWindowMoveFromLeftToRightShow(WindowPath.Logon, transform.parent);
+            window.GetComponent<LogonController>().Init(m_LogonSceneController);
+        };
         m_ReigsterWindow.MoveFromRightToLeftClose();
     }
 

@@ -4,26 +4,73 @@
 //备    注：
 //===============================================
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using UnityEngine;
 
 /// <summary>
 /// Socket通信管理
 /// </summary>
-public class NetWorkSocket
+public class SocketHelper: MonoBehaviour
 {
     #region 单例
-    private NetWorkSocket() { }
-    private static NetWorkSocket m_Instance;
-    public static NetWorkSocket Instance
+    private SocketHelper() { }
+    private static SocketHelper instance;
+    public static SocketHelper Instance
     {
         get
         {
-            if (m_Instance == null)
+            if (instance == null)
             {
-                m_Instance = new NetWorkSocket();
+                GameObject obj = new GameObject(nameof(SocketHelper));
+                DontDestroyOnLoad(obj);
+                instance = obj.AddComponent<SocketHelper>();
             }
-            return m_Instance;
+            return instance;
+        }
+    }
+    #endregion
+
+    #region Socket消息派发
+    private Dictionary<ushort, HashSet<Action<byte[]>>> m_HandlerDic = new Dictionary<ushort, HashSet<Action<byte[]>>>();
+
+    public void AddListener(ushort protoCode, Action<byte[]> handler)
+    {
+        if (m_HandlerDic.ContainsKey(protoCode))
+        {
+            m_HandlerDic[protoCode].Add(handler);
+        }
+        else
+        {
+            var handlerSet = new HashSet<Action<byte[]>>();
+            handlerSet.Add(handler);
+            m_HandlerDic[protoCode] = handlerSet;
+        }
+    }
+
+    public void RemoveListener(ushort protoCode, Action<byte[]> handler)
+    {
+        if (m_HandlerDic.ContainsKey(protoCode))
+        {
+            m_HandlerDic[protoCode].Remove(handler);
+        }
+    }
+
+    private void Dispatch(ushort protoCode, byte[] buffer)
+    {
+        if (m_HandlerDic.ContainsKey(protoCode))
+        {
+            DebugLogger.Log($"派发Socket消息，协议ID：{ protoCode }");
+            var handlerSet = m_HandlerDic[protoCode];
+            foreach (var handler in handlerSet)
+            {
+                handler(buffer);
+            }
+        }
+        else
+        {
+            DebugLogger.Log($"消息没有处理器，协议ID：{ protoCode }");
         }
     }
     #endregion
@@ -46,27 +93,43 @@ public class NetWorkSocket
     private MMO_MemoryStream m_ReceiveMS = new MMO_MemoryStream();
 
     /// <summary>
+    /// 已接收的消息队列，主线程访问
+    /// </summary>
+    private Queue<KeyValuePair<ushort, byte[]>> m_ReceivedMsgQueue = new Queue<KeyValuePair<ushort, byte[]>>();
+
+    private void Update()
+    {
+        lock(m_ReceivedMsgQueue)
+        {
+            while(m_ReceivedMsgQueue.Count > 0)
+            {
+                var protocolCode2Content = m_ReceivedMsgQueue.Dequeue();
+                Dispatch(protocolCode2Content.Key, protocolCode2Content.Value);
+            }
+        }
+    }
+
+    /// <summary>
     /// 连接到Socket服务器
     /// </summary>
     /// <param name="ip">ip</param>
     /// <param name="port">端口号</param>
-    public void Connect(string ip, int port)
+    public bool Connect(string ip, int port)
     {
-        if (m_Socket != null && m_Socket.Connected) return;
-
         m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
         try
         {
             m_Socket.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
-            DebugLogger.Log($"连接{ ip }:{ port }成功");
-
             //异步接收数据
             m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
+            DebugLogger.Log($"连接{ ip }:{ port }成功");
+            return true;
         }
         catch(Exception ex)
         {
+            m_Socket = null;
             DebugLogger.Log($"连接{ ip }:{ port }失败，error：{ ex.Message }");
+            return false;
         }
     }
 
@@ -133,8 +196,11 @@ public class NetWorkSocket
                         //协议内容
                         byte[] protoContent = new byte[contentCount - 2];
                         ms.Read(protoContent, 0, protoContent.Length);
-                        //派发协议消息
-                        EventDispatcher.Instance.Dispatch(protoCode, protoContent);
+                        //消息入队，等主线程处理
+                        lock(m_ReceivedMsgQueue)
+                        {
+                            m_ReceivedMsgQueue.Enqueue(new KeyValuePair<ushort, byte[]>(protoCode, protoContent));
+                        }
 
                         long leftCount = m_ReceiveMS.Length - m_ReceiveMS.Position;
                         if (leftCount < 2)

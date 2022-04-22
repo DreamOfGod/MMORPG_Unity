@@ -17,6 +17,12 @@ public class SelelctRoleSceneController : MonoBehaviour
 
     private void Start()
     {
+        GameServerModel.Instance.LogonGameServerReturn += OnLogonGameServerReturn;
+        GameServerModel.Instance.ReqLogonGameServer();
+    }
+
+    private void OnLogonGameServerReturn(List<RoleOperation_LogOnGameServerReturnProto.RoleItem> roleItemList)
+    {
         LoadRoles();
     }
 

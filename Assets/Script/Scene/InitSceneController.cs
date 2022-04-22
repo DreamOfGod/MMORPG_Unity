@@ -18,7 +18,14 @@ public class InitSceneController : MonoBehaviour
 
     void Start()
     {
+        InitAllModel();
         ReqServerTimeTaskAsync();
+    }
+
+    private void InitAllModel()
+    {
+        AccountModel.Instance.Init();
+        GameServerModel.Instance.Init();
     }
 
     async void ReqServerTimeTaskAsync()

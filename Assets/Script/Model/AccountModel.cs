@@ -6,7 +6,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class AccountModel
+public class AccountModel: IModel
 {
     #region 单例
     private AccountModel() { }
@@ -31,6 +31,12 @@ public class AccountModel
         get => m_CurAccount.LastLogonGameServer;
         set { m_CurAccount.LastLogonGameServer = value; }
     }
+
+    public int AccountID { get => m_CurAccount.Id; }
+
+    public void Init() { }
+
+    public void Reset() { }
 
     #region 注册
     public async Task<RequestResult<int>> RegisterAsync(string username, string pwd)
@@ -84,7 +90,7 @@ public class AccountModel
         form.AddField("ChannelId", "0");
         form.AddField("DeviceModel", DeviceUtil.DeviceModel);
 
-        var requestResult = await HttpHelper.Instance.PostAsync<AccountBean>($"{ HttpHelper.AccountServerURL }register", form);
+        var requestResult = await HttpHelper.Instance.PostAsync<AccountBean>($"{ HttpHelper.AccountServerURL }logon", form);
         if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
         {
             m_CurAccount = requestResult.ResponseData.Data;

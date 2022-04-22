@@ -18,8 +18,15 @@ public class LogonController : MonoBehaviour
     [SerializeField]
     private InputField m_InputPwd;
 
+    private LogonSceneController m_LogonSceneController;
     private bool m_IsLogoning = false;
     private bool m_IsToRegister = false;
+
+    public void Init(LogonSceneController logonSceneController)
+    {
+        m_LogonSceneController = logonSceneController;
+    }
+
     public void OnClickToRegister()
     {
         if(m_IsLogoning || m_IsToRegister)
@@ -65,21 +72,7 @@ public class LogonController : MonoBehaviour
             switch (logonResult.ResponseData.Code)
             {
                 case 0:
-                    GameServerBean lastLogonServer = AccountModel.Instance.LastLogonServer;
-                    if(lastLogonServer == null)
-                    {
-                        var recommendGameServerListResult = await GameServerModel.Instance.ReqRecommendGameServerListAsync();
-                        if(!recommendGameServerListResult.IsSuccess || recommendGameServerListResult.ResponseData.Code != 0)
-                        {
-                            return;
-                        }
-                        lastLogonServer = recommendGameServerListResult.ResponseData.Data[0];
-                    }
-                    m_LogonWindow.OnWindowCloseFinish = () => {
-                        WindowBase window = WindowBase.OpenWindowMoveFromLeftToRightShow(WindowPath.EnterGameServer, transform.parent);
-                        EnterGameServerController enterGameServerController = window.GetComponent<EnterGameServerController>();
-                        enterGameServerController.SetCurSelectGameServer(lastLogonServer);
-                    };
+                    m_LogonWindow.OnWindowCloseFinish = m_LogonSceneController.ShowEnterGameServer;
                     m_LogonWindow.MoveFromRightToLeftClose();
                     break;
                 case 1: MessageWindow.Show(transform.parent, "登录提示", "账号或密码错误", true, false); break;

@@ -1,62 +1,70 @@
 //===============================================
 //作    者：
-//创建时间：2022-03-22 15:54:04
+//创建时间：2022-04-22 14:56:16
 //备    注：
 //===============================================
 using System.Collections.Generic;
 
-public class EventDispatcher
+/// <summary>
+/// 事件派发者
+/// </summary>
+public class EventDispatcher<TEventID>
 {
-    #region 单例
-    private EventDispatcher() { }
-    private static EventDispatcher m_Instance;
-    public static EventDispatcher Instance
+    /// <summary>
+    /// 具有可变参数的事件处理器委托类型
+    /// </summary>
+    /// <param name="args"></param>
+    public delegate void EventHandler(params object[] args);
+    /// <summary>
+    /// 事件处理器字典
+    /// </summary>
+    private Dictionary<TEventID, HashSet<EventHandler>> m_HandlerDic = new Dictionary<TEventID, HashSet<EventHandler>>();
+
+    /// <summary>
+    /// 添加事件处理器
+    /// </summary>
+    /// <param name="eventID"></param>
+    /// <param name="handler"></param>
+    public void AddListener(TEventID eventID, EventHandler handler)
     {
-        get
+        if (m_HandlerDic.ContainsKey(eventID))
         {
-            if(m_Instance == null)
-            {
-                m_Instance = new EventDispatcher();
-            }
-            return m_Instance;
-        }
-    }
-    #endregion
-
-    public delegate void EventHanlder(byte[] buffer);
-
-    private Dictionary<ushort, HashSet<EventHanlder>> m_HandlerDic = new Dictionary<ushort, HashSet<EventHanlder>>();
-
-    public void AddListener(ushort protoCode, EventHanlder handler)
-    {
-        if(m_HandlerDic.ContainsKey(protoCode))
-        {
-            m_HandlerDic[protoCode].Add(handler);
+            m_HandlerDic[eventID].Add(handler);
         }
         else
         {
-            HashSet<EventHanlder> handlerSet = new HashSet<EventHanlder>();
+            var handlerSet = new HashSet<EventHandler>();
             handlerSet.Add(handler);
-            m_HandlerDic[protoCode] = handlerSet;
+            m_HandlerDic[eventID] = handlerSet;
         }
     }
 
-    public void RemoveListener(ushort protoCode, EventHanlder handler)
+    /// <summary>
+    /// 移除事件处理器
+    /// </summary>
+    /// <param name="eventID"></param>
+    /// <param name="handler"></param>
+    public void RemoveListener(TEventID eventID, EventHandler handler)
     {
-        if (m_HandlerDic.ContainsKey(protoCode))
+        if (m_HandlerDic.ContainsKey(eventID))
         {
-            m_HandlerDic[protoCode].Remove(handler);
+            m_HandlerDic[eventID].Remove(handler);
         }
     }
 
-    public void Dispatch(ushort protoCode, byte[] buffer)
+    /// <summary>
+    /// 派发事件
+    /// </summary>
+    /// <param name="eventID"></param>
+    /// <param name="args"></param>
+    public void Dispatch(TEventID eventID, params object[] args)
     {
-        if (m_HandlerDic.ContainsKey(protoCode))
+        if (m_HandlerDic.ContainsKey(eventID))
         {
-            HashSet<EventHanlder> handlerSet = m_HandlerDic[protoCode];
-            foreach(EventHanlder handler in handlerSet)
+            var handlerSet = m_HandlerDic[eventID];
+            foreach (var handler in handlerSet)
             {
-                handler(buffer);
+                handler(args);
             }
         }
     }

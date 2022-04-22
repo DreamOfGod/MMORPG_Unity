@@ -4,41 +4,7 @@
 //备    注：
 //===============================================
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class LogonSceneUIView : MonoBehaviour
 {
-    private void Start()
-    {
-        CheckAccount();
-    }
-
-    private void CheckAccount()
-    {
-        //if(PlayerPrefs.HasKey(PlayerPrefsKey.AccountID))
-        //{
-        //    AccountModel.Instance.QuickLogon((UnityWebRequest.Result result, MFReturnValue<int> ret) => { 
-        //        if(result == UnityWebRequest.Result.Success)
-        //        {
-        //            if(ret.HasError)
-        //            {
-        //                WindowBase.OpenWindowZoomInShow(WindowPath.Logon, transform);
-        //            }
-        //            else
-        //            {
-        //                WindowBase.OpenWindowZoomInShow(WindowPath.EnterGameServer, transform);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            WindowBase.OpenWindowZoomInShow(WindowPath.Logon, transform);
-        //        }
-        //    });
-        //}
-        //else
-        //{
-        //    WindowBase.OpenWindowZoomInShow(WindowPath.Register, transform);
-        //}
-        WindowBase.OpenWindowZoomInShow(WindowPath.Register, transform);
-    }
 }

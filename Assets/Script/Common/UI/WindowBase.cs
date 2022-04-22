@@ -46,10 +46,7 @@ public class WindowBase : MonoBehaviour
     #region 销毁窗口DestroyWindow
     private void DestroyWindow()
     {
-        if (OnWindowCloseFinish != null)
-        {
-            OnWindowCloseFinish();
-        }
+        OnWindowCloseFinish?.Invoke();
         Destroy(gameObject);
     }
     #endregion
