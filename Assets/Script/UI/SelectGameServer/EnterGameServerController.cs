@@ -94,6 +94,6 @@ public class EnterGameServerController : MonoBehaviour
     private void ConnectGameServer()
     {
         ++m_TryConnectServerCount;
-        SocketHelper.Instance.ConnectAsync(m_CurSelectGameServer.Ip, m_CurSelectGameServer.Port);
+        SocketHelper.Instance.BeginConnect(m_CurSelectGameServer.Ip, m_CurSelectGameServer.Port);
     }
 }

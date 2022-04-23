@@ -33,6 +33,7 @@ public class SocketHelper: MonoBehaviour
     #endregion
 
     #region Socket消息派发
+    //消息处理器字典
     private Dictionary<ushort, HashSet<Action<byte[]>>> m_SocketMsgHandlerDic = new Dictionary<ushort, HashSet<Action<byte[]>>>();
 
     /// <summary>
@@ -67,6 +68,7 @@ public class SocketHelper: MonoBehaviour
         }
     }
 
+    //派发消息
     private void Dispatch(ushort protoCode, byte[] buffer)
     {
         if (m_SocketMsgHandlerDic.ContainsKey(protoCode))
@@ -93,19 +95,7 @@ public class SocketHelper: MonoBehaviour
     }
     #endregion
 
-    //socket状态枚举
-    private enum SocketStatus
-    {
-        Disconnected,//未连接
-        Connecting,//正在连接
-        ConnectSucceed,//连接成功
-        ConnectFailed,//连接失败
-        Connected,//已连接
-        ConnectExceptionOccurred,//连接异常
-        Reconnecting,//重新连接中
-        ReconnectSucceed,//重新连接成功
-    }
-
+    #region 事件
     /// <summary>
     /// 连接成功事件
     /// </summary>
@@ -120,11 +110,7 @@ public class SocketHelper: MonoBehaviour
     /// 连接发生异常事件
     /// </summary>
     public event Action ConnectExceptionOccured;
-
-    /// <summary>
-    /// 重新连接成功事件
-    /// </summary>
-    public event Action ReconnectSucceed;
+    #endregion
 
     //socket对象
     private Socket m_Socket;
@@ -132,11 +118,21 @@ public class SocketHelper: MonoBehaviour
     //当前ip和端口号
     private IPEndPoint m_IPEndPoint;
 
-    //socket状态
-    private volatile SocketStatus m_SocketStatus = SocketStatus.Disconnected;
+    #region socket状态
+    //socket状态枚举
+    private enum SocketStatus
+    {
+        Disconnected,//未连接
+        Connecting,//正在连接
+        ConnectSucceed,//连接成功
+        ConnectFailed,//连接失败
+        Connected,//已连接
+        ConnectExceptionOccurred,//连接发生异常
+    }
 
-    //重新连接次数
-    private int m_ReconnetCount = 0;
+    //socket连接状态
+    private volatile SocketStatus m_SocketStatus = SocketStatus.Disconnected;
+    #endregion
 
     //进行压缩的长度下限
     private const int m_compressLength = 200;
@@ -147,74 +143,104 @@ public class SocketHelper: MonoBehaviour
     //接收数据包的缓冲数据流
     private MMO_MemoryStream m_ReceiveMS = new MMO_MemoryStream();
 
-    //已接收的消息队列，主线程访问
-    private Queue<KeyValuePair<ushort, byte[]>> m_ReceivedMsgQueue = new Queue<KeyValuePair<ushort, byte[]>>();
+    #region 已接收的消息队列、待发送的消息队列
+    //已接收的消息类型
+    private struct ReceivedMsg
+    {
+        public ushort ProtoCode;//协议编号
+        public byte[] ProtoContent;//协议数据
+        public ReceivedMsg(ushort protoCode, byte[] protoContent)
+        {
+            ProtoCode = protoCode;
+            ProtoContent = protoContent;
+        }
+    }
 
-    #region 异步连接
+    //已接收的消息队列
+    private Queue<ReceivedMsg> m_ReceivedMsgQueue = new Queue<ReceivedMsg>();
+
+    //待发送的消息队列
+    private Queue<byte[]> m_ToBeSentMsgQueue = new Queue<byte[]>();
+
+    //是否正在发送消息
+    private volatile bool m_IsSending = false;
+    #endregion
+
+    #region 异步连接：连接成功，派发ConnectSucceed；连接失败或出现异常，派发ConnectFailed。连接期间调用Close，不派发任何事件
     /// <summary>
-    /// 异步连接服务器
+    /// 异步连接
     /// </summary>
     /// <param name="ip">ip</param>
     /// <param name="port">端口号</param>
-    public void ConnectAsync(string ip, int port)
+    public void BeginConnect(string ip, int port)
     {
-        if(m_SocketStatus != SocketStatus.Disconnected)
-        {
-            throw new Exception("scoket必须处于未连接状态");
-        }
         m_SocketStatus = SocketStatus.Connecting;
         m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        m_IPEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
-        m_Socket.BeginConnect(m_IPEndPoint, ConnectCallback, null);
+        var iep = new IPEndPoint(IPAddress.Parse(ip), port);
+        try
+        {
+            m_Socket.BeginConnect(iep, ConnectCallback, iep);
+        }
+        catch(SocketException ex)
+        {
+            DebugLogger.Log($"尝试连接{ iep.Address }:{ iep.Port }时发生异常，exception：{ ex.Message }");
+            m_SocketStatus = SocketStatus.Disconnected;
+            ConnectFailed?.Invoke();
+        }
     }
 
     //异步连接的回调
     private void ConnectCallback(IAsyncResult ar)
     {
+        var iep = (IPEndPoint)ar;
         try
         {
             m_Socket.EndConnect(ar);
-            m_SocketStatus = SocketStatus.ConnectSucceed;
-            DebugLogger.Log($"连接{ m_IPEndPoint.Address }:{ m_IPEndPoint.Port }成功");
-            m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
         }
-        catch(Exception ex)
+        catch(SocketException ex)
         {
             m_SocketStatus = SocketStatus.ConnectFailed;
-            DebugLogger.Log($"连接{ m_IPEndPoint.Address }:{ m_IPEndPoint.Port }失败，exception：{ ex.Message }");
+            DebugLogger.Log($"尝试连接{ iep.Address }:{ iep.Port }时发生异常，exception：{ ex.Message }");
+            return;
+        }
+
+        if (m_Socket.Connected)
+        {
+            m_SocketStatus = SocketStatus.ConnectSucceed;
+            DebugLogger.Log($"尝试连接{ iep.Address }:{ iep.Port }成功");
+            lock (m_ToBeSentMsgQueue)
+            {
+                if(m_ToBeSentMsgQueue.Count > 0)
+                {
+                    SendNextMsg();
+                    m_IsSending = true;
+                }
+            }
+            BeginReceive();
+        }
+        else
+        {
+            m_SocketStatus = SocketStatus.ConnectFailed;
+            DebugLogger.Log($"尝试连接{ iep.Address }:{ iep.Port }失败");
         }
     }
     #endregion
 
-    #region 重新连接
-    //重新连接
-    private void ReconnectAsync()
-    {
-        ++m_ReconnetCount;
-        DebugLogger.Log($"第{ m_ReconnetCount }次重新连接");
-        m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        m_Socket.BeginConnect(m_IPEndPoint, ReconnectCallback, null);
-    }
-
-    //重新连接回调
-    private void ReconnectCallback(IAsyncResult ar)
+    #region 异步接收：出现异常或服务器断开连接，派发ConnectExceptionOccurred
+    //异步接收
+    private void BeginReceive()
     {
         try
         {
-            m_Socket.EndConnect(ar);
-            m_SocketStatus = SocketStatus.ReconnectSucceed;
-            m_ReconnetCount = 0;
-            DebugLogger.Log($"重新连接{ m_IPEndPoint.Address }:{ m_IPEndPoint.Port }成功");
             m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
         }
-        catch (Exception ex)
+        catch(SocketException ex)
         {
-            ReconnectAsync();
+            m_SocketStatus = SocketStatus.ConnectExceptionOccurred;
+            DebugLogger.Log($"与{ m_Socket.RemoteEndPoint }的连接异常，exception：{ ex.Message }");
         }
     }
-    #endregion
 
-    #region 异步接收数据的回调
     //接收数据的回调
     private void ReceiveCallback(IAsyncResult ar)
     {
@@ -225,80 +251,67 @@ public class SocketHelper: MonoBehaviour
         }
         catch (Exception ex)
         {
-            //连接异常
             m_SocketStatus = SocketStatus.ConnectExceptionOccurred;
             DebugLogger.Log($"与{ m_Socket.RemoteEndPoint }的连接异常，exception：{ ex.Message }");
             return;
         }
 
-        if (count > 0)
+        if(count == 0)
         {
-            //已经接收到数据
-            //把接收的字节写入字节流的尾部
-            m_ReceiveMS.Write(m_ReceiveBuffer, 0, count);
+            m_SocketStatus = SocketStatus.ConnectExceptionOccurred;
+            DebugLogger.Log($"服务器{ m_Socket.RemoteEndPoint }断开连接");
+            return;
+        }
 
-            //字节流长度达到2个字节，至少消息的数据包长度接收完成
-            if (m_ReceiveMS.Length >= 2)
+        //把接收的字节写入字节流的尾部
+        m_ReceiveMS.Write(m_ReceiveBuffer, 0, count);
+        //字节流长度达到2个字节，至少消息的数据包长度接收完成
+        if (m_ReceiveMS.Length >= 2)
+        {
+            m_ReceiveMS.Position = 0;
+            while (true)
             {
-                m_ReceiveMS.Position = 0;
-                while (true)
+                //读取内容的字节数
+                ushort contentCount = m_ReceiveMS.ReadUShort();
+                if (m_ReceiveMS.Length - m_ReceiveMS.Position >= contentCount)
                 {
-                    //读取内容的字节数
-                    ushort contentCount = m_ReceiveMS.ReadUShort();
-                    if (m_ReceiveMS.Length - m_ReceiveMS.Position >= contentCount)
+                    //消息的内容已经接收完成
+                    //压缩标志
+                    bool compressed = m_ReceiveMS.ReadBool();
+                    //crc16校验码
+                    ushort crc16 = m_ReceiveMS.ReadUShort();
+                    //数据包
+                    byte[] content = new byte[contentCount - 3];
+                    m_ReceiveMS.Read(content, 0, content.Length);
+                    //crc16校验
+                    if (Crc16.CalculateCrc16(content) != crc16)
                     {
-                        //消息的内容已经接收完成
-                        //压缩标志
-                        bool compressed = m_ReceiveMS.ReadBool();
-                        //crc16校验码
-                        ushort crc16 = m_ReceiveMS.ReadUShort();
-                        //数据包
-                        byte[] content = new byte[contentCount - 3];
-                        m_ReceiveMS.Read(content, 0, content.Length);
-                        //crc16校验
-                        if (Crc16.CalculateCrc16(content) != crc16)
-                        {
 
-                        }
-                        //数据包异或
-                        SecurityUtil.XOR(content);
-                        //解压
-                        if (compressed)
-                        {
-                            content = ZlibHelper.DeCompressBytes(content);
-                        }
-
-                        MMO_MemoryStream ms = new MMO_MemoryStream(content);
-                        //协议ID
-                        ushort protoCode = ms.ReadUShort();
-                        //协议内容
-                        byte[] protoContent = new byte[contentCount - 2];
-                        ms.Read(protoContent, 0, protoContent.Length);
-                        //消息入队，等主线程处理
-                        lock(m_ReceivedMsgQueue)
-                        {
-                            m_ReceivedMsgQueue.Enqueue(new KeyValuePair<ushort, byte[]>(protoCode, protoContent));
-                        }
-
-                        long leftCount = m_ReceiveMS.Length - m_ReceiveMS.Position;
-                        if (leftCount < 2)
-                        {
-                            //剩余不到2个字节，将剩余字节移到字节流开头，等内容接收完整再解析
-                            byte[] buffer = m_ReceiveMS.GetBuffer();
-                            long i = 0, j = m_ReceiveMS.Position;
-                            while (j < m_ReceiveMS.Length)
-                            {
-                                buffer[i] = buffer[j];
-                                ++i;
-                                ++j;
-                            }
-                            m_ReceiveMS.SetLength(i);
-                            break;
-                        }
                     }
-                    else
+                    //数据包异或
+                    SecurityUtil.XOR(content);
+                    //解压
+                    if (compressed)
                     {
-                        //消息内容接收不完整，将剩余字节移到字节流开头，等内容接收完整再解析
+                        content = ZlibHelper.DeCompressBytes(content);
+                    }
+
+                    MMO_MemoryStream ms = new MMO_MemoryStream(content);
+                    //协议ID
+                    ushort protoCode = ms.ReadUShort();
+                    //协议内容
+                    byte[] protoContent = new byte[contentCount - 2];
+                    ms.Read(protoContent, 0, protoContent.Length);
+                    //消息入队，等主线程处理
+                    lock (m_ReceivedMsgQueue)
+                    {
+                        m_ReceivedMsgQueue.Enqueue(new ReceivedMsg(protoCode, protoContent));
+                    }
+
+                    long leftCount = m_ReceiveMS.Length - m_ReceiveMS.Position;
+                    if (leftCount < 2)
+                    {
+                        //剩余不到2个字节，将剩余字节移到字节流开头，等内容接收完整再解析
                         byte[] buffer = m_ReceiveMS.GetBuffer();
                         long i = 0, j = m_ReceiveMS.Position;
                         while (j < m_ReceiveMS.Length)
@@ -311,16 +324,24 @@ public class SocketHelper: MonoBehaviour
                         break;
                     }
                 }
+                else
+                {
+                    //消息内容接收不完整，将剩余字节移到字节流开头，等内容接收完整再解析
+                    byte[] buffer = m_ReceiveMS.GetBuffer();
+                    long i = 0, j = m_ReceiveMS.Position;
+                    while (j < m_ReceiveMS.Length)
+                    {
+                        buffer[i] = buffer[j];
+                        ++i;
+                        ++j;
+                    }
+                    m_ReceiveMS.SetLength(i);
+                    break;
+                }
             }
-            //继续异步接收数据
-            m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
         }
-        else
-        {
-            //服务器断开连接
-            m_SocketStatus = SocketStatus.ConnectExceptionOccurred;
-            DebugLogger.Log($"服务器{ m_Socket.RemoteEndPoint }断开连接");
-        }
+
+        BeginReceive();
     }
     #endregion
 
@@ -330,17 +351,22 @@ public class SocketHelper: MonoBehaviour
     {
         if(m_SocketStatus == SocketStatus.Connected)
         {
-            if (m_ReceivedMsgQueue.Count > 0)
+            if (m_ReceivedMsgQueue.Count > 0)//确实有消息入队，再尝试加锁，避免每帧都进行加锁
             {
                 lock (m_ReceivedMsgQueue)
                 {
                     while (m_ReceivedMsgQueue.Count > 0)
                     {
-                        var protocolCode2Content = m_ReceivedMsgQueue.Dequeue();
-                        Dispatch(protocolCode2Content.Key, protocolCode2Content.Value);
+                        var msg = m_ReceivedMsgQueue.Dequeue();
+                        Dispatch(msg.ProtoCode, msg.ProtoContent);
                     }
                 }
             }
+        }
+        else if(m_SocketStatus == SocketStatus.ConnectExceptionOccurred)
+        {
+            m_SocketStatus = SocketStatus.Disconnected;
+            ConnectExceptionOccured?.Invoke();
         }
         else if(m_SocketStatus == SocketStatus.ConnectSucceed)
         {
@@ -351,16 +377,6 @@ public class SocketHelper: MonoBehaviour
         {
             m_SocketStatus = SocketStatus.Disconnected;
             ConnectFailed?.Invoke();
-        }
-        else if(m_SocketStatus == SocketStatus.ConnectExceptionOccurred)
-        {
-            m_SocketStatus = SocketStatus.Reconnecting;
-            ReconnectAsync();
-        }
-        else if(m_SocketStatus == SocketStatus.ReconnectSucceed)
-        {
-            m_SocketStatus = SocketStatus.Connected;
-            ReconnectSucceed?.Invoke();
         }
     }
     #endregion
@@ -401,22 +417,64 @@ public class SocketHelper: MonoBehaviour
     /// 发送消息
     /// </summary>
     /// <param name="data">二进制数据</param>
-    public void SendMsgAsync(byte[] data)
+    public void SendMsg(byte[] data)
     {
-        if(m_SocketStatus != SocketStatus.Connected)
-        {
-            throw new Exception("socket未连接");
-        }
         byte[] msg = MakeMsg(data);
-        m_Socket.BeginSend(msg, 0, msg.Length, SocketFlags.None, SendCallback, null);
+        lock (m_ToBeSentMsgQueue)
+        {
+            m_ToBeSentMsgQueue.Enqueue(msg);
+            if (!m_IsSending)
+            {
+                SendNextMsg();
+                m_IsSending = true;
+            }
+        }
     }
 
-    //发送消息的回调
+    //发送下一条消息
+    private void SendNextMsg()
+    {
+        byte[] nextMsg = m_ToBeSentMsgQueue.Peek();
+        try
+        {
+            m_Socket.BeginSend(nextMsg, 0, nextMsg.Length, SocketFlags.None, SendCallback, null);
+        }
+        catch(SocketException ex)
+        {
+            m_SocketStatus = SocketStatus.ConnectExceptionOccurred;
+            DebugLogger.Log($"与{ m_Socket.RemoteEndPoint }的连接异常，exception：{ ex.Message }");
+        }
+        catch(ObjectDisposedException)
+        {
+            //忽略
+        }
+    }
+
+    //异步发送的回调
     private void SendCallback(IAsyncResult asyncResult)
     {
         try
         {
-            m_Socket.EndSend(asyncResult);
+            int count = m_Socket.EndSend(asyncResult);
+            if (count == (int)SocketError.SocketError)
+            {
+
+            }
+            else
+            {
+                lock (m_ToBeSentMsgQueue)
+                {
+                    m_ToBeSentMsgQueue.Dequeue();
+                    if(m_ToBeSentMsgQueue.Count > 0)
+                    {
+                        SendNextMsg();
+                    }
+                    else
+                    {
+                        m_IsSending = false;
+                    }
+                }
+            }
         }
         catch(Exception ex)
         {
