@@ -71,4 +71,12 @@ public class SelelctRoleSceneController : MonoBehaviour
     {
         m_SelectRoleDragAreaController.EndHorizontalDrag -= OnEndHorizontalDrag;
     }
+
+    private void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.R)) 
+        {
+            GameServerModel.Instance.ReqLogonGameServer();
+        }
+    }
 }

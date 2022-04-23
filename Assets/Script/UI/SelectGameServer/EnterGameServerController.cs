@@ -14,6 +14,19 @@ public class EnterGameServerController : MonoBehaviour
     public GameServerBean CurSelectGameServer { get => m_CurSelectGameServer; }
     private bool m_IsOpenSelectGameServerWindow = false;
     private bool m_IsReqEnterServer = false;
+    private int m_TryConnectServerCount = 0;
+
+    private void Start()
+    {
+        SocketHelper.Instance.ConnectSucceed += OnConnectSucceed;
+        SocketHelper.Instance.ConnectFailed += OnConnectFailed;
+    }
+
+    private void OnDestroy()
+    {
+        SocketHelper.Instance.ConnectSucceed -= OnConnectSucceed;
+        SocketHelper.Instance.ConnectFailed -= OnConnectFailed;
+    }
 
     public void SetCurSelectGameServer(GameServerBean curSelectGameServer)
     {
@@ -40,7 +53,7 @@ public class EnterGameServerController : MonoBehaviour
 
     public async void OnCllickEnterGameServer()
     {
-        if (m_IsReqEnterServer)
+        if (m_IsReqEnterServer || m_TryConnectServerCount > 0)
         {
             return;
         }
@@ -50,24 +63,37 @@ public class EnterGameServerController : MonoBehaviour
         {
             return;
         }
-        if(!requestResult.IsSuccess || requestResult.ResponseData.Code != 0)
+        m_IsReqEnterServer = false;
+        if (!requestResult.IsSuccess || requestResult.ResponseData.Code != 0)
         {
-            m_IsReqEnterServer = false;
             return;
         }
         ConnectGameServer();
     }
 
-    private void ConnectGameServer()
+    //连接区服成功回调
+    private void OnConnectSucceed()
     {
-        bool isSuccess = SocketHelper.Instance.Connect(m_CurSelectGameServer.Ip, m_CurSelectGameServer.Port);
-        if(isSuccess)
+        LoadingSceneController.LoadSceneFromAssetBundle(AssetBundlePath.SelectRoleScene, SceneName.SelectRole);
+    }
+
+    private void OnConnectFailed()
+    {
+        if(m_TryConnectServerCount < 5)
         {
-            LoadingSceneController.LoadSceneFromAssetBundle(AssetBundlePath.SelectRoleScene, SceneName.SelectRole);
+            ConnectGameServer();
         }
         else
         {
-            MessageWindow.Show(transform, "提示", "连接游戏服务器失败，请重试", true, false, ConnectGameServer);
+            m_TryConnectServerCount = 0;
+            MessageWindow.Show(transform, "提示", "连接游戏服务器失败，请重试", true, false);
         }
+    }
+
+    //连接区服失败回调
+    private void ConnectGameServer()
+    {
+        ++m_TryConnectServerCount;
+        SocketHelper.Instance.ConnectAsync(m_CurSelectGameServer.Ip, m_CurSelectGameServer.Port);
     }
 }
