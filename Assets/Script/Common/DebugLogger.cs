@@ -4,24 +4,29 @@
 //备    注：
 //===============================================
 
-using UnityEngine;
+using System.Diagnostics;
+
 /// <summary>
 /// 调式模式日志
 /// 需要格式化字符串的使用模板字符串
 /// </summary>
 public class DebugLogger
 {
+    [Conditional(ScriptingDefineSymbols.DebugLog)]
     public static void Log(object message)
     {
-#if DEBUG_LOG
-        Debug.Log(message);
-#endif
+        UnityEngine.Debug.Log(message);
     }
 
+    [Conditional(ScriptingDefineSymbols.DebugLog)]
     public static void LogError(object message)
     {
-#if DEBUG_LOG
-        Debug.LogError(message);
-#endif
+        UnityEngine.Debug.LogError(message);
+    }
+
+    [Conditional(ScriptingDefineSymbols.DebugLog)]
+    public static void LogWarning(object message)
+    {
+        UnityEngine.Debug.LogWarning(message);
     }
 }

@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Security;
+using System.Threading;
 using UnityEngine;
 
 /// <summary>
@@ -16,19 +18,12 @@ public class SocketHelper: MonoBehaviour
 {
     #region 单例
     private SocketHelper() { }
-    private static SocketHelper instance;
-    public static SocketHelper Instance
+    public static readonly SocketHelper Instance;
+    static SocketHelper()
     {
-        get
-        {
-            if (instance == null)
-            {
-                GameObject obj = new GameObject(nameof(SocketHelper));
-                DontDestroyOnLoad(obj);
-                instance = obj.AddComponent<SocketHelper>();
-            }
-            return instance;
-        }
+        GameObject obj = new GameObject(nameof(SocketHelper));
+        DontDestroyOnLoad(obj);
+        Instance = obj.AddComponent<SocketHelper>();
     }
     #endregion
 
@@ -43,16 +38,13 @@ public class SocketHelper: MonoBehaviour
     /// <param name="handler"></param>
     public void AddListener(ushort protoCode, Action<byte[]> handler)
     {
-        if (m_SocketMsgHandlerDic.ContainsKey(protoCode))
+        HashSet<Action<byte[]>> handlerSet;
+        if(!m_SocketMsgHandlerDic.TryGetValue(protoCode, out handlerSet))
         {
-            m_SocketMsgHandlerDic[protoCode].Add(handler);
+            handlerSet = new HashSet<Action<byte[]>>();
+            m_SocketMsgHandlerDic.Add(protoCode, handlerSet);
         }
-        else
-        {
-            var handlerSet = new HashSet<Action<byte[]>>();
-            handlerSet.Add(handler);
-            m_SocketMsgHandlerDic[protoCode] = handlerSet;
-        }
+        handlerSet.Add(handler);
     }
 
     /// <summary>
@@ -62,37 +54,36 @@ public class SocketHelper: MonoBehaviour
     /// <param name="handler"></param>
     public void RemoveListener(ushort protoCode, Action<byte[]> handler)
     {
-        if (m_SocketMsgHandlerDic.ContainsKey(protoCode))
-        {
-            m_SocketMsgHandlerDic[protoCode].Remove(handler);
-        }
+        m_SocketMsgHandlerDic[protoCode].Remove(handler);
     }
 
     //派发消息
     private void Dispatch(ushort protoCode, byte[] buffer)
     {
-        if (m_SocketMsgHandlerDic.ContainsKey(protoCode))
+        HashSet<Action<byte[]>> handlerSet;
+        if(m_SocketMsgHandlerDic.TryGetValue(protoCode, out handlerSet))
         {
-            
-            var handlerSet = m_SocketMsgHandlerDic[protoCode];
-            if(handlerSet.Count > 0)
+            if (handlerSet.Count > 0)
             {
                 DebugLogger.Log($"派发Socket消息，协议ID：{ protoCode }");
-            }
-            else
-            {
-                DebugLogger.Log($"消息没有处理器，协议ID：{ protoCode }");
-            }
-            foreach (var handler in handlerSet)
-            {
-                handler(buffer);
+                foreach (var handler in handlerSet)
+                {
+                    handler(buffer);
+                }
+                return;
             }
         }
-        else
-        {
-            DebugLogger.Log($"消息没有处理器，协议ID：{ protoCode }");
-        }
+
+        DebugLogger.Log($"消息没有处理器，协议ID：{ protoCode }");
     }
+    #endregion
+
+    #region socket对象
+    //socket对象
+    private Socket m_Socket;
+
+    //锁对象
+    private readonly object m_Lock = new object();
     #endregion
 
     #region 事件
@@ -109,41 +100,38 @@ public class SocketHelper: MonoBehaviour
     /// <summary>
     /// 连接发生异常事件
     /// </summary>
-    public event Action ConnectExceptionOccured;
+    public event Action ConnectionExceptionOccured;
     #endregion
 
-    //socket对象
-    private Socket m_Socket;
-
-    //当前ip和端口号
-    private IPEndPoint m_IPEndPoint;
-
-    #region socket状态
-    //socket状态枚举
-    private enum SocketStatus
+    #region 状态枚举
+    //状态枚举
+    private enum SocketHelperStatus: byte
     {
         Disconnected,//未连接
         Connecting,//正在连接
         ConnectSucceed,//连接成功
-        ConnectFailed,//连接失败
+        ConnectFailed,//连接失败。用于异步连接回调中发现连接失败后，能在主线程中处理
         Connected,//已连接
-        ConnectExceptionOccurred,//连接发生异常
+        ConnectionExceptionOccurred,//连接发生异常
     }
 
-    //socket连接状态
-    private volatile SocketStatus m_SocketStatus = SocketStatus.Disconnected;
+    //状态
+    private SocketHelperStatus m_Status = SocketHelperStatus.Disconnected;
+    //尝试连接成功的信息
+    private string m_ConnectSucceedInfo;
+    //尝试连接失败的信息
+    private string m_ConnectFailedInfo;
+    //连接发生异常的信息
+    private string m_ConnectionExceptionOccurredInfo;
     #endregion
 
-    //进行压缩的长度下限
-    private const int m_compressLength = 200;
-
+    #region 接收相关
     //接收数据包的字节数组缓冲区
     private byte[] m_ReceiveBuffer = new byte[2048];
 
     //接收数据包的缓冲数据流
     private MMO_MemoryStream m_ReceiveMS = new MMO_MemoryStream();
 
-    #region 已接收的消息队列、待发送的消息队列
     //已接收的消息类型
     private struct ReceivedMsg
     {
@@ -158,15 +146,71 @@ public class SocketHelper: MonoBehaviour
 
     //已接收的消息队列
     private Queue<ReceivedMsg> m_ReceivedMsgQueue = new Queue<ReceivedMsg>();
+    #endregion
+
+    #region 发送相关
+    //发送线程
+    private Thread m_SendThread;
+
+    //检查未发送消息的事件
+    private AutoResetEvent m_CheckToBeSentMsgEvent = new AutoResetEvent(false);
 
     //待发送的消息队列
     private Queue<byte[]> m_ToBeSentMsgQueue = new Queue<byte[]>();
 
-    //是否正在发送消息
-    private volatile bool m_IsSending = false;
+    //进行压缩的长度下限
+    private const int m_compressLength = 200;
     #endregion
 
-    #region 异步连接：连接成功，派发ConnectSucceed；连接失败或出现异常，派发ConnectFailed。连接期间调用Close，不派发任何事件
+    #region Awake
+    private void Awake()
+    {
+        m_SendThread = new Thread(() =>
+        {
+            while(true)
+            {
+                lock (m_Lock)
+                {
+                    if (m_Status == SocketHelperStatus.Connected)
+                    {
+                        lock (m_ToBeSentMsgQueue)
+                        {
+                            if (m_ToBeSentMsgQueue.Count > 0)
+                            {
+                                try
+                                {
+                                    byte[] msg = m_ToBeSentMsgQueue.Peek();
+                                    m_Socket.BeginSend(msg, 0, msg.Length, SocketFlags.None, SendCallback, m_Socket);
+                                }
+                                catch (SocketException ex)
+                                {
+                                    m_Status = SocketHelperStatus.ConnectionExceptionOccurred;
+                                    var iep = (IPEndPoint)m_Socket.RemoteEndPoint;
+                                    m_ConnectionExceptionOccurredInfo = $"与{ iep.Address }:{ iep.Port }的连接异常，exception：{ ex }";
+                                    m_Socket.Shutdown(SocketShutdown.Both);
+                                    m_Socket.Close();
+                                    m_Socket = null;
+                                    lock(m_ToBeSentMsgQueue)
+                                    {
+                                        m_ToBeSentMsgQueue.Clear();
+                                    }
+                                }
+                                catch(ObjectDisposedException)
+                                {
+
+                                }
+                            }
+                        }
+                    }
+                }
+                m_CheckToBeSentMsgEvent.WaitOne();
+            }
+        });
+        m_SendThread.Start();
+    }
+    #endregion
+
+    #region 异步连接：连接成功，派发ConnectSucceed事件；连接失败或出现异常，派发ConnectFailed事件
     /// <summary>
     /// 异步连接
     /// </summary>
@@ -174,97 +218,220 @@ public class SocketHelper: MonoBehaviour
     /// <param name="port">端口号</param>
     public void BeginConnect(string ip, int port)
     {
-        m_SocketStatus = SocketStatus.Connecting;
-        m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        var iep = new IPEndPoint(IPAddress.Parse(ip), port);
-        try
+        lock(m_Lock)
         {
-            m_Socket.BeginConnect(iep, ConnectCallback, iep);
-        }
-        catch(SocketException ex)
-        {
-            DebugLogger.Log($"尝试连接{ iep.Address }:{ iep.Port }时发生异常，exception：{ ex.Message }");
-            m_SocketStatus = SocketStatus.Disconnected;
-            ConnectFailed?.Invoke();
+            if (m_Status != SocketHelperStatus.Disconnected)
+            {
+                throw new InvalidOperationException($"{ nameof(SocketHelper) }处于{ SocketHelperStatus.Disconnected }状态才能调用{ nameof(BeginConnect) }。当前状态为{ m_Status }");
+            }
+            m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            var iep = new IPEndPoint(IPAddress.Parse(ip), port);
+            try
+            {
+                m_Socket.BeginConnect(iep, ConnectCallback, m_Socket);
+                m_Status = SocketHelperStatus.Connecting;
+            }
+            catch (SocketException ex)
+            {
+                m_Status = SocketHelperStatus.ConnectFailed;
+                m_Socket.Close();
+                m_Socket = null;
+                m_ConnectionExceptionOccurredInfo = $"尝试连接{ iep.Address }:{ iep.Port }时发生异常，exception：\n{ ex }";
+            }
+            catch (SecurityException ex)
+            {
+                m_Status = SocketHelperStatus.ConnectFailed;
+                m_Socket.Close();
+                m_Socket = null;
+                m_ConnectionExceptionOccurredInfo = $"连接操作没有权限，exception:\n{ ex }";
+            }
         }
     }
 
     //异步连接的回调
     private void ConnectCallback(IAsyncResult ar)
     {
-        var iep = (IPEndPoint)ar;
-        try
+        var socket = (Socket)ar.AsyncState;
+        lock (m_Lock)
         {
-            m_Socket.EndConnect(ar);
-        }
-        catch(SocketException ex)
-        {
-            m_SocketStatus = SocketStatus.ConnectFailed;
-            DebugLogger.Log($"尝试连接{ iep.Address }:{ iep.Port }时发生异常，exception：{ ex.Message }");
-            return;
-        }
-
-        if (m_Socket.Connected)
-        {
-            m_SocketStatus = SocketStatus.ConnectSucceed;
-            DebugLogger.Log($"尝试连接{ iep.Address }:{ iep.Port }成功");
-            lock (m_ToBeSentMsgQueue)
+            if (m_Status != SocketHelperStatus.Connecting || socket != m_Socket)
             {
-                if(m_ToBeSentMsgQueue.Count > 0)
-                {
-                    SendNextMsg();
-                    m_IsSending = true;
-                }
+                return;
             }
-            BeginReceive();
-        }
-        else
-        {
-            m_SocketStatus = SocketStatus.ConnectFailed;
-            DebugLogger.Log($"尝试连接{ iep.Address }:{ iep.Port }失败");
+            try
+            {
+                m_Socket.EndConnect(ar);
+            }
+            catch (SocketException ex)
+            {
+                m_Status = SocketHelperStatus.ConnectFailed;
+                var iep1 = (IPEndPoint)m_Socket.RemoteEndPoint;
+                m_ConnectFailedInfo = $"尝试连接{ iep1.Address }:{ iep1.Port }时发生异常，exception：\n{ ex }";
+                m_Socket.Close();
+                m_Socket = null;
+                return;
+            }
+            catch (ObjectDisposedException)
+            {
+                return;
+            }
+
+            var iep2 = (IPEndPoint)m_Socket.RemoteEndPoint;
+            if (m_Socket.Connected)
+            {
+                m_Status = SocketHelperStatus.ConnectSucceed;
+                m_ConnectSucceedInfo = $"尝试连接{ iep2.Address }:{ iep2.Port }成功";
+            }
+            else
+            {
+                m_Status = SocketHelperStatus.ConnectFailed;
+                m_Socket.Close();
+                m_Socket = null;
+                m_ConnectFailedInfo = $"尝试连接{ iep2.Address }:{ iep2.Port }失败";
+            }
         }
     }
     #endregion
 
-    #region 异步接收：出现异常或服务器断开连接，派发ConnectExceptionOccurred
+    #region Update循环
+    //主线程Update循环
+    private void Update()
+    {
+        lock (m_Lock)
+        {
+            if (m_Status == SocketHelperStatus.Connected)
+            {
+                lock (m_ReceivedMsgQueue)
+                {
+                    while (m_ReceivedMsgQueue.Count > 0)
+                    {
+                        var msg = m_ReceivedMsgQueue.Dequeue();
+                        Dispatch(msg.ProtoCode, msg.ProtoContent);
+                    }
+                }
+            }
+            else if (m_Status == SocketHelperStatus.ConnectionExceptionOccurred)
+            {
+                m_Status = SocketHelperStatus.Disconnected;
+                DebugLogger.LogError(m_ConnectionExceptionOccurredInfo);
+                m_ConnectionExceptionOccurredInfo = null;
+                ConnectionExceptionOccured?.Invoke();
+            }
+            else if (m_Status == SocketHelperStatus.ConnectFailed)
+            {
+                m_Status = SocketHelperStatus.Disconnected;
+                DebugLogger.LogError(m_ConnectFailedInfo);
+                m_ConnectFailedInfo = null;
+                ConnectFailed?.Invoke();
+            }
+            else if (m_Status == SocketHelperStatus.ConnectSucceed)
+            {
+                m_Status = SocketHelperStatus.Connected;
+                DebugLogger.Log(m_ConnectSucceedInfo);
+                m_ConnectSucceedInfo = null;
+                ConnectSucceed?.Invoke();
+                BeginReceive();
+            }
+        }
+    }
+    #endregion
+
+    #region 异步接收：出现SocketException异常或服务器断开连接，派发ConnectExceptionOccurred事件。出现ObjectDisposedException异常，忽略
     //异步接收
     private void BeginReceive()
     {
         try
         {
-            m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
+            m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, m_Socket);
         }
-        catch(SocketException ex)
+        catch (SocketException ex)
         {
-            m_SocketStatus = SocketStatus.ConnectExceptionOccurred;
-            DebugLogger.Log($"与{ m_Socket.RemoteEndPoint }的连接异常，exception：{ ex.Message }");
+            m_Status = SocketHelperStatus.ConnectionExceptionOccurred;
+            var ipe = (IPEndPoint)m_Socket.RemoteEndPoint;
+            m_ConnectionExceptionOccurredInfo = $"与{ ipe.Address }:{ ipe.Port }的连接发生异常，exception：{ ex }";
+            m_Socket.Shutdown(SocketShutdown.Both);
+            m_Socket.Close();
+            m_Socket = null;
+            lock (m_ToBeSentMsgQueue)
+            {
+                m_ToBeSentMsgQueue.Clear();
+            }
+        }
+        catch (ObjectDisposedException)
+        {
+            
         }
     }
 
     //接收数据的回调
     private void ReceiveCallback(IAsyncResult ar)
     {
+        var socket = (Socket)ar.AsyncState;
         int count;
-        try
+        lock (m_Lock)
         {
-            count = m_Socket.EndReceive(ar);
-        }
-        catch (Exception ex)
-        {
-            m_SocketStatus = SocketStatus.ConnectExceptionOccurred;
-            DebugLogger.Log($"与{ m_Socket.RemoteEndPoint }的连接异常，exception：{ ex.Message }");
-            return;
+            if (m_Status != SocketHelperStatus.Connected || socket != m_Socket)
+            {
+                return;
+            }
+            try
+            {
+                count = m_Socket.EndReceive(ar);
+            }
+            catch (SocketException ex)
+            {
+                m_Status = SocketHelperStatus.ConnectionExceptionOccurred;
+                var iep = (IPEndPoint)m_Socket.RemoteEndPoint;
+                m_ConnectionExceptionOccurredInfo = $"与{ iep.Address }:{ iep.Port }的连接异常，exception：{ ex }";
+                m_Socket.Shutdown(SocketShutdown.Both);
+                m_Socket.Close();
+                m_Socket = null;
+                lock (m_ToBeSentMsgQueue)
+                {
+                    m_ToBeSentMsgQueue.Clear();
+                }
+                return;
+            }
+            catch (ObjectDisposedException)
+            {
+                return;
+            }
+
+            if (count == 0)
+            {
+                m_Status = SocketHelperStatus.ConnectionExceptionOccurred;
+                var iep = (IPEndPoint)m_Socket.RemoteEndPoint;
+                m_ConnectionExceptionOccurredInfo = $"服务器{ iep.Address }:{ iep.Port }断开连接";
+                m_Socket.Shutdown(SocketShutdown.Both);
+                m_Socket.Close();
+                m_Socket = null;
+                lock (m_ToBeSentMsgQueue)
+                {
+                    m_ToBeSentMsgQueue.Clear();
+                }
+                return;
+            }
         }
 
-        if(count == 0)
+        lock (m_ReceiveMS)//防止多个ReceiveCallback回调并发修改
         {
-            m_SocketStatus = SocketStatus.ConnectExceptionOccurred;
-            DebugLogger.Log($"服务器{ m_Socket.RemoteEndPoint }断开连接");
-            return;
+            //把接收的字节写入字节流的尾部
+            m_ReceiveMS.Write(m_ReceiveBuffer, 0, count);
+            ParseMsg();
         }
 
-        //把接收的字节写入字节流的尾部
-        m_ReceiveMS.Write(m_ReceiveBuffer, 0, count);
+        lock(m_Lock)
+        {
+            if(m_Status == SocketHelperStatus.Connected && socket == m_Socket)
+            {
+                BeginReceive();
+            }
+        }
+    }
+
+    //解析消息
+    private void ParseMsg()
+    {
         //字节流长度达到2个字节，至少消息的数据包长度接收完成
         if (m_ReceiveMS.Length >= 2)
         {
@@ -284,28 +451,31 @@ public class SocketHelper: MonoBehaviour
                     byte[] content = new byte[contentCount - 3];
                     m_ReceiveMS.Read(content, 0, content.Length);
                     //crc16校验
-                    if (Crc16.CalculateCrc16(content) != crc16)
+                    if (Crc16.CalculateCrc16(content) == crc16)
                     {
+                        //数据包异或
+                        SecurityUtil.XOR(content);
+                        //解压
+                        if (compressed)
+                        {
+                            content = ZlibHelper.DeCompressBytes(content);
+                        }
 
+                        MMO_MemoryStream ms = new MMO_MemoryStream(content);
+                        //协议ID
+                        ushort protoCode = ms.ReadUShort();
+                        //协议内容
+                        byte[] protoContent = new byte[contentCount - 2];
+                        ms.Read(protoContent, 0, protoContent.Length);
+                        //消息入队，等主线程处理
+                        lock (m_ReceivedMsgQueue)
+                        {
+                            m_ReceivedMsgQueue.Enqueue(new ReceivedMsg(protoCode, protoContent));
+                        }
                     }
-                    //数据包异或
-                    SecurityUtil.XOR(content);
-                    //解压
-                    if (compressed)
+                    else
                     {
-                        content = ZlibHelper.DeCompressBytes(content);
-                    }
-
-                    MMO_MemoryStream ms = new MMO_MemoryStream(content);
-                    //协议ID
-                    ushort protoCode = ms.ReadUShort();
-                    //协议内容
-                    byte[] protoContent = new byte[contentCount - 2];
-                    ms.Read(protoContent, 0, protoContent.Length);
-                    //消息入队，等主线程处理
-                    lock (m_ReceivedMsgQueue)
-                    {
-                        m_ReceivedMsgQueue.Enqueue(new ReceivedMsg(protoCode, protoContent));
+                        //收到的数据包没通过crc16校验，丢弃
                     }
 
                     long leftCount = m_ReceiveMS.Length - m_ReceiveMS.Position;
@@ -340,50 +510,12 @@ public class SocketHelper: MonoBehaviour
                 }
             }
         }
-
-        BeginReceive();
-    }
-    #endregion
-
-    #region Update循环
-    //主线程Update循环
-    private void Update()
-    {
-        if(m_SocketStatus == SocketStatus.Connected)
-        {
-            if (m_ReceivedMsgQueue.Count > 0)//确实有消息入队，再尝试加锁，避免每帧都进行加锁
-            {
-                lock (m_ReceivedMsgQueue)
-                {
-                    while (m_ReceivedMsgQueue.Count > 0)
-                    {
-                        var msg = m_ReceivedMsgQueue.Dequeue();
-                        Dispatch(msg.ProtoCode, msg.ProtoContent);
-                    }
-                }
-            }
-        }
-        else if(m_SocketStatus == SocketStatus.ConnectExceptionOccurred)
-        {
-            m_SocketStatus = SocketStatus.Disconnected;
-            ConnectExceptionOccured?.Invoke();
-        }
-        else if(m_SocketStatus == SocketStatus.ConnectSucceed)
-        {
-            m_SocketStatus = SocketStatus.Connected;
-            ConnectSucceed?.Invoke();
-        }
-        else if(m_SocketStatus == SocketStatus.ConnectFailed)
-        {
-            m_SocketStatus = SocketStatus.Disconnected;
-            ConnectFailed?.Invoke();
-        }
     }
     #endregion
 
     #region 异步发送数据
     //封装数据包
-    private byte[] MakeMsg(byte[] data) 
+    private byte[] MakeMsg(byte[] data)
     {
         //消息格式：数据包长度(ushort)|压缩标志(bool)|crc16(ushort)|先压缩后异或的数据包
         MMO_MemoryStream ms = new MMO_MemoryStream();
@@ -414,91 +546,109 @@ public class SocketHelper: MonoBehaviour
     }
 
     /// <summary>
-    /// 发送消息
+    /// 异步发送
     /// </summary>
     /// <param name="data">二进制数据</param>
-    public void SendMsg(byte[] data)
+    public void BeginSend(byte[] data)
     {
-        byte[] msg = MakeMsg(data);
-        lock (m_ToBeSentMsgQueue)
+        lock (m_Lock)
         {
-            m_ToBeSentMsgQueue.Enqueue(msg);
-            if (!m_IsSending)
+            if(m_Status != SocketHelperStatus.Connected)
             {
-                SendNextMsg();
-                m_IsSending = true;
+                return;
             }
-        }
-    }
-
-    //发送下一条消息
-    private void SendNextMsg()
-    {
-        byte[] nextMsg = m_ToBeSentMsgQueue.Peek();
-        try
-        {
-            m_Socket.BeginSend(nextMsg, 0, nextMsg.Length, SocketFlags.None, SendCallback, null);
-        }
-        catch(SocketException ex)
-        {
-            m_SocketStatus = SocketStatus.ConnectExceptionOccurred;
-            DebugLogger.Log($"与{ m_Socket.RemoteEndPoint }的连接异常，exception：{ ex.Message }");
-        }
-        catch(ObjectDisposedException)
-        {
-            //忽略
+            lock (m_ToBeSentMsgQueue)
+            {
+                m_ToBeSentMsgQueue.Enqueue(MakeMsg(data));
+                if(m_ToBeSentMsgQueue.Count == 1)
+                {
+                    m_CheckToBeSentMsgEvent.Set();
+                }
+            }
         }
     }
 
     //异步发送的回调
     private void SendCallback(IAsyncResult asyncResult)
     {
-        try
+        var socket = (Socket)asyncResult.AsyncState;
+        lock (m_Lock)
         {
-            int count = m_Socket.EndSend(asyncResult);
-            if (count == (int)SocketError.SocketError)
+            if(m_Status != SocketHelperStatus.Connected || socket != m_Socket)
             {
-
+                return;
             }
-            else
+            try
             {
+                int count = m_Socket.EndSend(asyncResult);
                 lock (m_ToBeSentMsgQueue)
                 {
-                    m_ToBeSentMsgQueue.Dequeue();
-                    if(m_ToBeSentMsgQueue.Count > 0)
+                    if (count == m_ToBeSentMsgQueue.Peek().Length)
                     {
-                        SendNextMsg();
+                        //消息发送完整
+                        m_ToBeSentMsgQueue.Dequeue();
                     }
-                    else
+                    else if(count >= 0)
                     {
-                        m_IsSending = false;
+                        //消息未发送完整
+                        byte[] msg = m_ToBeSentMsgQueue.Dequeue();
+                        byte[] restMsg = new byte[msg.Length - count];//消息的剩余未发送的字节
+                        Array.Copy(msg, count, restMsg, 0, restMsg.Length);
+                        m_ToBeSentMsgQueue.Enqueue(restMsg);
                     }
                 }
+                m_CheckToBeSentMsgEvent.Set();
+            }
+            catch (SocketException ex)
+            {
+                m_Status = SocketHelperStatus.ConnectionExceptionOccurred;
+                var iep = (IPEndPoint)m_Socket.RemoteEndPoint;
+                m_ConnectionExceptionOccurredInfo = $"与{ iep.Address }:{ iep.Port }的连接异常，exception：{ ex }";
+                m_Socket.Shutdown(SocketShutdown.Both);
+                m_Socket.Close();
+                m_Socket = null;
+                lock (m_ToBeSentMsgQueue)
+                {
+                    m_ToBeSentMsgQueue.Clear();
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                
             }
         }
-        catch(Exception ex)
-        {
-            m_SocketStatus = SocketStatus.ConnectExceptionOccurred;
-            DebugLogger.Log($"与{ m_Socket.RemoteEndPoint }的连接异常，exception：{ ex.Message }");
-        }
-        
     }
     #endregion
 
     #region 关闭连接
     /// <summary>
-    /// 关闭Socket连接
+    /// 关闭连接
     /// </summary>
     public void Close()
     {
-        if(m_SocketStatus != SocketStatus.Connected)
+        lock(m_Lock)
         {
-            throw new Exception("socket未连接");
+            if (m_Status == SocketHelperStatus.Disconnected)
+            {
+                throw new InvalidOperationException($"{ nameof(SocketHelper) }处于{ SocketHelperStatus.Disconnected }状态才能调用{ nameof(Close) }。当前状态为{ m_Status }");
+            }
+            m_Status = SocketHelperStatus.Disconnected;
+            var iep = (IPEndPoint)m_Socket.RemoteEndPoint;
+            try
+            {
+                m_Socket.Shutdown(SocketShutdown.Both);
+            }
+            finally
+            {
+                m_Socket.Close();
+                m_Socket = null;
+                DebugLogger.Log($"关闭与{ iep.Address }:{ iep.Port }的连接");
+            }
+            lock(m_ToBeSentMsgQueue)
+            {
+                m_ToBeSentMsgQueue.Clear();
+            }
         }
-        m_Socket.Shutdown(SocketShutdown.Both);
-        m_Socket.Close();
-        m_SocketStatus = SocketStatus.Disconnected;
-        m_Socket = null;
     }
     #endregion
 }

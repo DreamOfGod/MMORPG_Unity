@@ -79,7 +79,7 @@ public class GameServerModel: IModel
     {
         var protocol = new RoleOperation_LogOnGameServerProto();
         protocol.AccountId = AccountModel.Instance.AccountID;
-        SocketHelper.Instance.SendMsg(protocol.ToArray());
+        SocketHelper.Instance.BeginSend(protocol.ToArray());
     }
     #endregion
 }

@@ -19,7 +19,8 @@ public class InitSceneController : MonoBehaviour
     void Start()
     {
         InitAllModel();
-        ReqServerTimeTaskAsync();
+        //ReqServerTimeTaskAsync();
+        SocketHelper.Instance.BeginConnect("127.0.0.1", 1011);
     }
 
     private void InitAllModel()
