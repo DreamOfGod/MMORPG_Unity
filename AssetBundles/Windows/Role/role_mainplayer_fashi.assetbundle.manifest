@@ -1,0 +1,39 @@
+ManifestFileVersion: 0
+CRC: 217860616
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2355be72a6dd6e6ee52de3cbf9725034
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 870ba6688ca7d4b224c049a232a30497
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: d717fc5e8980e7241906bf35443d7f1d, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 143
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/AllPrefab/RolePrefab/Player/Role_MainPlayer_Fashi.prefab
+Dependencies: []

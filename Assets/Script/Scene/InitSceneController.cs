@@ -19,20 +19,20 @@ public class InitSceneController : MonoBehaviour
     void Start()
     {
         InitAllModel();
-        //ReqServerTimeTaskAsync();
-        SocketHelper.Instance.ConnectSucceed += () => 
-        {
-            DebugLogger.Log("连接成功111111111111");
-        };
-        SocketHelper.Instance.ConnectFailed += () =>
-        {
-            DebugLogger.Log("连接失败111111111111");
-        };
-        SocketHelper.Instance.ConnectionExceptionOccured += () =>
-        {
-            DebugLogger.Log("连接发生异常111111111111");
-        };
-        SocketHelper.Instance.BeginConnect("127.0.0.1", 1011);
+        ReqServerTimeTaskAsync();
+        //SocketHelper.Instance.ConnectSucceed += () => 
+        //{
+        //    DebugLogger.Log("连接成功111111111111");
+        //};
+        //SocketHelper.Instance.ConnectFailed += () =>
+        //{
+        //    DebugLogger.Log("连接失败111111111111");
+        //};
+        //SocketHelper.Instance.ConnectionExceptionOccured += () =>
+        //{
+        //    DebugLogger.Log("连接发生异常111111111111");
+        //};
+        //SocketHelper.Instance.BeginConnect("192.168.1.4", 1011);
     }
 
     private void InitAllModel()
