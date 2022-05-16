@@ -10,18 +10,7 @@ public class TimeModel
 {
     #region 单例
     private TimeModel() { }
-    private static TimeModel m_Instance;
-    public static TimeModel Instance
-    {
-        get
-        {
-            if (m_Instance == null)
-            {
-                m_Instance = new TimeModel();
-            }
-            return m_Instance;
-        }
-    }
+    public static readonly TimeModel Instance = new TimeModel();
     #endregion
 
     /// <summary>

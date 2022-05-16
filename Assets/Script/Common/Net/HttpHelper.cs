@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
- 
+
 /// <summary>
 /// Http通讯帮助类
 /// </summary>
@@ -24,75 +24,54 @@ public class HttpHelper
 
     #region 单例
     private HttpHelper() { }
-    private static HttpHelper m_Instance;
-    public static HttpHelper Instance
-    {
-        get
-        {
-            if(m_Instance == null)
-            {
-                m_Instance = new HttpHelper();
-            }
-            return m_Instance;
-        }
-    }
+    public static readonly HttpHelper Instance = new HttpHelper();
     #endregion
 
-    #region Http请求的本地编号
-    private int m_HttpRequestLocalID = 0;
+    #region 请求的本地序号
+    private int m_ReqLocalSeqNum = 0;
     #endregion
 
     #region 计算字符串MD5，并转成十六进制字符串
-    /// <summary>
-    /// 计算字符串MD5，并转成十六进制字符串
-    /// </summary>
-    /// <param name="str">原始字符串</param>
-    /// <returns>十六进制MD5字符串</returns>
+    //计算字符串MD5，并转成十六进制字符串
     private string MD5Hex(string str)
     {
-        byte[] bytes = Encoding.Unicode.GetBytes(str);
+        var bytes = Encoding.Unicode.GetBytes(str);
         bytes = MD5.Create().ComputeHash(bytes);
-        StringBuilder hexSb = new StringBuilder();
-        foreach (byte b in bytes)
+        var hexSb = new StringBuilder();
+        for (var i = 0; i < bytes.Length; ++i)
         {
-            hexSb.AppendFormat("{0: X2}", b);
+            hexSb.AppendFormat("{0: X2}", bytes[i]);
         }
         return hexSb.ToString();
     }
     #endregion
 
     #region 在URL中添加签名参数
-    /// <summary>
-    /// 在URL中添加签名参数
-    /// </summary>
-    /// <param name="url">url</param>
-    /// <returns>新的url字符串</returns>
+    //在URL中添加签名参数
     private string AddSign(string url)
     {
-        int idx = url.IndexOf('?');
+        var sb = new StringBuilder();
+        sb.Append(url);
+        var idx = url.IndexOf('?');
         if (idx < 0)
         {
-            url += '?';
-
+            sb.Append('?');
         }
         else if (idx < url.Length - 1 && url[url.Length - 1] != '&')
         {
-            url += '&';
+            sb.Append('&');
         }
-        StringBuilder sb = new StringBuilder();
+        
         sb.Append($"DeviceIdentifier={ SystemInfo.deviceUniqueIdentifier }&");
         sb.Append($"Time={ TimeModel.Instance.ServerTimeMillionsecond }&");
-        string md5HexStr = MD5Hex($"{ SystemInfo.deviceUniqueIdentifier }:{ TimeModel.Instance.ServerTimeMillionsecond }");
+        var md5HexStr = MD5Hex($"{ SystemInfo.deviceUniqueIdentifier }:{ TimeModel.Instance.ServerTimeMillionsecond }");
         sb.Append($"Sign={ md5HexStr }");
-        return $"{ url }{ sb }";
+        return sb.ToString();
     }
     #endregion
 
-    #region 在字典中添加签名参数
-    /// <summary>
-    /// 在字典中添加签名参数
-    /// </summary>
-    /// <param name="dic">字典</param>
+    #region 在表单中添加签名参数
+    //在表单中添加签名参数
     private void AddSign(WWWForm form)
     {
         form.AddField("DeviceIdentifier", SystemInfo.deviceUniqueIdentifier);
@@ -104,7 +83,6 @@ public class HttpHelper
     #region 基于任务的异步Get
     /// <summary>
     /// 基于任务的异步Get
-    /// 默认情况下，异步方法将在主unity线程上运行，因为Unity提供了一个默认的SynchronizationContext，称为UnitySynchronizationContext，它自动收集在每个帧中排队的所有异步代码，并继续在主要unity线程上运行它们
     /// </summary>
     /// <typeparam name="RespDataType">响应的数据的类型</typeparam>
     /// <param name="url">url</param>
@@ -113,20 +91,20 @@ public class HttpHelper
     {
         url = AddSign(url);
         var request = UnityWebRequest.Get(url);
-        int requestID = m_HttpRequestLocalID++;
+        var reqSeqNum = m_ReqLocalSeqNum++;
 
-        string logString =
+        var logStr =
 $@"发送GET请求
-    request ID:{ requestID }
+    req seq num:{ reqSeqNum }
     url:{ url }
 ";
-        DebugLogger.Log(logString);
+        DebugLogger.Log(logStr);
 
         await request.SendWebRequest();
 
-        logString =
+        logStr =
 $@"GET请求响应
-    request ID:{ requestID }
+    req seq num:{ reqSeqNum }
     url:{ request.url }
     result:{ request.result }
     responseCode:{ request.responseCode }
@@ -134,7 +112,7 @@ $@"GET请求响应
     text:{ request.downloadHandler.text }
 ";
 
-        DebugLogger.Log(logString);
+        DebugLogger.Log(logStr);
 
         var requestResult = new RequestResult<RespDataType>();
         requestResult.Result = request.result;
@@ -162,27 +140,27 @@ $@"GET请求响应
         }
         AddSign(form);
         var request = UnityWebRequest.Post(url, form);
-        int requestID = m_HttpRequestLocalID++;
-        string logString =
+        var reqSeqNum = m_ReqLocalSeqNum++;
+        var logStr =
 $@"发送POST请求
-    request ID:{ requestID }
+    req seq num:{ reqSeqNum }
     url:{ url }
     参数:{ form }
 ";
-        DebugLogger.Log(logString);
+        DebugLogger.Log(logStr);
 
         await request.SendWebRequest();
 
-        logString =
+        logStr =
 $@"POST请求响应
-    request ID:{ requestID }
+    req seq num:{ reqSeqNum }
     url:{ request.url }
     result:{ request.result }
     responseCode:{ request.responseCode }
     error:{ request.error }
     text:{ request.downloadHandler.text }
 ";
-        DebugLogger.Log(logString);
+        DebugLogger.Log(logStr);
 
         var requestResult = new RequestResult<RespDataType>();
         requestResult.Result = request.result;

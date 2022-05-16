@@ -65,6 +65,5 @@ public class InitSceneController : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         LoadingSceneController.LoadScene(SceneName.Logon);
-
     }
 }

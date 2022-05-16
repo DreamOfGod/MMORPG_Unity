@@ -10,7 +10,7 @@ using System.Diagnostics;
 /// 调式模式日志
 /// 需要格式化字符串的使用模板字符串
 /// </summary>
-public class DebugLogger
+public static class DebugLogger
 {
     [Conditional(ScriptingDefineSymbols.DebugLog)]
     public static void Log(object message)

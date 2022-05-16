@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Security;
-using System.Threading;
 using UnityEngine;
 
 /// <summary>
@@ -251,7 +250,7 @@ public class SocketHelper: MonoBehaviour
     }
     #endregion
 
-    #region Update循环
+    #region 主线程Update循环
     //主线程Update循环
     private void Update()
     {
@@ -417,16 +416,16 @@ public class SocketHelper: MonoBehaviour
             while (true)
             {
                 //读取内容的字节数
-                ushort contentCount = m_ReceiveMS.ReadUShort();
+                var contentCount = m_ReceiveMS.ReadUShort();
                 if (m_ReceiveMS.Length - m_ReceiveMS.Position >= contentCount)
                 {
                     //消息的内容已经接收完成
                     //压缩标志
-                    bool compressed = m_ReceiveMS.ReadBool();
+                    var compressed = m_ReceiveMS.ReadBool();
                     //crc16校验码
-                    ushort crc16 = m_ReceiveMS.ReadUShort();
+                    var crc16 = m_ReceiveMS.ReadUShort();
                     //数据包
-                    byte[] content = new byte[contentCount - 3];
+                    var content = new byte[contentCount - 3];
                     m_ReceiveMS.Read(content, 0, content.Length);
                     //crc16校验：未通过校验就丢弃
                     if (Crc16.CalculateCrc16(content) == crc16)
@@ -439,11 +438,11 @@ public class SocketHelper: MonoBehaviour
                             content = ZlibHelper.DeCompressBytes(content);
                         }
 
-                        MMO_MemoryStream ms = new MMO_MemoryStream(content);
+                        var ms = new MMO_MemoryStream(content);
                         //协议ID
-                        ushort protoCode = ms.ReadUShort();
+                        var protoCode = ms.ReadUShort();
                         //协议内容
-                        byte[] protoContent = new byte[contentCount - 2];
+                        var protoContent = new byte[contentCount - 2];
                         ms.Read(protoContent, 0, protoContent.Length);
                         //消息入队，等主线程处理
                         lock (m_ReceivedMsgQueue)
@@ -451,11 +450,11 @@ public class SocketHelper: MonoBehaviour
                             m_ReceivedMsgQueue.Enqueue(new ReceivedMsg(protoCode, protoContent));
                         }
                     }
-                    long leftCount = m_ReceiveMS.Length - m_ReceiveMS.Position;
+                    var leftCount = m_ReceiveMS.Length - m_ReceiveMS.Position;
                     if (leftCount < 2)
                     {
                         //剩余不到2个字节，将剩余字节移到字节流开头，等内容接收完整再解析
-                        byte[] buffer = m_ReceiveMS.GetBuffer();
+                        var buffer = m_ReceiveMS.GetBuffer();
                         long i = 0, j = m_ReceiveMS.Position;
                         while (j < m_ReceiveMS.Length)
                         {
@@ -470,7 +469,7 @@ public class SocketHelper: MonoBehaviour
                 else
                 {
                     //消息内容接收不完整，将剩余字节移到字节流开头，等内容接收完整再解析
-                    byte[] buffer = m_ReceiveMS.GetBuffer();
+                    var buffer = m_ReceiveMS.GetBuffer();
                     long i = 0, j = m_ReceiveMS.Position;
                     while (j < m_ReceiveMS.Length)
                     {
@@ -638,7 +637,7 @@ public class SocketHelper: MonoBehaviour
         {
             if (m_Status == SocketHelperStatus.Disconnected)
             {
-                throw new InvalidOperationException($"{ nameof(SocketHelper) }处于{ SocketHelperStatus.Disconnected }状态才能调用{ nameof(Close) }。当前状态为{ m_Status }");
+                throw new InvalidOperationException($"{ nameof(SocketHelper) }处于{ SocketHelperStatus.Disconnected }状态不能调用{ nameof(Close) }。先连接才能关闭");
             }
             m_Status = SocketHelperStatus.Disconnected;
             try
