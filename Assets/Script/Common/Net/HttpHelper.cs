@@ -19,7 +19,7 @@ public class HttpHelper
     /// <summary>
     /// 账号服务器URL
     /// </summary>
-    public const string AccountServerURL = "http://192.168.1.4:1000/";
+    public const string AccountServerURL = "http://127.0.0.1:1000/";
     #endregion
 
     #region 单例

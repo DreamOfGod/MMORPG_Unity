@@ -26,7 +26,7 @@ public class SelectGameServerWindow : WindowBase
     [SerializeField]
     private Sprite[] m_ServerStatusSpriteArray;
 
-    private const int m_GameServerGroupListYGap = 4;
+    private const int m_GameServerGroupListYGap = 1;
     private const int m_GameServerGroupListTopBottomPadding = 0;
 
     private const int m_GameServerListXGap = 5;

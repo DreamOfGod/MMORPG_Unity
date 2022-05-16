@@ -14,11 +14,22 @@ public class SelelctRoleSceneController : MonoBehaviour
     private Transform[] m_RoleContainers;
     [SerializeField]
     private SelectRoleDragAreaController m_SelectRoleDragAreaController;
+    //职业列表
+    [SerializeField]
+    private JobItem[] m_JobItemList;
+
+    //当前选择的职业ID
+    private int m_SelectJobId;
 
     private void Start()
     {
         GameServerModel.Instance.LogonGameServerReturn += OnLogonGameServerReturn;
         GameServerModel.Instance.ReqLogonGameServer();
+    }
+
+    private void OnDestroy()
+    {
+        GameServerModel.Instance.LogonGameServerReturn -= OnLogonGameServerReturn;
     }
 
     private void OnLogonGameServerReturn(List<RoleOperation_LogOnGameServerReturnProto.RoleItem> roleItemList)
@@ -51,32 +62,37 @@ public class SelelctRoleSceneController : MonoBehaviour
         {
             GameObject prefab = assetBundleRequestList[i].asset as GameObject;
             GameObject obj = Instantiate(prefab, m_RoleContainers[i], false);
+            m_JobItemList[i].Init(jobList[i].Id, jobList[i].Name, jobList[i].JobPic);
+            m_JobItemList[i].ClickJobItem += OnClickJobItem;
         }
+        m_SelectJobId = jobList[0].Id;
+        m_JobItemList[m_SelectJobId - 1].MoveToRight();
+        var job = JobConfig.Instance.List[m_SelectJobId - 1];
+        m_SelectRoleSceneView.SetSelectJobDesc(job.Name, job.Desc);
         m_SelectRoleDragAreaController.EndHorizontalDrag += OnEndHorizontalDrag;
+    }
+
+    private void OnClickJobItem(int jobId)
+    {
+        if(m_SelectJobId == jobId)
+        {
+            return;
+        }
+        var targetEulerAngleY = (jobId - 1) * -90;
+        if(targetEulerAngleY <= -180)
+        {
+            targetEulerAngleY += 360;
+        }
+        m_SelectRoleSceneView.RotateCamera(targetEulerAngleY);
+        m_JobItemList[m_SelectJobId - 1].MoveToOrigin();
+        m_SelectJobId = jobId;
+        m_JobItemList[m_SelectJobId - 1].MoveToRight();
+        var job = JobConfig.Instance.List[m_SelectJobId - 1];
+        m_SelectRoleSceneView.SetSelectJobDesc(job.Name, job.Desc);
     }
 
     private void OnEndHorizontalDrag(UIDirection dir)
     {
-        if(dir == UIDirection.LEFT)
-        {
-            m_SelectRoleSceneView.RotateCamera(UIDirection.RIGHT);
-        }
-        else if(dir == UIDirection.RIGHT)
-        {
-            m_SelectRoleSceneView.RotateCamera(UIDirection.LEFT);
-        }
-    }
-
-    private void OnChangeScene()
-    {
-        m_SelectRoleDragAreaController.EndHorizontalDrag -= OnEndHorizontalDrag;
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyUp(KeyCode.R)) 
-        {
-            GameServerModel.Instance.ReqLogonGameServer();
-        }
+        m_SelectRoleSceneView.RotateCamera(dir == UIDirection.LEFT ? UIDirection.RIGHT : UIDirection.LEFT);
     }
 }
