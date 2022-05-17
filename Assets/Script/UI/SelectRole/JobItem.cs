@@ -20,7 +20,7 @@ public class JobItem : MonoBehaviour
     //点击职业项事件
     public event Action<int> ClickJobItem; 
     //职业ID
-    private int m_JobId;
+    private int m_Idx;
     //初始x坐标
     private float m_OriginPosX;
     //目标x坐标
@@ -34,9 +34,9 @@ public class JobItem : MonoBehaviour
         m_TargetPosX = transform.localPosition.x + 100;
     }
 
-    public void Init(int jobId, string jobName, string jobHeadIcon)
+    public void Init(int idx, string jobName, string jobHeadIcon)
     {
-        m_JobId = jobId;
+        m_Idx = idx;
         m_JobName.text = jobName;
         m_JobHeadIcon.overrideSprite = Resources.Load<Sprite>(jobHeadIcon);
     }
@@ -53,6 +53,6 @@ public class JobItem : MonoBehaviour
 
     public void OnClickBtn()
     {
-        ClickJobItem?.Invoke(m_JobId);
+        ClickJobItem?.Invoke(m_Idx);
     }
 }

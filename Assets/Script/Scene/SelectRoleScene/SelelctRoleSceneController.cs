@@ -3,6 +3,7 @@
 //创建时间：2022-04-20 21:58:50
 //备    注：
 //===============================================
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,8 +19,8 @@ public class SelelctRoleSceneController : MonoBehaviour
     [SerializeField]
     private JobItem[] m_JobItemList;
 
-    //当前选择的职业ID
-    private int m_SelectJobId;
+    //当前选择的职业项序号
+    private int m_SelectJobIdx;
 
     private void Start()
     {
@@ -62,37 +63,70 @@ public class SelelctRoleSceneController : MonoBehaviour
         {
             GameObject prefab = assetBundleRequestList[i].asset as GameObject;
             GameObject obj = Instantiate(prefab, m_RoleContainers[i], false);
-            m_JobItemList[i].Init(jobList[i].Id, jobList[i].Name, jobList[i].JobPic);
+            m_JobItemList[i].Init(i, jobList[i].Name, jobList[i].JobPic);
             m_JobItemList[i].ClickJobItem += OnClickJobItem;
         }
-        m_SelectJobId = jobList[0].Id;
-        m_JobItemList[m_SelectJobId - 1].MoveToRight();
-        var job = JobConfig.Instance.List[m_SelectJobId - 1];
+        m_SelectJobIdx = 0;
+        m_JobItemList[m_SelectJobIdx].MoveToRight();
+        var job = JobConfig.Instance.List[m_SelectJobIdx];
         m_SelectRoleSceneView.SetSelectJobDesc(job.Name, job.Desc);
         m_SelectRoleDragAreaController.EndHorizontalDrag += OnEndHorizontalDrag;
     }
 
-    private void OnClickJobItem(int jobId)
+    private void OnClickJobItem(int idx)
     {
-        if(m_SelectJobId == jobId)
+        if(m_SelectJobIdx == idx)
         {
             return;
         }
-        var targetEulerAngleY = (jobId - 1) * -90;
-        if(targetEulerAngleY <= -180)
+        var targetEulerAngleY = 360 - idx * 90;
+        if(targetEulerAngleY == 360)
         {
-            targetEulerAngleY += 360;
+            targetEulerAngleY = 0;
         }
         m_SelectRoleSceneView.RotateCamera(targetEulerAngleY);
-        m_JobItemList[m_SelectJobId - 1].MoveToOrigin();
-        m_SelectJobId = jobId;
-        m_JobItemList[m_SelectJobId - 1].MoveToRight();
-        var job = JobConfig.Instance.List[m_SelectJobId - 1];
+        m_JobItemList[m_SelectJobIdx].MoveToOrigin();
+        m_SelectJobIdx = idx;
+        m_JobItemList[m_SelectJobIdx].MoveToRight();
+        var job = JobConfig.Instance.List[m_SelectJobIdx];
         m_SelectRoleSceneView.SetSelectJobDesc(job.Name, job.Desc);
     }
 
     private void OnEndHorizontalDrag(UIDirection dir)
     {
-        m_SelectRoleSceneView.RotateCamera(dir == UIDirection.LEFT ? UIDirection.RIGHT : UIDirection.LEFT);
+        DebugLogger.Log("OnEndHorizontalDrag");
+        if(m_SelectRoleSceneView.IsRotating)
+        {
+            return;
+        }
+        int targetJobIdx;
+        if(dir == UIDirection.LEFT)
+        {
+            targetJobIdx = m_SelectJobIdx + 1;
+            if(targetJobIdx > 3)
+            {
+                targetJobIdx = 0;
+            }
+            m_SelectRoleSceneView.RotateCamera(UIDirection.RIGHT);
+
+        }
+        else if(dir == UIDirection.RIGHT)
+        {
+            targetJobIdx = m_SelectJobIdx - 1;
+            if(targetJobIdx < 0)
+            {
+                targetJobIdx = 3;
+            }
+            m_SelectRoleSceneView.RotateCamera(UIDirection.LEFT);
+        }
+        else
+        {
+            throw new ArgumentException("参数dir只能是左和右");
+        }
+        m_JobItemList[m_SelectJobIdx].MoveToOrigin();
+        m_SelectJobIdx = targetJobIdx;
+        m_JobItemList[m_SelectJobIdx].MoveToRight();
+        var job = JobConfig.Instance.List[m_SelectJobIdx];
+        m_SelectRoleSceneView.SetSelectJobDesc(job.Name, job.Desc);
     }
 }
