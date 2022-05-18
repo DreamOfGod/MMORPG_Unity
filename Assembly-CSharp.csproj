@@ -379,6 +379,7 @@
     <Compile Include="Assets\Script\Data\Protocol\Shop_BuyProductProto.cs" />
     <Compile Include="Assets\Script\Scene\MonsterAbout\MonsterCreatePos.cs" />
     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenRotation.cs" />
+    <Compile Include="Assets\Script\Utils\GameUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\T4M\Shaders\ShaderModel2\Diffuse\T4M 4 Textures.shader" />

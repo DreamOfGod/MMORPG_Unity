@@ -63,7 +63,7 @@ public class SelelctRoleSceneController : MonoBehaviour
         {
             GameObject prefab = assetBundleRequestList[i].asset as GameObject;
             GameObject obj = Instantiate(prefab, m_RoleContainers[i], false);
-            m_JobItemList[i].Init(i, jobList[i].Name, jobList[i].JobPic);
+            m_JobItemList[i].Init(i, jobList[i].Name, $"UI/UISource/HeadImg/{ jobList[i].HeadPic }");
             m_JobItemList[i].ClickJobItem += OnClickJobItem;
         }
         m_SelectJobIdx = 0;
@@ -94,7 +94,6 @@ public class SelelctRoleSceneController : MonoBehaviour
 
     private void OnEndHorizontalDrag(UIDirection dir)
     {
-        DebugLogger.Log("OnEndHorizontalDrag");
         if(m_SelectRoleSceneView.IsRotating)
         {
             return;

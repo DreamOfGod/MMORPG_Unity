@@ -63,7 +63,6 @@ public class SelectRoleSceneView : MonoBehaviour
     /// <param name="targetEulerAngleY">目标欧拉角的y值，[0, 360)</param>
     public void RotateCamera(float targetEulerAngleY)
     {
-        DebugLogger.LogError(targetEulerAngleY);
         m_TargetEulerAngleY = targetEulerAngleY;
         m_TargetEulerAngleY %= 360;
         if(m_TargetEulerAngleY < 0)
