@@ -128,4 +128,13 @@ public class SelelctRoleSceneController : MonoBehaviour
         var job = JobConfig.Instance.List[m_SelectJobIdx];
         m_SelectRoleSceneView.SetSelectJobDesc(job.Name, job.Desc);
     }
+
+    public void OnClickStartBtn()
+    {
+        var createRoleProto = new RoleOperation_CreateRoleProto();
+        createRoleProto.JobId = 1;
+        createRoleProto.RoleNickName = "上帝的梦";
+        SocketHelper.Instance.BeginSend(createRoleProto.ToArray());
+        DebugLogger.LogError("OnClickStartBtn");
+    }
 }
