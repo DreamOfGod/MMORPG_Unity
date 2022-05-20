@@ -25,12 +25,14 @@ public class SelelctRoleSceneController : MonoBehaviour
     private void Start()
     {
         GameServerModel.Instance.LogonGameServerReturn += OnLogonGameServerReturn;
+        GameServerModel.Instance.CreateRoleReturn += OnCreateRoleReturn;
         GameServerModel.Instance.ReqLogonGameServer();
     }
 
     private void OnDestroy()
     {
         GameServerModel.Instance.LogonGameServerReturn -= OnLogonGameServerReturn;
+        GameServerModel.Instance.CreateRoleReturn -= OnCreateRoleReturn;
     }
 
     private void OnLogonGameServerReturn(List<RoleOperation_LogOnGameServerReturnProto.RoleItem> roleItemList)
@@ -131,10 +133,11 @@ public class SelelctRoleSceneController : MonoBehaviour
 
     public void OnClickStartBtn()
     {
-        var createRoleProto = new RoleOperation_CreateRoleProto();
-        createRoleProto.JobId = 1;
-        createRoleProto.RoleNickName = "上帝的梦";
-        SocketHelper.Instance.BeginSend(createRoleProto.ToArray());
-        DebugLogger.LogError("OnClickStartBtn");
+        GameServerModel.Instance.ReqCreateRole(1, "test1");
+    }
+
+    private void OnCreateRoleReturn(int result)
+    {
+        DebugLogger.LogError("OnCreateRoleReturn:" + result);
     }
 }

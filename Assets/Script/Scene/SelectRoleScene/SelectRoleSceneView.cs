@@ -32,7 +32,9 @@ public class SelectRoleSceneView : MonoBehaviour
     private float m_RotateElapsedTime;
     //是否需要旋转
     private bool m_IsNeedRotate = false;
-    //是否正在旋转
+    /// <summary>
+    /// 是否正在旋转
+    /// </summary>
     public bool IsRotating { get => m_IsNeedRotate; }
 
     /// <summary>
@@ -107,7 +109,7 @@ public class SelectRoleSceneView : MonoBehaviour
                 m_IsNeedRotate = false;
             }
             float y = Mathf.Lerp(m_OriginalEulerAngleY, m_TargetEulerAngleY, t);
-            m_MainCameraParent.localEulerAngles = new Vector3(0, y, 0);//欧拉角每个维度的范围都是(-180,180]，左开右闭。超出此范围会自动转换到这个范围内
+            m_MainCameraParent.localEulerAngles = new Vector3(0, y, 0);//欧拉角每个维度的范围都是[0, 360)，左闭右开。超出此范围会自动转换到这个范围内
         }
 
         if(Input.GetKeyUp(KeyCode.A))

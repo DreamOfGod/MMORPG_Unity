@@ -18,15 +18,18 @@ public class GameServerModel: IModel
     private List<GameServerGroupBean> m_GameServerGroupList;
 
     public event Action<List<RoleOperation_LogOnGameServerReturnProto.RoleItem>> LogonGameServerReturn;
+    public event Action<int> CreateRoleReturn;
 
     public void Init()
     {
         SocketHelper.Instance.AddListener(ProtoCodeDef.RoleOperation_LogOnGameServerReturn, OnLogonGameServerReturn);
+        SocketHelper.Instance.AddListener(ProtoCodeDef.RoleOperation_CreateRoleReturn, OnCreateRoleReturn);
     }
 
     public void Reset()
     {
         SocketHelper.Instance.RemoveListener(ProtoCodeDef.RoleOperation_LogOnGameServerReturn, OnLogonGameServerReturn);
+        SocketHelper.Instance.RemoveListener(ProtoCodeDef.RoleOperation_CreateRoleReturn, OnCreateRoleReturn);
     }
 
     private void OnLogonGameServerReturn(byte[] buffer)
@@ -80,6 +83,22 @@ public class GameServerModel: IModel
         var protocol = new RoleOperation_LogOnGameServerProto();
         protocol.AccountId = AccountModel.Instance.AccountID;
         SocketHelper.Instance.BeginSend(protocol.ToArray());
+    }
+    #endregion
+
+    #region 请求创建角色
+    public void ReqCreateRole(byte jobId, string nickname)
+    {
+        var proto = new RoleOperation_CreateRoleProto();
+        proto.JobId = jobId;
+        proto.RoleNickName = nickname;
+        SocketHelper.Instance.BeginSend(proto.ToArray());
+    }
+
+    private void OnCreateRoleReturn(byte[] buffer)
+    {
+        var proto = RoleOperation_CreateRoleReturnProto.GetProto(buffer);
+        CreateRoleReturn?.Invoke(proto.MsgCode);
     }
     #endregion
 }
