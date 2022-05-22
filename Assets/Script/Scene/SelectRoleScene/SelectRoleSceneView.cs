@@ -21,6 +21,9 @@ public class SelectRoleSceneView : MonoBehaviour
     //选择职业描述
     [SerializeField]
     private Text m_SelectJobDesc;
+    //昵称
+    [SerializeField]
+    private InputField m_NicknameInput;
 
     //起始欧拉角的y值
     private float m_OriginalEulerAngleY;
@@ -95,6 +98,24 @@ public class SelectRoleSceneView : MonoBehaviour
     {
         m_SelectJobName.text = jobName;
         m_SelectJobDesc.text = jobDesc;
+    }
+
+    /// <summary>
+    /// 设置昵称
+    /// </summary>
+    /// <param name="nickname"></param>
+    public void SetNickname(string nickname)
+    {
+        m_NicknameInput.text = nickname;
+    }
+
+    /// <summary>
+    /// 获取昵称
+    /// </summary>
+    /// <returns></returns>
+    public string GetNickname()
+    {
+        return m_NicknameInput.text;
     }
 
     private void Update()

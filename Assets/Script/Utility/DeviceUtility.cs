@@ -5,7 +5,7 @@
 //===============================================
 using UnityEngine;
 
-public class DeviceUtil
+public static class DeviceUtility
 {
     /// <summary>
     /// 设备型号

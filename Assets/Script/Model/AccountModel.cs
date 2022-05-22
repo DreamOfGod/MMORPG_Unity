@@ -45,7 +45,7 @@ public class AccountModel: IModel
         form.AddField("Username", username);
         form.AddField("Pwd", pwd);
         form.AddField("ChannelId", "0");
-        form.AddField("DeviceModel", DeviceUtil.DeviceModel);
+        form.AddField("DeviceModel", DeviceUtility.DeviceModel);
 
         var requestResult = await HttpHelper.Instance.PostAsync<int>($"{ HttpHelper.AccountServerURL }register", form);
         if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
@@ -64,7 +64,7 @@ public class AccountModel: IModel
         form.AddField("Username", username);
         form.AddField("Pwd", pwd);
         form.AddField("ChannelId", "0");
-        form.AddField("DeviceModel", DeviceUtil.DeviceModel);
+        form.AddField("DeviceModel", DeviceUtility.DeviceModel);
 
         var requestResult = await HttpHelper.Instance.PostAsync<AccountBean>($"{ HttpHelper.AccountServerURL }logon", form);
         if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)
@@ -88,7 +88,7 @@ public class AccountModel: IModel
         form.AddField("Username", username);
         form.AddField("Pwd", PlayerPrefs.GetString(PlayerPrefsKey.Password));
         form.AddField("ChannelId", "0");
-        form.AddField("DeviceModel", DeviceUtil.DeviceModel);
+        form.AddField("DeviceModel", DeviceUtility.DeviceModel);
 
         var requestResult = await HttpHelper.Instance.PostAsync<AccountBean>($"{ HttpHelper.AccountServerURL }logon", form);
         if (requestResult.IsSuccess && requestResult.ResponseData.Code == 0)

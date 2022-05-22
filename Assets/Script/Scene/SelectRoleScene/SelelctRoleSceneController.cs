@@ -15,9 +15,10 @@ public class SelelctRoleSceneController : MonoBehaviour
     private Transform[] m_RoleContainers;
     [SerializeField]
     private SelectRoleDragAreaController m_SelectRoleDragAreaController;
-    //职业列表
     [SerializeField]
     private JobItem[] m_JobItemList;
+    [SerializeField]
+    private Transform m_WindowParent;
 
     //当前选择的职业项序号
     private int m_SelectJobIdx;
@@ -133,11 +134,22 @@ public class SelelctRoleSceneController : MonoBehaviour
 
     public void OnClickStartBtn()
     {
-        GameServerModel.Instance.ReqCreateRole(1, "test1");
+        string nickname = m_SelectRoleSceneView.GetNickname();
+        if(string.IsNullOrEmpty(nickname))
+        {
+            MessageWindow.Show(m_WindowParent, "提示", "请输入1至7位昵称", true, false);
+            return;
+        }
+        GameServerModel.Instance.ReqCreateRole((byte)JobConfig.Instance.List[m_SelectJobIdx].Id, nickname);
     }
 
     private void OnCreateRoleReturn(int result)
     {
         DebugLogger.LogError("OnCreateRoleReturn:" + result);
+    }
+
+    public void OnClickRandomName()
+    {
+        m_SelectRoleSceneView.SetNickname(StringUtility.RandomChinese(7));
     }
 }
