@@ -442,7 +442,7 @@ public class SocketHelper: MonoBehaviour
                         //协议ID
                         var protoCode = ms.ReadUShort();
                         //协议内容
-                        var protoContent = new byte[contentCount - 2];
+                        var protoContent = new byte[content.Length - 2];
                         ms.Read(protoContent, 0, protoContent.Length);
                         //消息入队，等主线程处理
                         lock (m_ReceivedMsgQueue)
