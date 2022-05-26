@@ -1,7 +1,7 @@
 
 //===================================================
 //作    者：
-//创建时间：2022-05-18 10:06:37
+//创建时间：2022-05-26 10:11:43
 //备    注：此代码为工具生成 请勿手工修改
 //===================================================
 using System.Collections;
@@ -45,7 +45,7 @@ public partial class JobConfig : AbstractConfig<JobEntity>
         entity.Id = parse.GetFieldValue("Id").ToInt();
         entity.Name = parse.GetFieldValue("Name");
         entity.HeadPic = parse.GetFieldValue("HeadPic");
-        entity.JobPic = parse.GetFieldValue("JobPic");
+        entity.RolePic = parse.GetFieldValue("RolePic");
         entity.PrefabName = parse.GetFieldValue("PrefabName");
         entity.Desc = parse.GetFieldValue("Desc");
         return entity;

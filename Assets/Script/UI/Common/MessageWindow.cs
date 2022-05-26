@@ -18,7 +18,7 @@ public class MessageWindow : WindowBase
     [SerializeField]
     private GameObject m_CancelBtn;
 
-    public static void Show(Transform parent, string title, string message, bool okBtnActive, bool cancelBtnActive, Action onClickOK = null, Action onClickCancel = null)
+    public static void Show(Transform parent, string title, string message, bool okBtnActive, bool cancelBtnActive, Action onClickOK = null, Action onClickCancel = null, Action onCloseFinish = null)
     {
         MessageWindow window = (MessageWindow)OpenWindowZoomInShow(WindowPath.Message, parent);
         window.SetTitle(title);
@@ -27,6 +27,7 @@ public class MessageWindow : WindowBase
         MessageController controller = window.GetComponent<MessageController>();
         controller.OnClickOK = onClickOK;
         controller.OnClickCancel = onClickCancel;
+        controller.OnCloseFinish = onCloseFinish;
     }
 
     public void SetTitle(string title)

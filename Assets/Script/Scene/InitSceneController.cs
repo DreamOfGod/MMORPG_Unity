@@ -64,6 +64,6 @@ public class InitSceneController : MonoBehaviour
     private IEnumerator LoadLogonScene()
     {
         yield return new WaitForSeconds(2f);
-        LoadingSceneController.LoadScene(SceneName.Logon);
+        LoadingSceneController.LoadSceneFromAssetBundle(AssetBundlePath.LogonScene, SceneName.Logon);
     }
 }

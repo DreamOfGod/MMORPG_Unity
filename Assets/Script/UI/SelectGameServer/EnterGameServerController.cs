@@ -3,6 +3,8 @@
 //创建时间：2022-04-11 15:14:26
 //备    注：
 //===============================================
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnterGameServerController : MonoBehaviour
@@ -20,12 +22,14 @@ public class EnterGameServerController : MonoBehaviour
     {
         SocketHelper.Instance.ConnectSucceed += OnConnectSucceed;
         SocketHelper.Instance.ConnectFailed += OnConnectFailed;
+        GameServerModel.Instance.LogonGameServerReturn += OnLogonGameServerReturn;
     }
 
     private void OnDestroy()
     {
         SocketHelper.Instance.ConnectSucceed -= OnConnectSucceed;
         SocketHelper.Instance.ConnectFailed -= OnConnectFailed;
+        GameServerModel.Instance.LogonGameServerReturn -= OnLogonGameServerReturn;
     }
 
     public void SetCurSelectGameServer(GameServerBean curSelectGameServer)
@@ -73,6 +77,11 @@ public class EnterGameServerController : MonoBehaviour
 
     //连接区服成功回调
     private void OnConnectSucceed()
+    {
+        GameServerModel.Instance.ReqLogonGameServer();
+    }
+
+    private void OnLogonGameServerReturn(List<RoleOperation_LogOnGameServerReturnProto.RoleItem> roleList)
     {
         LoadingSceneController.LoadSceneFromAssetBundle(AssetBundlePath.SelectRoleScene, SceneName.SelectRole);
     }

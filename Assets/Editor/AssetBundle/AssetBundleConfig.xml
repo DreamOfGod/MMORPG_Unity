@@ -24,5 +24,9 @@
 		<Item Name="SelectRoleScene" Tag="Scene" Version="1" Size="0" ToPath="Scene/">
 			<Path Value="Scene\SceneMap\SelectRole.unity" />
 		</Item>
+
+		<Item Name="LogonScene" Tag="Scene" Version="1" Size="0" ToPath="Scene/">
+			<Path Value="Scene\SceneMap\Logon.unity" />
+		</Item>
 	</AssetBundle>
 </Root>

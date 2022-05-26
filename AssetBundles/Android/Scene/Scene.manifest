@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 1897469788
+CRC: 2460957957
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: selectrolescene.unity3d
+      Name: logonscene.unity3d
       Dependencies: {}

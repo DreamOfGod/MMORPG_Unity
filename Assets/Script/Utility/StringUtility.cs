@@ -55,7 +55,7 @@ public static class StringUtility
         var random = new Random();
         while(length-- > 0)
         {
-            chinese.Append(Convert.ToChar(random.Next(0x2e80, 0x2fd5)));
+            chinese.Append(Convert.ToChar(random.Next(0x4e00, 0x9fa5)));
         }
         return chinese.ToString();
     }

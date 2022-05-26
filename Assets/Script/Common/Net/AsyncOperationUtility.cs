@@ -4,14 +4,15 @@
 //备    注：
 //===============================================
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
-/// AsyncOperation扩展方法
+/// AsyncOperation工具类
 /// </summary>
-public static class AsyncOperationExtensionMethod
+public static class AsyncOperationUtility
 {
     /// <summary>
     /// GetAwaiter，支持对基于事件的异步方法返回的AsyncOperation使用await等待
@@ -24,5 +25,18 @@ public static class AsyncOperationExtensionMethod
         var tcs = new TaskCompletionSource<AsyncOperation>();
         ao.completed += (obj) => { tcs.SetResult(ao); };
         return tcs.Task.GetAwaiter();
+    }
+
+    /// <summary>
+    /// 等待所有AsyncOperation完成
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    public async static Task WaitAll<T>(List<T> list) where T: AsyncOperation
+    {
+        for(int i = 0; i < list.Count; ++i)
+        {
+            await list[i];
+        }
     }
 }

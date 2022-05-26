@@ -31,9 +31,14 @@ public static class AssetBundlePath
 
     #region 场景
     public static readonly string SelectRoleScene = $"{ RootPath }/Scene/SelectRoleScene{ SceneExpandedName }";
+    public static readonly string LogonScene = $"{ RootPath }/Scene/LogonScene{ SceneExpandedName }";
     #endregion
 
     #region 角色
     public static readonly string RoleRootPath = $"{ RootPath }/Role/";
+    public static string RolePath(string prefabName)
+    {
+        return $"{ RoleRootPath }/{ prefabName }{ OtherExpandedName }";
+    }
     #endregion
 }

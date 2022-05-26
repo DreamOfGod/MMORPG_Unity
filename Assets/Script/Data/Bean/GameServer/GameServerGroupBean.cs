@@ -4,7 +4,7 @@
 //备    注：
 //===============================================
 /// <summary>
-/// 区服分组
+/// 游戏服分组
 /// </summary>
 public struct GameServerGroupBean
 {

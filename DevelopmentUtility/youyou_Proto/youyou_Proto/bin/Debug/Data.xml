@@ -35,6 +35,10 @@
     <Proto ProtoID="636006763459381742" ProtoCode="10004" ProtoEnName="RoleOperation_CreateRoleReturn" ProtoCnName="服务器返回创建角色消息" ProtoDesc="服务器返回创建角色消息">
       <Attr AttID="636006764515735245" AttType="bool" AttEnName="IsSuccess" AttCnName="是否成功" AttIsLoop="false" AttToLoop="" AttToBool="" AttToBoolResult="false" AttToCus="" />
       <Attr AttID="636006764515735246" AttType="int" AttEnName="MsgCode" AttCnName="消息码" AttIsLoop="false" AttToLoop="" AttToBool="IsSuccess" AttToBoolResult="false" AttToCus="" />
+      <Attr AttID="637889344257343769" AttType="int" AttEnName="RoleId" AttCnName="角色编号" AttIsLoop="false" AttToLoop="" AttToBool="IsSuccess" AttToBoolResult="true" AttToCus="" />
+      <Attr AttID="637889344257343770" AttType="byte" AttEnName="RoleJob" AttCnName="角色职业" AttIsLoop="false" AttToLoop="" AttToBool="IsSuccess" AttToBoolResult="true" AttToCus="" />
+      <Attr AttID="637889344257343771" AttType="string" AttEnName="RoleNickName" AttCnName="角色昵称" AttIsLoop="false" AttToLoop="" AttToBool="IsSuccess" AttToBoolResult="true" AttToCus="" />
+      <Attr AttID="637889344257343772" AttType="int" AttEnName="RoleLevel" AttCnName="角色等级" AttIsLoop="false" AttToLoop="" AttToBool="IsSuccess" AttToBoolResult="true" AttToCus="" />
     </Proto>
     <Proto ProtoID="636006765309809530" ProtoCode="10005" ProtoEnName="RoleOperation_DeleteRole" ProtoCnName="客户端发送删除角色消息" ProtoDesc="客户端发送删除角色消息">
       <Attr AttID="636006765596515655" AttType="int" AttEnName="RoleId" AttCnName="角色ID" AttIsLoop="false" AttToLoop="" AttToBool="" AttToBoolResult="false" AttToCus="" />

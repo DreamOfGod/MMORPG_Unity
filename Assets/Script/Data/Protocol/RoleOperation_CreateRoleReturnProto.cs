@@ -1,11 +1,6 @@
-//===============================================
-//作    者：
-//创建时间：2022-04-20 15:54:30
-//备    注：
-//===============================================
 //===================================================
 //作    者：
-//创建时间：2022-04-20 15:53:36
+//创建时间：2022-05-23 20:58:50
 //备    注：
 //===================================================
 using System.Collections;
@@ -21,6 +16,10 @@ public struct RoleOperation_CreateRoleReturnProto : IProtocol
 
     public bool IsSuccess; //是否成功
     public int MsgCode; //消息码
+    public int RoleId; //角色编号
+    public byte RoleJob; //角色职业
+    public string RoleNickName; //角色昵称
+    public int RoleLevel; //角色等级
 
     public byte[] ToArray()
     {
@@ -28,7 +27,14 @@ public struct RoleOperation_CreateRoleReturnProto : IProtocol
         {
             ms.WriteUShort(ProtoCode);
             ms.WriteBool(IsSuccess);
-            if(!IsSuccess)
+            if(IsSuccess)
+            {
+                ms.WriteInt(RoleId);
+                ms.WriteByte(RoleJob);
+                ms.WriteUTF8String(RoleNickName);
+                ms.WriteInt(RoleLevel);
+            }
+            else
             {
                 ms.WriteInt(MsgCode);
             }
@@ -42,7 +48,14 @@ public struct RoleOperation_CreateRoleReturnProto : IProtocol
         using (MMO_MemoryStream ms = new MMO_MemoryStream(buffer))
         {
             proto.IsSuccess = ms.ReadBool();
-            if(!proto.IsSuccess)
+            if(proto.IsSuccess)
+            {
+                proto.RoleId = ms.ReadInt();
+                proto.RoleJob = (byte)ms.ReadByte();
+                proto.RoleNickName = ms.ReadUTF8String();
+                proto.RoleLevel = ms.ReadInt();
+            }
+            else
             {
                 proto.MsgCode = ms.ReadInt();
             }

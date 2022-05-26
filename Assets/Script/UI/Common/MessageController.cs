@@ -22,15 +22,23 @@ public class MessageController : MonoBehaviour
     public Action OnClickCancel;
 
     /// <summary>
+    /// 关闭动画执行完毕的回调
+    /// </summary>
+    public Action OnCloseFinish;
+
+    /// <summary>
     /// 确定按钮回调
     /// </summary>
     public void OnBtnOK()
     {
-        if(OnClickOK != null)
+        if(OnCloseFinish != null)
         {
-            OnClickOK();
+            m_MessageView.OnWindowCloseFinish = () => {
+                OnCloseFinish();
+            };
         }
         m_MessageView.ZoomOutClose();
+        OnClickOK?.Invoke();
     }
 
     /// <summary>
@@ -38,10 +46,13 @@ public class MessageController : MonoBehaviour
     /// </summary>
     public void OnBtnCancel()
     {
-        if (OnClickCancel != null)
+        if (OnCloseFinish != null)
         {
-            OnClickCancel();
+            m_MessageView.OnWindowCloseFinish = () => {
+                OnCloseFinish();
+            };
         }
         m_MessageView.ZoomOutClose();
+        OnClickCancel?.Invoke();
     }
 }

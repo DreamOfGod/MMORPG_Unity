@@ -1,8 +1,3 @@
-//===============================================
-//作    者：
-//创建时间：2022-04-20 15:54:30
-//备    注：
-//===============================================
 //===================================================
 //作    者：
 //创建时间：2022-04-20 15:53:36
@@ -62,7 +57,9 @@ public struct RoleOperation_LogOnGameServerReturnProto : IProtocol
                 RoleItem _Role = new RoleItem();
                 _Role.RoleId = ms.ReadInt();
                 _Role.RoleNickName = ms.ReadUTF8String();
-                _Role.RoleJob = (byte)ms.ReadByte();
+                int jobId = ms.ReadByte();
+                _Role.RoleJob = (byte)jobId;
+                //_Role.RoleJob = (byte)ms.ReadByte();
                 _Role.RoleLevel = ms.ReadInt();
                 proto.RoleList.Add(_Role);
             }
