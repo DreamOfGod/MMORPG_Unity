@@ -117,7 +117,7 @@ public partial class MonsterCtrl : MonoBehaviour
     /// <summary>
     /// 主角控制器
     /// </summary>
-    private MainPlayerCtrl m_MainPlayerCtrl;
+    private RoleCtrl m_MainPlayerCtrl;
 
     /// <summary>
     /// 休闲状态
@@ -196,7 +196,7 @@ public partial class MonsterCtrl : MonoBehaviour
     /// 设置主角控制器
     /// </summary>
     /// <param name="mainPlayerCtrl">主角控制器</param>
-    public void SetMainPlayerCtrl(MainPlayerCtrl mainPlayerCtrl)
+    public void SetMainPlayerCtrl(RoleCtrl mainPlayerCtrl)
     {
         m_MainPlayerCtrl = mainPlayerCtrl;
     }
@@ -321,7 +321,7 @@ public partial class MonsterCtrl : MonoBehaviour
     /// 是否已死亡
     /// </summary>
     /// <returns></returns>
-    public bool isDisState()
+    public bool isDieState()
     {
         return m_CurrState is MonsterStateDie;
     }

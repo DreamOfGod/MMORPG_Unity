@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 2460957957
+CRC: 3558334068
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: logonscene.unity3d
+      Name: hupaocunscene.unity3d
       Dependencies: {}

@@ -29,7 +29,7 @@ public class SceneName
     public const string Loading = "Loading";
     public const string Logon = "LogOn";
     public const string SelectRole = "SelectRole";
-    public const string City = "GameScene_HuPaoCun";
+    public const string HuPaoCun = "HuPaoCun";
 }
 
 public class AnimStateConditionName

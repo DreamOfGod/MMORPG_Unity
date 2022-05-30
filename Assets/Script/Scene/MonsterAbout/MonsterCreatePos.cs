@@ -16,10 +16,18 @@ public class MonsterCreatePos: MonoBehaviour
     private const int MAX_COUNT = 1;
     private int m_CurrCount = 0;
     private float m_NextCreateTime = 0;
+    private GameObject m_MonsterPrefab;
+
+    private void Awake()
+    {
+        AssetBundle ab = AssetBundle.LoadFromFile(AssetBundlePath.MonsterPath("Monster_1"));
+        m_MonsterPrefab = ab.LoadAsset<GameObject>("Monster_1");
+        ab.Unload(false);
+    }
 
     void Update()
     {
-        if(m_CitySceneCtrl.MainPlayerCtrl == null)
+        if(m_CitySceneCtrl.RoleCtrl == null)
         {
             return;
         }
@@ -29,8 +37,7 @@ public class MonsterCreatePos: MonoBehaviour
             {
                 m_NextCreateTime = Time.time + Random.Range(1.5f, 3.5f);
 
-                GameObject monsterPrefab = Resources.Load<GameObject>("RolePrefab/Monster/Role_Monster_1");
-                GameObject monster = Instantiate(monsterPrefab);
+                GameObject monster = Instantiate(m_MonsterPrefab);
 
                 monster.transform.parent = transform;
                 Vector3 pos = transform.TransformPoint(new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f)));
@@ -47,7 +54,7 @@ public class MonsterCreatePos: MonoBehaviour
                 monster.transform.position = pos;
 
                 MonsterCtrl monsterCtrl = monster.GetComponent<MonsterCtrl>();
-                monsterCtrl.SetMainPlayerCtrl(m_CitySceneCtrl.MainPlayerCtrl);
+                monsterCtrl.SetMainPlayerCtrl(m_CitySceneCtrl.RoleCtrl);
 
                 RoleHeadBarCtrl headBarCtrl = m_UICtrl.AddHeadBar(monsterCtrl.HeadBarPos, "小怪", true);
                 monsterCtrl.SetHeadBarCtrl(headBarCtrl);

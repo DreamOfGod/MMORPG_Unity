@@ -498,6 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InitSceneUIView: {fileID: 1055838452}
+  m_Global: {fileID: 1390112534}
 --- !u!4 &1389744006
 Transform:
   m_ObjectHideFlags: 0

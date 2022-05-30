@@ -1,0 +1,59 @@
+ManifestFileVersion: 0
+CRC: 470819124
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ae9aef78c97ef97f46cbc06565e3c8a0
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 73e86d51ddb513fb900c03fd875a5718
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: d717fc5e8980e7241906bf35443d7f1d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 77f586f285b3847808d79083bd19ef1f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 120
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 221
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: Pathfinding.StartEndModifier
+- AssemblyName: Assembly-CSharp
+  ClassName: Pathfinding.TagMask
+Assets:
+- Assets/AllPrefab/RolePrefab/Role_Cike.prefab
+Dependencies: []

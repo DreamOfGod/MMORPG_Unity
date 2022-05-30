@@ -106,6 +106,7 @@ public class SelelctRoleSceneController : MonoBehaviour
     public void OnClickStartBtn()
     {
         //GameServerModel.Instance.ReqStartGame();
+        LoadingSceneController.LoadSceneFromAssetBundle(AssetBundlePath.HuPaoCunScene, SceneName.HuPaoCun);
     }
 
     /// <summary>

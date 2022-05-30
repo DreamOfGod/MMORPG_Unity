@@ -1,0 +1,49 @@
+ManifestFileVersion: 0
+CRC: 2191007792
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 383fac468a7b5b5695146d397f5d332f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7561c7afd8084bab35eb81e88eca360e
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: d717fc5e8980e7241906bf35443d7f1d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 77f586f285b3847808d79083bd19ef1f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 143
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: Pathfinding.StartEndModifier
+- AssemblyName: Assembly-CSharp
+  ClassName: Pathfinding.TagMask
+Assets:
+- Assets/AllPrefab/RolePrefab/Role_Juchui.prefab
+Dependencies: []

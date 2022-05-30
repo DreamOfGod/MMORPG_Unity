@@ -1,24 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Root>
 	<AssetBundle>
-		<Item Name="Role_Monster_1" Tag="Role" Version="1" Size="0" ToPath="Role/">
-			<Path Value="Resources\RolePrefab\Monster\Role_Monster_1.prefab" />
+		<Item Name="Monster_1" Tag="Role" Version="1" Size="0" ToPath="Monster/">
+			<Path Value="AllPrefab\MonsterPrefab\Monster_1.prefab" />
 		</Item>
 		
-		<Item Name="Role_MainPlayer_Cike" Tag="Role" Version="1" Size="0" ToPath="Role/">
-			<Path Value="AllPrefab\RolePrefab\Player\Role_MainPlayer_Cike.prefab" />
+		<Item Name="Role_Cike" Tag="Role" Version="1" Size="0" ToPath="Role/">
+			<Path Value="AllPrefab\RolePrefab\Role_Cike.prefab" />
 		</Item>
 
-		<Item Name="Role_MainPlayer_Fashi" Tag="Role" Version="1" Size="0" ToPath="Role/">
-			<Path Value="AllPrefab\RolePrefab\Player\Role_MainPlayer_Fashi.prefab" />
+		<Item Name="Role_Fashi" Tag="Role" Version="1" Size="0" ToPath="Role/">
+			<Path Value="AllPrefab\RolePrefab\Role_Fashi.prefab" />
 		</Item>
 
-		<Item Name="Role_MainPlayer_Juchui" Tag="Role" Version="1" Size="0" ToPath="Role/">
-			<Path Value="AllPrefab\RolePrefab\Player\Role_MainPlayer_Juchui.prefab" />
+		<Item Name="Role_Juchui" Tag="Role" Version="1" Size="0" ToPath="Role/">
+			<Path Value="AllPrefab\RolePrefab\Role_Juchui.prefab" />
 		</Item>
 
-		<Item Name="Role_MainPlayer_Zhanshi" Tag="Role" Version="1" Size="0" ToPath="Role/">
-			<Path Value="AllPrefab\RolePrefab\Player\Role_MainPlayer_Zhanshi.prefab" />
+		<Item Name="Role_Zhanshi" Tag="Role" Version="1" Size="0" ToPath="Role/">
+			<Path Value="AllPrefab\RolePrefab\Role_Zhanshi.prefab" />
 		</Item>
 
 		<Item Name="SelectRoleScene" Tag="Scene" Version="1" Size="0" ToPath="Scene/">
@@ -27,6 +27,10 @@
 
 		<Item Name="LogonScene" Tag="Scene" Version="1" Size="0" ToPath="Scene/">
 			<Path Value="Scene\SceneMap\Logon.unity" />
+		</Item>
+
+		<Item Name="HuPaoCunScene" Tag="Scene" Version="1" Size="0" ToPath="Scene/">
+			<Path Value="Scene\SceneMap\HuPaoCun.unity" />
 		</Item>
 	</AssetBundle>
 </Root>

@@ -13,11 +13,14 @@ public class InitSceneController : MonoBehaviour
 {
     [SerializeField]
     private InitSceneUIView m_InitSceneUIView;
+    [SerializeField]
+    private GameObject m_Global;
 
     private int m_ReqServerTimeCnt = 0;
 
     void Start()
     {
+        DontDestroyOnLoad(m_Global);
         InitAllModel();
         ReqServerTimeTaskAsync();
         //SocketHelper.Instance.ConnectSucceed += () => 
